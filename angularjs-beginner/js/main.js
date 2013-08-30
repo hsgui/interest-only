@@ -1,1 +1,1 @@
-var app = angular.module('angular-beginner-app', []);
+var app = angular.module('angularjs-beginner-app', []);
