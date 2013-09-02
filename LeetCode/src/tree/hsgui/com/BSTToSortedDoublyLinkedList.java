@@ -15,25 +15,9 @@ public class BSTToSortedDoublyLinkedList {
     {
         BSTToSortedDoublyLinkedList toSortedDoublyLinkedList = new BSTToSortedDoublyLinkedList();
 
-        BSTNode head = toSortedDoublyLinkedList.constructTheTestBST();
+        BSTNode head = BinarySearchTree.constructTheTestBST();
         head = toSortedDoublyLinkedList.bstToSortedDoublyLinkedList(head);
         toSortedDoublyLinkedList.printBSTWithDoublyLinkedListWay(head);
-    }
-
-    public BSTNode constructTheTestBST()
-    {
-        BSTNode head = new BSTNode(4);
-        BSTNode n1 = new BSTNode(1);
-        BSTNode n2 = new BSTNode(2);
-        BSTNode n3 = new BSTNode(3);
-        BSTNode n5 = new BSTNode(5);
-
-        n2.left = n1;
-        n2.right = n3;
-        head.left = n2;
-        head.right = n5;
-
-        return head;
     }
 
     public BSTNode bstToSortedDoublyLinkedList(BSTNode bstreeHead)
