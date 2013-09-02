@@ -1,7 +1,6 @@
 package tree.hsgui.com;
 
 import node.tree.hsgui.com.BSTNode;
-import node.tree.hsgui.com.DoublyLinkedListNode;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,10 +28,10 @@ public class BSTToSortedDoublyLinkedList {
         BSTNode n3 = new BSTNode(3);
         BSTNode n5 = new BSTNode(5);
 
-        n2.previous = n1;
-        n2.next = n3;
-        head.previous = n2;
-        head.next = n5;
+        n2.left = n1;
+        n2.right = n3;
+        head.left = n2;
+        head.right = n5;
 
         return head;
     }
@@ -42,16 +41,16 @@ public class BSTToSortedDoublyLinkedList {
         if (bstreeHead == null){
             return bstreeHead;
         }
-        if (bstreeHead.next == null && bstreeHead.previous == null){
-            bstreeHead.next = bstreeHead;
-            bstreeHead.previous = bstreeHead;
+        if (bstreeHead.right == null && bstreeHead.left == null){
+            bstreeHead.right = bstreeHead;
+            bstreeHead.left = bstreeHead;
             return bstreeHead;
         }
-        BSTNode leftHead = bstreeHead.previous;
-        BSTNode rightHead = bstreeHead.next;
+        BSTNode leftHead = bstreeHead.left;
+        BSTNode rightHead = bstreeHead.right;
 
-        bstreeHead.previous = bstreeHead;   //the root of the bst becomes a doubly linked list with only one node.
-        bstreeHead.next = bstreeHead;
+        bstreeHead.left = bstreeHead;   //the root of the bst becomes a doubly linked list with only one node.
+        bstreeHead.right = bstreeHead;
         if (leftHead != null){  //the left tree becomes a doubly linked list.
             leftHead = bstToSortedDoublyLinkedList(leftHead);
             bstreeHead = joinTwoDoublyLinkedList(leftHead, bstreeHead);
@@ -71,12 +70,12 @@ public class BSTToSortedDoublyLinkedList {
         if (second == null){
             return first;
         }
-        BSTNode lastNodeOfFirst = first.previous;
-        BSTNode lastOfNodeOfSecond = second.previous;
-        lastNodeOfFirst.next = second;
-        lastOfNodeOfSecond.next = first;
-        second.previous = lastNodeOfFirst;
-        first.previous = lastOfNodeOfSecond;
+        BSTNode lastNodeOfFirst = first.left;
+        BSTNode lastOfNodeOfSecond = second.left;
+        lastNodeOfFirst.right = second;
+        lastOfNodeOfSecond.right = first;
+        second.left = lastNodeOfFirst;
+        first.left = lastOfNodeOfSecond;
         return first;
     }
 
@@ -86,7 +85,7 @@ public class BSTToSortedDoublyLinkedList {
         if (bstreeHead != null){
             do {
                 System.out.println(currentNode.value);
-                currentNode = currentNode.next;
+                currentNode = currentNode.right;
             }while (currentNode != bstreeHead);
         }
     }

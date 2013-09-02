@@ -9,14 +9,14 @@ package node.tree.hsgui.com;
  */
 public class BSTNode {
     public Object value;
-    public BSTNode previous;
-    public BSTNode next;
+    public BSTNode left;
+    public BSTNode right;
 
     public BSTNode(Object value)
     {
         this.value = value;
-        previous = null;
-        next = null;
+        left = null;
+        right = null;
     }
 
     @Override
