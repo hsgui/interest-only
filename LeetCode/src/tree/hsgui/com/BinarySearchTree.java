@@ -155,6 +155,71 @@ public class BinarySearchTree {
         }
     }
 
+    public void writeBSTWithPreOrder(BSTNode root)
+    {
+
+    }
+
+    /**
+     * 1. we can read all the data into memory first.
+     * 2. read one node's data, and insert into the proper position of the tree.
+     *    2.1 we can see each node as the root of some tree. so each node have associated interval.
+     * @param fileName
+     */
+    public void readBSTWithPreOrder(String fileName)
+    {
+        Stack<RootWithKeyInterval> stack = new Stack<RootWithKeyInterval>();
+        int[] keys = {30, 20, 10, 40, 35, 50};
+        int currentIndex = 1;
+        BSTNode root = new BSTNode(keys[0]);
+        RootWithKeyInterval rootInterval = new RootWithKeyInterval();
+        rootInterval.root = root;
+        rootInterval.lowKey = Integer.MIN_VALUE;
+        rootInterval.highKey = Integer.MAX_VALUE;
+        while (!stack.isEmpty()){
+            RootWithKeyInterval currentRootInterval = stack.peek();
+            if (Util.isBetween(currentRootInterval.lowKey, currentRootInterval.highKey, keys[currentIndex])){
+                int currentRootKey = (Integer)currentRootInterval.root.value;
+                BSTNode childRoot = new BSTNode(keys[currentIndex]);
+                if (currentRootKey < keys[currentIndex]){
+                    currentRootInterval.root.left = childRoot;
+
+                    RootWithKeyInterval leftRootInterval = new RootWithKeyInterval();
+                    leftRootInterval.root = childRoot;
+                    leftRootInterval.lowKey = currentRootInterval.lowKey;
+                    leftRootInterval.highKey = currentRootKey;
+                    stack.push(leftRootInterval);
+                    currentIndex++;
+                }
+                else{
+                    currentRootInterval.root.right = childRoot;
+                    RootWithKeyInterval rightRootInterval = new RootWithKeyInterval();
+                    rightRootInterval.root = childRoot;
+                    rightRootInterval.lowKey = currentRootKey;
+                    rightRootInterval.highKey = currentRootInterval.highKey;
+                    stack.pop();
+                    stack.push(rightRootInterval);
+                    currentIndex++;
+                }
+            }else{
+                stack.pop();
+            }
+        }
+    }
+
+    public void writeBSTWithPostOrder(BSTNode root)
+    {
+
+    }
+
+    /**
+     * with the post order traversal, we need read all data into memory first.
+     * @param fileName
+     */
+    public void readBSTWithPostOrder(String fileName)
+    {
+    }
+
     public static BSTNode constructTheTestBST()
     {
         BSTNode head = new BSTNode(4);
@@ -169,5 +234,15 @@ public class BinarySearchTree {
         head.right = n5;
 
         return head;
+    }
+
+    /**
+     * represents a subtree with key in the interval [lowKey, highKey)
+     */
+    private class RootWithKeyInterval
+    {
+        private BSTNode root;
+        private int lowKey;
+        private int highKey;
     }
 }
