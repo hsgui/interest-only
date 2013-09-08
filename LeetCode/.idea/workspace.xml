@@ -14,6 +14,7 @@
     <file path="/Util.java" changelist="d6929886-2ef6-4e36-af72-f4ee4a3179f2" time="1378118151786" ignored="false" />
     <file path="/SingleLinkedListNode.java" changelist="d6929886-2ef6-4e36-af72-f4ee4a3179f2" time="1378191429613" ignored="false" />
     <file path="/SingleLinkedList.java" changelist="d6929886-2ef6-4e36-af72-f4ee4a3179f2" time="1378198723839" ignored="false" />
+    <file path="/BinaryTreeEncoder.java" changelist="d6929886-2ef6-4e36-af72-f4ee4a3179f2" time="1378621358747" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,15 +115,17 @@
         <entry file="jar://C:/Program Files/Java/jdk1.7.0_03/src.zip!/java/util/DualPivotQuicksort.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="96" column="33" selection-start="2225" selection-end="2225" vertical-scroll-proportion="0.0">
-              <folding />
+              <folding>
+                <element signature="e#0#112536#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BinarySearchTree.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BinarySearchTree.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tree/hsgui/com/BinarySearchTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="203" column="18" selection-start="7205" selection-end="7205" vertical-scroll-proportion="0.74025977">
+            <state line="162" column="7" selection-start="5089" selection-end="5089" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="method#isBinarySearchTreeInOrderHelper#0;class#BinarySearchTree#0" expanded="false" />
                 <element signature="method#maxTreeHeightIterativeWithPostOrderTraversal#0;class#BinarySearchTree#0" expanded="false" />
@@ -131,6 +134,15 @@
                 <element signature="e#5467#5488#0" expanded="true" />
                 <element signature="method#constructTheTestBST#0;class#BinarySearchTree#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BinaryTreeEncoder.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/tree/hsgui/com/BinaryTreeEncoder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="53" selection-start="546" selection-end="546" vertical-scroll-proportion="0.80944353">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -163,14 +175,15 @@
         <option value="$PROJECT_DIR$/src/node/tree/hsgui/com/SingleLinkedListNode.java" />
         <option value="$PROJECT_DIR$/src/tree/hsgui/com/SingleLinkedList.java" />
         <option value="$PROJECT_DIR$/src/tree/hsgui/com/BinarySearchTree.java" />
+        <option value="$PROJECT_DIR$/src/tree/hsgui/com/BinaryTreeEncoder.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1456" />
-    <option name="height" value="876" />
+    <option name="width" value="1296" />
+    <option name="height" value="776" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -519,7 +532,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1296" height="776" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -534,7 +547,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18077475" sideWeight="0.8006483" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14829822" sideWeight="0.8006483" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1993517" sideWeight="0.58177906" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -609,11 +622,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/tree/hsgui/com/BSTToSortedDoublyLinkedList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="27" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.7.0_03/src.zip!/java/util/SortedSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="107" column="26" selection-start="4443" selection-end="4452" vertical-scroll-proportion="2.6920474" />
@@ -698,13 +706,15 @@
     <entry file="jar://C:/Program Files/Java/jdk1.7.0_03/src.zip!/java/util/DualPivotQuicksort.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="96" column="33" selection-start="2225" selection-end="2225" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#0#112536#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tree/hsgui/com/BinarySearchTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="18" selection-start="7205" selection-end="7205" vertical-scroll-proportion="0.74025977">
+        <state line="162" column="7" selection-start="5089" selection-end="5089" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="method#isBinarySearchTreeInOrderHelper#0;class#BinarySearchTree#0" expanded="false" />
             <element signature="method#maxTreeHeightIterativeWithPostOrderTraversal#0;class#BinarySearchTree#0" expanded="false" />
@@ -713,6 +723,13 @@
             <element signature="e#5467#5488#0" expanded="true" />
             <element signature="method#constructTheTestBST#0;class#BinarySearchTree#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tree/hsgui/com/BinaryTreeEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="53" selection-start="546" selection-end="546" vertical-scroll-proportion="0.80944353">
+          <folding />
         </state>
       </provider>
     </entry>
