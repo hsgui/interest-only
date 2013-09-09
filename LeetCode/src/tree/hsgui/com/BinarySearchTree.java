@@ -1,6 +1,7 @@
 package tree.hsgui.com;
 
 import node.tree.hsgui.com.BSTNode;
+import node.tree.hsgui.com.SingleLinkedListNode;
 import util.hsgui.com.Util;
 
 import java.util.Stack;
@@ -218,6 +219,37 @@ public class BinarySearchTree {
      */
     public void readBSTWithPostOrder(String fileName)
     {
+    }
+
+    /**
+     * cite: http://leetcode.com/2010/11/convert-sorted-array-into-balanced.html
+     *       this method is a top-down approach
+     * @param sortedArray : the array that is already sorted.
+     * @param start       : the start position of the array.
+     * @param end         : the end position of the array.
+     * @return
+     */
+    public BSTNode sortedArray2BSTree(int[] sortedArray, int start, int end)
+    {
+        if (start > end) return null;
+        int mid = (start + end) / 2;
+        BSTNode root = new BSTNode(sortedArray[mid]);
+        root.left = sortedArray2BSTree(sortedArray, start, mid - 1);
+        root.right = sortedArray2BSTree(sortedArray, mid + 1, end);
+
+        return root;
+    }
+
+    public BSTNode linkedList2BSTree(SingleLinkedListNode head, int start, int end)
+    {
+        if (start > end) return null;
+        int mid = start + (end - start) / 2;
+        BSTNode leftChild = linkedList2BSTree(head, start, mid - 1);
+        BSTNode root = new BSTNode(head.value);
+        root.left = leftChild;
+        head = head.next;
+        root.right = linkedList2BSTree(head, mid + 1, end);
+        return root;
     }
 
     public static BSTNode constructTheTestBST()
