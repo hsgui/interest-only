@@ -1,20 +1,19 @@
-package com.hsgui.algorithms;
+package com.hsgui.algorithms.uf;
 
 /**
  * Created with IntelliJ IDEA.
  * User: hsgui
  * Date: 13-9-15
- * Time: 下午5:27
+ * Time: 下午5:04
  * To change this template use File | Settings | File Templates.
  */
-public class WeightedQuickUnionUnionFind {
-
+public class UnionFind {
     private int[] id;
     private int[] sz;
     private int n;
     private int count;
 
-    public WeightedQuickUnionUnionFind(int n){
+    public UnionFind(int n){
         this.n = n;
         id = new int[n];
         sz = new int[n];
@@ -39,10 +38,15 @@ public class WeightedQuickUnionUnionFind {
     }
 
     public int find(int p){
-        while (p != id[p]){
-            p = id[p];
+        int root = p;
+        while (root != id[root])
+            root = id[root];
+        while (p != root) {
+            int newp = id[p];
+            id[p] = root;
+            p = newp;
         }
-        return p;
+        return root;
     }
 
     public boolean connected(int p, int q){

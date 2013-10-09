@@ -1,4 +1,4 @@
-package com.hsgui.algorithms;
+package com.hsgui.algorithms.uf;
 
 /**
  * Created with IntelliJ IDEA.
