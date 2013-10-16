@@ -34,6 +34,7 @@ public class IntegerLearn {
     // 3 -- minPower2 -- 4
     // 4 -- minPower2 -- 4
     // 5 -- minPower2 -- 8
+    //also cite: http://my.oschina.net/shaorongjie/blog/132543
     public static int minPower2(int i){
         i -= 1;
         i |= (i >> 1);
