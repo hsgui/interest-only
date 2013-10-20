@@ -51,6 +51,15 @@ public class IntegerLearn {
         return i + 1;
     }
 
+    /**
+     * see the implementation of Integer.lowestOneBit
+     *      i - (i & (i-1)) = i & (-i)
+     *  <=  i = (i & (-i)) + (i & (i-1))
+     *  <=  i = (i & (-i + i -1))
+     *  <=  i = i & (-1); -1 = 0xffffffff
+     * @param i
+     * @return
+     */
     public int lowestOneBit(int i){
         return i - (i & (i-1));
     }
