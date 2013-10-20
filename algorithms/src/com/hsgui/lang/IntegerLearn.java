@@ -11,6 +11,7 @@ public class IntegerLearn {
 
     public static void main(String[] args){
         IntegerLearn learn = new IntegerLearn();
+        learn.learnLowestOneBit();
         learn.learnHighestOneBit();
     }
 
@@ -30,6 +31,11 @@ public class IntegerLearn {
         System.out.println("minPower2(-3) = " + IntegerLearn.minPower2(-3));
     }
 
+    public void learnLowestOneBit(){
+        System.out.println("lowestOneBit(8) = " + Integer.lowestOneBit(8));
+        System.out.println("lowestOneBit(8) = " + lowestOneBit(8));
+    }
+
     //very similar to Integer.highestOneBit(int i);
     // 3 -- minPower2 -- 4
     // 4 -- minPower2 -- 4
@@ -43,5 +49,9 @@ public class IntegerLearn {
         i |= (i >> 8);
         i |= (i >> 16);
         return i + 1;
+    }
+
+    public int lowestOneBit(int i){
+        return i - (i & (i-1));
     }
 }
