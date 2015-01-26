@@ -38,4 +38,15 @@ int main()
   printf("list contains 5, %d\n", is);
   is = list.Contains(6);
   printf("list contains 6, %d\n", is);
+
+  is = list.Delete(10);
+  printf("list delete 10, %d\n", is);
+
+  is = list.Delete(100);
+  printf("list delete 100, %d\n", is);
+  
+  is = list.Delete(3);
+  printf("list delete 3, %d\n", is);
+
+  list.PrettyPrintList();
 }

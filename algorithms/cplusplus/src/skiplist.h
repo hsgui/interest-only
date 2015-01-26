@@ -20,6 +20,8 @@ class SkipList {
 
     bool Contains(const Key& key);
 
+    bool Delete(const Key& key);
+
     void PrintList();
 
     void PrettyPrintList();
@@ -173,6 +175,30 @@ class SkipList {
    {
      SkipListNode* x = FindGreaterOrEqual(key, NULL);
      return (NULL != x && Equal(x->key, key));
+   };
+
+ template<typename Key, class Comparator>
+   bool
+   SkipList<Key, Comparator>::Delete(const Key& key)
+   {
+     SkipListNode* prev[kMaxLevel];
+     SkipListNode* x = FindGreaterOrEqual(key, prev);
+     // didn't find the element with the key
+     if (x == NULL || _cmp(key, x->key) != 0) return false;
+
+     // update the level pointers when deleting the element with the key
+     for (int l = 0; l < _level; l++){
+       if (prev[l]->level[l] != x) break;
+       prev[l]->level[l] = x->level[l];
+     }
+
+     // update the level of the skip list
+     while (_level > 1 && _head->level[_level - 1] == NULL){
+       _level--;
+     }
+     free(x);
+     _length--;
+     return true;
    };
 
  template<typename Key, class Comparator>
