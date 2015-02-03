@@ -41,8 +41,43 @@ void SolveProblem_2(int max)
   }
   printf("result:%d, step:%d\n", sum, step);
 }
+
+// https://projecteuler.net/problem=3
+void SolveProblem_3(unsigned long num)
+{
+  unsigned long remain = num;
+  unsigned long largestPrimeFactor = 1;
+  unsigned long factor = 2;
+  
+  /*
+    A = a_1^(n_1) * a_2^(n_2) * a_3^(n_3) * a_4^(n_4) * ... * a_k^(n_k);
+    2 <= a_1 < a_2 < a_3 < a_4 < a_k, are primes
+    1 <= n_1, n_2, n_3, n_4, ..., n_k;
+
+    at some time point, we know that:
+    B = a_1^(n_1) * a_2^(n_2) * a_3^(n_3'), n_3' < n_3;
+    remain = a_3^(n_3 - n_3') * a_4^(n_4) * ... a_k^(n_k);
+    A = B * remain;
+
+    lpf(A) = max(lpf(B), lpf(remain)) = lpf(remain);
+   */
+  while (remain != 1){
+    if (remain % factor == 0){
+      // factor must be a_1, a_2, a_3, a_4, ..., a_k orderly;
+      largestPrimeFactor = factor;
+      remain /= factor;
+    }else{
+      factor = (factor == 2)? 3 : (factor + 2);
+    }
+  }
+  
+  printf("num:%lu, largestPrimeFactor:%lu\n", num, largestPrimeFactor);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
   //SolveProblem_2(4000000);
+  //SolveProblem_3(600851475143);
+  //SolveProblem_3(2);
 }
