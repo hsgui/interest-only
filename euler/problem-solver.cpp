@@ -90,6 +90,25 @@ void SolveProblem_4(unsigned int min, unsigned int max)
   printf("result=%d\n", maxPalindrome);
 }
 
+// https://projecteuler.net/problem=5
+void SolveProblem_5(unsigned int below, unsigned int up)
+{
+  unsigned int spn = up;
+  unsigned int n = up - 1;
+
+  while (n >= below){
+    unsigned int next = n;
+    n--;
+    if (n >= below){
+      // (n, n+1) must be coprime
+      next *= n;
+      n--;
+    }
+    spn = MathUtil::LCM(spn, next);
+  }
+  printf("result=%d, below=%d, up=%d\n", spn, below, up);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -97,4 +116,5 @@ int main()
   //SolveProblem_3(600851475143);
   //SolveProblem_3(2);
   //SolveProblem_4(100, 999);
+  //SolveProblem_5(1, 20);
 }

@@ -10,9 +10,30 @@ void testIsPalindrome()
   printf("93433439 is a palindrome: %d\n", MathUtil::IsPalindrome(93433439));
   printf("2134 is not a palindrome: %d\n", MathUtil::IsPalindrome(2134));
 }
+
+void testgcd()
+{
+  unsigned int a, b;
+  a = 1071, b= 462;
+  printf("gcd(%d, %d) is 21: %d\n", a, b, MathUtil::GCD(a,b));
+}
+
+void testSumOfMultiplesBelow()
+{
+  printf("sumofmulitplesbelow 20 of 3 is 63: %d\n", MathUtil::SumOfMultiplesBelow(20, 3));
+}
+
+void testlcm()
+{
+  unsigned int a, b;
+  a = 21, b = 6;
+  printf("lcm(%d, %d) is 42: %d\n", a, b, MathUtil::LCM(a, b));
+}
 int main()
 {
-  printf("sumofmulitplesbelow 20 of 3 is: %d\n", MathUtil::SumOfMultiplesBelow(20, 3));
+  testSumOfMultiplesBelow();
   testIsPalindrome();
+  testgcd();
+  testlcm();
   return 0;
 }
