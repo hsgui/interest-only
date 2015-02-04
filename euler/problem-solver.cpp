@@ -109,6 +109,13 @@ void SolveProblem_5(unsigned int below, unsigned int up)
   printf("result=%d, below=%d, up=%d\n", spn, below, up);
 }
 
+// https://projecteuler.net/problem=6
+void SolveProblem_6(unsigned int n)
+{
+  unsigned int result = (n*n - 1) * (3*n*n +2*n)/12;
+  printf("result=%d, n=%d\n", result, n);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -117,4 +124,6 @@ int main()
   //SolveProblem_3(2);
   //SolveProblem_4(100, 999);
   //SolveProblem_5(1, 20);
+  SolveProblem_6(100);
 }
+

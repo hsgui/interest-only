@@ -17,6 +17,10 @@ class MathUtil{
   static unsigned int LeastCommonMultiple(unsigned int a, unsigned int b);
 
   static unsigned int LCM(unsigned int a, unsigned int b);
+
+  static unsigned int SumOfSquare(unsigned int n);
+
+  static unsigned int SumOfLinear(unsigned int n);
 };
 
 int MathUtil::SumOfMultiplesBelow(int n, int factor)
@@ -73,6 +77,19 @@ unsigned int MathUtil::LeastCommonMultiple(unsigned int a, unsigned int b)
 unsigned int MathUtil::LCM(unsigned int a, unsigned int b)
 {
   return LeastCommonMultiple(a, b);
+}
+
+// 1^2 + 2^2 + 3^2 + 4^2 + ... + n^2 = (n(n+1)(2*n +1))/6
+// 1. we could make an assumption that it = a*n^3 + b*n^2 + c*n + d
+// 2. mathforum.org/library/drmath/view/56920.html
+unsigned int MathUtil::SumOfSquare(unsigned int n)
+{
+  return (n*(n+1)*(n+n+1))/6;
+}
+
+unsigned int MathUtil::SumOfLinear(unsigned int n)
+{
+  return n*(n+1)/2;
 }
 
 #endif
