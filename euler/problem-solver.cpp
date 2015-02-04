@@ -74,10 +74,27 @@ void SolveProblem_3(unsigned long num)
   printf("num:%lu, largestPrimeFactor:%lu\n", num, largestPrimeFactor);
 }
 
+// https://projecteuler.net/problem=4
+void SolveProblem_4(unsigned int min, unsigned int max)
+{
+  unsigned int a, b;
+  unsigned int maxPalindrome = 0;
+  for (a = min; a <= max; a++){
+    for (b = a; b <= max; b++){
+      unsigned int product = a * b;
+      if (MathUtil::IsPalindrome(product) && product > maxPalindrome){
+        maxPalindrome = product;
+      }
+    }
+  }
+  printf("result=%d\n", maxPalindrome);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
   //SolveProblem_2(4000000);
   //SolveProblem_3(600851475143);
   //SolveProblem_3(2);
+  //SolveProblem_4(100, 999);
 }
