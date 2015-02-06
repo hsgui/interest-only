@@ -37,6 +37,15 @@ void testIsSquare()
   n = 500;
   printf("%d is square: %d\n", n, MathUtil::IsSquare(n));
 }
+
+void testLESqrt()
+{
+  unsigned int n[]  = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  unsigned int i = 0;
+  for (i = 0; i < 9; i++){
+    printf("%d is the lesqrt: %d\n", MathUtil::LESqrt(n[i]), n[i]);  
+  }
+}
 int main()
 {
   testSumOfMultiplesBelow();
@@ -44,5 +53,7 @@ int main()
   testgcd();
   testlcm();
   testIsSquare();
+  testLESqrt();
+
   return 0;
 }
