@@ -116,6 +116,35 @@ void SolveProblem_6(unsigned int n)
   printf("result=%d, n=%d\n", result, n);
 }
 
+void SolveProblem_7(unsigned int nth)
+{
+  unsigned int ith = 2;
+  unsigned int num = 3;
+  if (nth == 1) {
+    ith = 1;
+    num = 2;
+  }
+  // before the while, num is the ith prime
+  while (ith < nth){
+    num += 2;
+    if (MathUtil::IsPrime(num)) ith++;
+  }
+  printf("nth=%d, prime:%d\n", nth, num);
+}
+
+void SolveProblem_9(unsigned int sum)
+{
+  unsigned int a, b, c;
+  for (c = sum / 3 + 1; c < sum / 2; c++){
+    for (b = (sum - c) / 2 + 1; b < c; b++){
+      a = sum - b - c;
+      if (a*a + b*b == c*c){
+        printf("a=%d, b=%d, c=%d, sum=1000, product=%d\n", a, b, c, a*b*c); 
+      }
+    }
+  }
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -124,6 +153,8 @@ int main()
   //SolveProblem_3(2);
   //SolveProblem_4(100, 999);
   //SolveProblem_5(1, 20);
-  SolveProblem_6(100);
+  //SolveProblem_6(100);
+  //SolveProblem_7(10001);
+  SolveProblem_9(1000);
 }
 

@@ -29,11 +29,20 @@ void testlcm()
   a = 21, b = 6;
   printf("lcm(%d, %d) is 42: %d\n", a, b, MathUtil::LCM(a, b));
 }
+
+void testIsSquare()
+{
+  unsigned int n = 4;
+  printf("%d is square: %d\n", n, MathUtil::IsSquare(n));
+  n = 500;
+  printf("%d is square: %d\n", n, MathUtil::IsSquare(n));
+}
 int main()
 {
   testSumOfMultiplesBelow();
   testIsPalindrome();
   testgcd();
   testlcm();
+  testIsSquare();
   return 0;
 }

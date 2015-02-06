@@ -21,6 +21,10 @@ class MathUtil{
   static unsigned int SumOfSquare(unsigned int n);
 
   static unsigned int SumOfLinear(unsigned int n);
+
+  static unsigned int IsPrime(unsigned int n);
+
+  static bool IsSquare(unsigned int n);
 };
 
 int MathUtil::SumOfMultiplesBelow(int n, int factor)
@@ -90,6 +94,37 @@ unsigned int MathUtil::SumOfSquare(unsigned int n)
 unsigned int MathUtil::SumOfLinear(unsigned int n)
 {
   return n*(n+1)/2;
+}
+
+unsigned int MathUtil::IsPrime(unsigned int n)
+{
+  if (1 == n) return false;
+  if (2 == n || 3 == n) return true;
+  if (n % 2 == 0) return false;
+  unsigned int factor = 3;
+  while (factor * factor <= n){
+    if (n % factor == 0) return false;
+    factor += 2;
+  }
+  return true;
+}
+
+bool MathUtil::IsSquare(unsigned int n)
+{
+  unsigned int remain = n;
+  unsigned int factor = 2;
+  
+  unsigned int square = factor * factor;
+  while (square <= remain){
+    if (remain % factor == 0){
+      if (remain % square != 0) return false;
+      remain /= square;
+    }else{
+      factor = (factor == 2) ? 3 : (factor + 2);
+      square = factor * factor;
+    }
+  }
+  return remain == 1;
 }
 
 #endif
