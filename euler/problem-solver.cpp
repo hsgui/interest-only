@@ -145,6 +145,27 @@ void SolveProblem_9(unsigned int sum)
   }
 }
 
+/*
+  https://projecteuler.net/problem=15
+  route[row][column] = route[row-1][column] + route[row][column-1], row, column >=1;
+  route[0][column] = 1, column >= 1;
+  route[row][0] = 1, row >= 1;
+ */
+void LatticePaths(unsigned int row, unsigned int column)
+{
+  unsigned int rowIndex, columnIndex;
+  // the paths may be very large. int is not enough
+  unsigned long route[row+1][column+1];
+  route[0][0] = 0;
+  for (rowIndex = 1; rowIndex <= row; rowIndex++) route[rowIndex][0] = 1;
+  for (columnIndex = 1; columnIndex <= column; columnIndex++) route[0][columnIndex] = 1;
+  for (rowIndex = 1; rowIndex <= row; rowIndex++)
+    for (columnIndex = 1; columnIndex <= column; columnIndex++){
+      route[rowIndex][columnIndex] = route[rowIndex-1][columnIndex] + route[rowIndex][columnIndex-1];
+    }
+  printf("%d*%d lattice paths: %lu\n", row, column, route[row][column]);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -155,6 +176,7 @@ int main()
   //SolveProblem_5(1, 20);
   //SolveProblem_6(100);
   //SolveProblem_7(10001);
-  SolveProblem_9(1000);
+  //SolveProblem_9(1000);
+  LatticePaths(20, 20);
 }
 
