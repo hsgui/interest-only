@@ -181,6 +181,29 @@ void SelfPowers_48(unsigned int n, unsigned long m)
   printf("%d mod %lu is %lu\n", n, m, remainder);
 }
 
+void PowerDigitSum_16(unsigned int exp)
+{
+  unsigned int digits[exp+1];
+  unsigned int i, j;
+  unsigned int length = 1;
+  unsigned int carry = 0;
+  for (i = 0; i <= exp; i++) digits[i] = 0;
+  digits[0] = 1;
+  for (i=1; i <= exp; i++){
+    carry = 0;
+    for (j = 0; j <= length-1; j++){
+      carry = digits[j] * 2 + carry;
+      digits[j] = carry % 10;
+      carry = carry / 10;
+    }
+    if (carry > 0) digits[length++] = carry;
+  }
+  unsigned int sum = 0;
+  for(i = 0; i <= exp; i++) sum += digits[i];
+
+  printf("power digit sum of %d is %d\n", exp, sum);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -193,6 +216,7 @@ int main()
   //SolveProblem_7(10001);
   //SolveProblem_9(1000);
   //LatticePaths_15(20, 20);
-  SelfPowers_48(1000, 10000000000);
+  //SelfPowers_48(1000, 10000000000);
+  PowerDigitSum_16(1000);
 }
 
