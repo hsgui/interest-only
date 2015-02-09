@@ -28,6 +28,12 @@ class MathUtil{
   static bool IsSquare(unsigned int n);
 
   static unsigned int LESqrt(unsigned int n);
+
+  static unsigned long ModMultiple(unsigned long a, unsigned long b, unsigned long m);
+
+  static unsigned long ModAdd(unsigned long a, unsigned long b, unsigned long m);
+
+  static unsigned long ModPower(unsigned long a, unsigned long n, unsigned long m);
 };
 
 int MathUtil::SumOfMultiplesBelow(int n, int factor)
@@ -155,6 +161,37 @@ unsigned int MathUtil::LESqrt(unsigned int n)
     // [low, high) is reducing
   }
   return low;
+}
+
+/*
+  (a+b) % m = (a%m + b%m)%m;
+ */
+unsigned long MathUtil::ModAdd(unsigned long a, unsigned long b, unsigned long m)
+{
+  return (a %m + b %m)%m;
+}
+
+/*
+  (a*b) %m = ((a%m)*(b%m)) %m
+ */
+unsigned long MathUtil::ModMultiple(unsigned long a, unsigned long b, unsigned long m)
+{
+  return ((a%m) * (b%m))%m;
+}
+
+unsigned long MathUtil::ModPower(unsigned long a, unsigned long n, unsigned long m)
+{
+  if (n == 0) return 1;
+  if (n == 1) return a % m;
+  unsigned long p;
+  if (n % 2 == 1){
+    p = ModPower(a, (n-1)/2, m);
+    // (p*p)%m may be overflow
+    return ((a%m)*((p*p)%m))%m;
+  }else{
+    p = ModPower(a, n/2, m);
+    return (p*p) % m;
+  }
 }
 
 #endif

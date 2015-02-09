@@ -151,7 +151,7 @@ void SolveProblem_9(unsigned int sum)
   route[0][column] = 1, column >= 1;
   route[row][0] = 1, row >= 1;
  */
-void LatticePaths(unsigned int row, unsigned int column)
+void LatticePaths_15(unsigned int row, unsigned int column)
 {
   unsigned int rowIndex, columnIndex;
   // the paths may be very large. int is not enough
@@ -166,6 +166,21 @@ void LatticePaths(unsigned int row, unsigned int column)
   printf("%d*%d lattice paths: %lu\n", row, column, route[row][column]);
 }
 
+void SelfPowers_48(unsigned int n, unsigned long m)
+{
+  unsigned int i, j;
+  unsigned long remainder = 0;
+  unsigned long modpower = 1;
+  for (i = 1; i <= n; i++){
+    modpower = 1;
+    for (j = 1; j <= i; j++){
+      modpower = MathUtil::ModMultiple(modpower, i, m);
+    }
+    remainder = MathUtil::ModAdd(remainder, modpower, m);
+  }
+  printf("%d mod %lu is %lu\n", n, m, remainder);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -177,6 +192,7 @@ int main()
   //SolveProblem_6(100);
   //SolveProblem_7(10001);
   //SolveProblem_9(1000);
-  LatticePaths(20, 20);
+  //LatticePaths_15(20, 20);
+  SelfPowers_48(1000, 10000000000);
 }
 

@@ -46,6 +46,16 @@ void testLESqrt()
     printf("%d is the lesqrt: %d\n", MathUtil::LESqrt(n[i]), n[i]);  
   }
 }
+
+void testModPower()
+{
+  unsigned long a, n, m;
+  a = 10;
+  n = 10;
+  m = 10000000000;
+  printf("a=%lu, n=%lu, m=%lu: %lu\n", a, n, m, MathUtil::ModPower(a, n, m));
+}
+
 int main()
 {
   testSumOfMultiplesBelow();
@@ -54,6 +64,7 @@ int main()
   testlcm();
   testIsSquare();
   testLESqrt();
+  testModPower();
 
   return 0;
 }
