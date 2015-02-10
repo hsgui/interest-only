@@ -217,6 +217,6 @@ int main()
   //SolveProblem_9(1000);
   //LatticePaths_15(20, 20);
   //SelfPowers_48(1000, 10000000000);
-  PowerDigitSum_16(1000);
+  //PowerDigitSum_16(1000);
 }
 
