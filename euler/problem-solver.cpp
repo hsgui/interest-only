@@ -204,6 +204,22 @@ void PowerDigitSum_16(unsigned int exp)
   printf("power digit sum of %d is %d\n", exp, sum);
 }
 
+void AmicableNumbers_21(unsigned int num)
+{
+  unsigned int sum = 0;
+  unsigned int i = 1;
+  for (i = 1; i < num; i++){
+    unsigned int j = MathUtil::SumOfDivisors(i);
+    if (i == j) continue;
+    if (i == MathUtil::SumOfDivisors(j)) {
+      sum += i;
+      sum += j;
+      printf("find amicable numbers: %d, %d\n", i, j);
+    }
+  }
+  printf("num=%d, sum=%d\n", num, sum/2);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -218,5 +234,6 @@ int main()
   //LatticePaths_15(20, 20);
   //SelfPowers_48(1000, 10000000000);
   //PowerDigitSum_16(1000);
+  AmicableNumbers_21(10000);
 }
 

@@ -56,6 +56,13 @@ void testModPower()
   printf("a=%lu, n=%lu, m=%lu: %lu\n", a, n, m, MathUtil::ModPower(a, n, m));
 }
 
+void testSumOfDivisors()
+{
+  unsigned int i;
+  for (i = 1; i < 1000; i++)
+    printf("n=%d, sum of divisors is: %d\n", i, MathUtil::SumOfDivisors(i));
+}
+
 int main()
 {
   testSumOfMultiplesBelow();
@@ -65,6 +72,7 @@ int main()
   testIsSquare();
   testLESqrt();
   testModPower();
+  testSumOfDivisors();
 
   return 0;
 }

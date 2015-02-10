@@ -34,6 +34,8 @@ class MathUtil{
   static unsigned long ModAdd(unsigned long a, unsigned long b, unsigned long m);
 
   static unsigned long ModPower(unsigned long a, unsigned long n, unsigned long m);
+
+  static unsigned int SumOfDivisors(unsigned int n);
 };
 
 int MathUtil::SumOfMultiplesBelow(int n, int factor)
@@ -192,6 +194,48 @@ unsigned long MathUtil::ModPower(unsigned long a, unsigned long n, unsigned long
     p = ModPower(a, n/2, m);
     return (p*p) % m;
   }
+}
+
+/*
+  A = a_1^(n_1) * a_2^(n_2) * a_3^(n_3) * a_4^(n_4) * ... * a_k^(n_k);
+  2 <= a_1 < a_2 < a_3 < a_4 < a_k, are primes
+  0 <= n_1, n_2, n_3, n_4, ..., n_k, n_k >= 1;
+  sum = (a_1^0 + a_1^1 + a_1^2 + ... + a_1^(n_1))*
+        (a_2^0 + a_2^1 + a_2^2 + ... + a_2^(n_2))*
+        (a_3^0 + a_3^1 + a_3^2 + ... + a_3^(n_3))*
+        ...
+        (a_k^0 + a_k^1 + a_k^2 + ... + a_k^(n_k))
+        - A;
+
+  a^0 + a^1 + a^2 + ... + a^n = (a^(n+1) - 1)/(a - 1);
+  if n == 0, then (a-1)/(a-1) = 1, which will not affect the final result
+*/
+unsigned int MathUtil::SumOfDivisors(unsigned int n)
+{
+  unsigned int sum = 1;
+  unsigned int remain = n;
+  unsigned int factor = 2;
+  unsigned int partialSum = factor;
+
+  if (n <= 0) return 0;
+  while (remain != 1){
+    if (remain % factor == 0){
+      // factor must be prime
+      // factor must be a_1, a_2, a_3, a_4, ..., a_k orderly;
+      partialSum *= factor;
+      remain /= factor;
+    }else{
+      // another factor. this factor may not be prime
+      sum *= (partialSum - 1)/(factor - 1);
+      factor = (factor == 2)? 3 : (factor + 2);
+      partialSum = factor;
+    }
+  }
+  if (remain == 1)
+    sum *= (partialSum - 1)/(factor - 1);
+  // exclusive itself according to the definition
+  sum -= n;
+  return sum;
 }
 
 #endif
