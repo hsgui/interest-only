@@ -210,14 +210,14 @@ void AmicableNumbers_21(unsigned int num)
   unsigned int i = 1;
   for (i = 1; i < num; i++){
     unsigned int j = MathUtil::SumOfDivisors(i);
-    if (i == j) continue;
+    if (i >= j) continue;
     if (i == MathUtil::SumOfDivisors(j)) {
       sum += i;
       sum += j;
       printf("find amicable numbers: %d, %d\n", i, j);
     }
   }
-  printf("num=%d, sum=%d\n", num, sum/2);
+  printf("num=%d, sum=%d\n", num, sum);
 }
 
 int main()
