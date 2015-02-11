@@ -280,6 +280,37 @@ void NonAbundantSums_23()
   printf("sum of non abundant nums are: %lu\n", sum);
 }
 
+/*
+  suppose we have a number n, and some coins: a1, a2, a3, ..., an
+  and a1 < a2 < a3 < ... < an;
+  if we only use {a1, a2} to sum up n, then
+  s(n, {a1, a2}) = s(n, {a1}) + s(n-a2, {a1, a2}), n >= a2
+  the first part means we only use a1 to sum up n,
+  the second part means that we use both a1 and a2 to sum up n
+
+  also, the left hand and right hand is one to one mapping. that means:
+  on the left hand, if we have k1*a1 + k2*a2 = n, k2>=1, then,
+  on the right hand, k1*a1 + (k2-1)*a2 + a2 = n
+ */
+void CoinSum_31(unsigned int n)
+{
+  unsigned int coinCount = 8;
+  unsigned int sum[n+1][coinCount];
+  unsigned int num, coin;
+  unsigned int coinValues[] = {1, 2, 5, 10, 20, 50, 100, 200};
+
+  for (num = 1; num <= n; num++) sum[num][0] = 1;
+  for (coin = 0; coin < coinCount; coin++) sum[0][coin] = 1;
+  for (num = 1; num <= n; num++)
+    for (coin = 1; coin < coinCount; coin++){
+      if (num >= coinValues[coin]) 
+        sum[num][coin] = sum[num][coin-1] + sum[num-coinValues[coin]][coin];
+      else
+        sum[num][coin] = sum[num][coin-1];
+    }
+  printf("n=%d, sum=%d\n", n, sum[n][coinCount-1]);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -296,6 +327,7 @@ int main()
   //PowerDigitSum_16(1000);
   //AmicableNumbers_21(10000);
   //FactorialDigitSum_20(100);
-  NonAbundantSums_23();
+  //NonAbundantSums_23();
+  CoinSum_31(200);
 }
 

@@ -209,6 +209,8 @@ unsigned long MathUtil::ModPower(unsigned long a, unsigned long n, unsigned long
 
   a^0 + a^1 + a^2 + ... + a^n = (a^(n+1) - 1)/(a - 1);
   if n == 0, then (a-1)/(a-1) = 1, which will not affect the final result
+
+  TODO: this algorithm should be optimized
 */
 unsigned int MathUtil::SumOfDivisors(unsigned int n)
 {
