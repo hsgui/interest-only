@@ -251,6 +251,35 @@ void AmicableNumbers_21(unsigned int num)
   printf("num=%d, sum=%d\n", num, sum);
 }
 
+void NonAbundantSums_23()
+{
+  unsigned int limit = 28123;
+  unsigned int abundantNums[limit];
+  unsigned int abundantCount = 0;
+  bool canBeWritedAs[limit + 1];
+  unsigned int i = 0, j;
+  for (i = 12; i <= limit; i++){
+    if (i < MathUtil::SumOfDivisors(i)) {
+      abundantNums[abundantCount++] = i;
+    }
+  }
+
+  for (i = 0; i <= limit; i++) canBeWritedAs[i] = false;
+  for (i=0; i < abundantCount; i++){
+    for (j = i; j < abundantCount; j++)
+      if (abundantNums[i] + abundantNums[j] <= limit){
+        canBeWritedAs[abundantNums[i] + abundantNums[j]] = true;
+      }else{
+        // the later sums are greater than limit
+        break;
+      }
+  }
+  unsigned long sum = 0;
+  for (i = 1; i <= limit; i++)
+    if (!canBeWritedAs[i]) sum += i;
+  printf("sum of non abundant nums are: %lu\n", sum);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -266,6 +295,7 @@ int main()
   //SelfPowers_48(1000, 10000000000);
   //PowerDigitSum_16(1000);
   //AmicableNumbers_21(10000);
-  FactorialDigitSum_20(100);
+  //FactorialDigitSum_20(100);
+  NonAbundantSums_23();
 }
 
