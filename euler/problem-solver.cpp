@@ -204,6 +204,37 @@ void PowerDigitSum_16(unsigned int exp)
   printf("power digit sum of %d is %d\n", exp, sum);
 }
 
+void FactorialDigitSum_20(unsigned int n)
+{
+  unsigned int exp = 3000;
+  unsigned int digits[exp];
+  unsigned int i, j, k;
+  unsigned int length = 1;
+  unsigned int carry = 0;
+  for (i = 0; i < exp; i++) digits[i] = 0;
+  digits[0] = 1;
+  for (i = 2; i<= n; i++){
+    carry = 0;
+    k = i;
+    // if k could be divided by 10, 
+    // then k is just contributed an 0
+    while (k % 10 == 0) k /= 10;
+    for (j = 0; j < length; j++){
+      carry = digits[j] * k + carry;
+      digits[j] = carry % 10;
+      carry /= 10;
+    }
+    // carry may be larger than 10
+    while (carry > 0){
+      digits[length++] = carry % 10;
+      carry /= 10;
+    }
+  }
+  unsigned int sum = 0;
+  for (i = 0; i < length; i++) sum += digits[i];
+  printf("n!=%d! factorial digit sum is: %d\n", n, sum);
+}
+
 void AmicableNumbers_21(unsigned int num)
 {
   unsigned int sum = 0;
@@ -234,6 +265,7 @@ int main()
   //LatticePaths_15(20, 20);
   //SelfPowers_48(1000, 10000000000);
   //PowerDigitSum_16(1000);
-  AmicableNumbers_21(10000);
+  //AmicableNumbers_21(10000);
+  FactorialDigitSum_20(100);
 }
 
