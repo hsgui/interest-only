@@ -362,6 +362,37 @@ void CircularPrimes_35(unsigned int upbound)
   printf("circular primes, upbound=%d, count=%d\n", upbound, count);
 }
 
+/*
+  en.wikipedia.org/wiki/Factorion
+  suppose a number n is a factorion, which means:
+  n = sum(digit!),
+  and n has d digits, then, 
+  10^(d-1) < n <= d*(9!), then we must have: d <= 7
+ */
+void DigitFactorials_34()
+{
+  unsigned int base = 10;
+  unsigned int factorials[base];
+  unsigned int i;
+  unsigned int result = 0;
+  factorials[0] = 1;
+  for (i = 1; i < base; i++) factorials[i] = factorials[i-1] * i;
+  unsigned int upperBound = 1854721;
+  for (i = 10; i < upperBound; i++){
+    unsigned int num = i;
+    unsigned int sum = 0;
+    while (num > 0){
+      sum += factorials[num % base];
+      num /= base;
+    }
+    if (i == sum) {
+      result += i;
+      printf("i=%d\n", i);
+    }
+  }
+  printf("result=%d\n", result);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -381,6 +412,7 @@ int main()
   //NonAbundantSums_23();
   //CoinSum_31(200);
   //DoubleBasePalindromes_36(1000000);
-  CircularPrimes_35(1000000);
+  //CircularPrimes_35(1000000);
+  DigitFactorials_34();
 }
 
