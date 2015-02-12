@@ -328,6 +328,40 @@ void DoubleBasePalindromes_36(unsigned int upbound)
   printf("double-base palindromes, upbound=%d, sum=%d\n", upbound, sum);
 }
 
+void CircularPrimes_35(unsigned int upbound)
+{
+  unsigned int count = 1;
+  unsigned int lowerPower = 1;
+  unsigned int exp = 0;
+  unsigned int upperPower = 10;
+  unsigned int n, rotated, i;
+  bool primes[upbound]; //cache
+
+  for (i = 1; i < upbound; i++){
+    primes[i] = false;
+    if (MathUtil::IsPrime(i)) primes[i] = true;
+  }
+  for (n = 3; n < upbound; n += 2){
+    // the number of digits increase 1
+    // for example, if n =23, 
+    // then upperPower = 100, lowerPower = 10, exp = 1;
+    if (n >= upperPower){
+      lowerPower = upperPower;
+      upperPower *= 10;
+      exp++;
+    }
+    rotated = n;
+    if (primes[n]){
+      for (i = 0; i < exp; i++){
+        rotated = (rotated % lowerPower) * 10 + rotated / lowerPower;
+        if (!primes[rotated]) break;
+      }
+      if (i == exp) count++;
+    }
+  }
+  printf("circular primes, upbound=%d, count=%d\n", upbound, count);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -346,6 +380,7 @@ int main()
   //FactorialDigitSum_20(100);
   //NonAbundantSums_23();
   //CoinSum_31(200);
-  DoubleBasePalindromes_36(1000000);
+  //DoubleBasePalindromes_36(1000000);
+  CircularPrimes_35(1000000);
 }
 
