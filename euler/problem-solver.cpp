@@ -311,6 +311,23 @@ void CoinSum_31(unsigned int n)
   printf("n=%d, sum=%d\n", n, sum[n][coinCount-1]);
 }
 
+void DoubleBasePalindromes_36(unsigned int upbound)
+{
+  unsigned int num;
+  unsigned int sum = 0;
+
+  // num must be odd. because if a number base 2 is palindrome, 
+  // then the last bit is 1
+  for (num = 1;  num < upbound; num += 2){
+    if (MathUtil::IsPalindromeWithBase(num, 10) 
+        && MathUtil::IsPalindromeWithBase(num, 2)){
+      sum += num;
+    }
+  }
+
+  printf("double-base palindromes, upbound=%d, sum=%d\n", upbound, sum);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -328,6 +345,7 @@ int main()
   //AmicableNumbers_21(10000);
   //FactorialDigitSum_20(100);
   //NonAbundantSums_23();
-  CoinSum_31(200);
+  //CoinSum_31(200);
+  DoubleBasePalindromes_36(1000000);
 }
 

@@ -11,6 +11,8 @@ class MathUtil{
 
   static bool IsPalindrome(unsigned int n);
 
+  static bool IsPalindromeWithBase(unsigned int n, unsigned int base);
+
   static unsigned int GreatestCommonFactor(unsigned int a, unsigned int b);
 
   static unsigned int GCD(unsigned int a, unsigned int b);
@@ -46,6 +48,7 @@ int MathUtil::SumOfMultiplesBelow(int n, int factor)
 }
 
 // if n is one digit, then this function will return true
+// this is equal to IsPalindromeWithBase(n, 10);
 bool MathUtil::IsPalindrome(unsigned int n)
 {
   unsigned int p10 = 1;
@@ -56,6 +59,21 @@ bool MathUtil::IsPalindrome(unsigned int n)
     if (left != right) return false;
     n = (n % p10) / 10;
     p10 /= 100;
+  }
+  return true;
+}
+
+bool MathUtil::IsPalindromeWithBase(unsigned int n, unsigned int base)
+{
+  unsigned int pbase = 1;
+  unsigned int baseSquare = base * base;
+  while (n / pbase > base -1) pbase *= base;
+  while (n > 0){
+    unsigned int left = n / pbase;
+    unsigned int right = n % base;
+    if (left != right) return false;
+    n = (n % pbase) / base;
+    pbase /= baseSquare;
   }
   return true;
 }
