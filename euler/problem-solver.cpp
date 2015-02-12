@@ -393,6 +393,36 @@ void DigitFactorials_34()
   printf("result=%d\n", result);
 }
 
+/*
+  suppose n can be written as the sum of fifth powers of their digits
+  and n has d digits, then
+  10^(d-1) < n <= d*(9^5), then
+  d <= 6
+ */
+void DigitFifthPowers_30()
+{
+  unsigned int base = 10;
+  unsigned int fifthPowers[base];
+  unsigned int i;
+  unsigned int result = 0;
+  for (i = 0; i < base; i++) 
+    fifthPowers[i]=i*i*i*i*i;
+  unsigned int upperBound = 6*9*9*9*9*9;
+  for (i = 10; i < upperBound; i++){
+    unsigned int num = i;
+    unsigned int sum = 0;
+    while (num > 0){
+      sum += fifthPowers[num % base];
+      num /= base;
+    }
+    if (i == sum){
+      result += i;
+      printf("i=%d\n", i);
+    }
+  }
+  printf("result=%d\n", result);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -413,6 +443,7 @@ int main()
   //CoinSum_31(200);
   //DoubleBasePalindromes_36(1000000);
   //CircularPrimes_35(1000000);
-  DigitFactorials_34();
+  //DigitFactorials_34();
+  DigitFifthPowers_30();
 }
 
