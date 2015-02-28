@@ -423,6 +423,45 @@ void DigitFifthPowers_30()
   printf("result=%d\n", result);
 }
 
+void ModularInversers_451(unsigned long lowerBound, unsigned long upperBound)
+{
+  unsigned long i;
+  unsigned long sum = 0;
+  unsigned long num;
+  
+  for (i = lowerBound; i <= upperBound; i++){
+    unsigned long max = 0;
+    for (num = 1; num < i - 1; num++){
+      if (MathUtil::GCD(i, num) == 1 
+          && num*num % i == 1){
+        if (num > max) max = num;
+      }
+    }
+    sum += max;
+  }
+  printf("lowerBound=%lu, upperBound=%lu, sum=%lu\n", lowerBound, upperBound, sum);
+}
+
+void LargestExponential_99()
+{
+  double base1, base2, exp1, exp2;
+  int largestLineNumber, currentLine;
+
+  scanf("%lf,%lf\n", &base1, &exp1);
+  largestLineNumber = 1;
+  currentLine = 1;
+  
+  while (scanf("%lf,%lf\n", &base2, &exp2) != EOF){
+    currentLine += 1;
+    if (!MathUtil::CompareExponentialNumber(base1, exp1, base2, exp2)){
+      base1 = base2;
+      exp1 = exp2;
+      largestLineNumber = currentLine;
+    }
+  }
+  printf("largest line number:%d\n", largestLineNumber);
+}
+
 int main()
 {
   //SolveProblem_1(1000, 3, 5);
@@ -444,6 +483,9 @@ int main()
   //DoubleBasePalindromes_36(1000000);
   //CircularPrimes_35(1000000);
   //DigitFactorials_34();
-  DigitFifthPowers_30();
+  //DigitFifthPowers_30();
+
+  //ModularInversers_451(3, 2*10000000);
+  LargestExponential_99();
 }
 

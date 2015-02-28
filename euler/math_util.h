@@ -38,7 +38,70 @@ class MathUtil{
   static unsigned long ModPower(unsigned long a, unsigned long n, unsigned long m);
 
   static unsigned int SumOfDivisors(unsigned int n);
+
+  static bool CompareExponentialNumber(double base1, double exp1, double base2, double exp2);
+
+  static void ExtendedEuclideanAlgorithm(int a, int b, int* gcd, int* s, int* t);
 };
+
+bool MathUtil::CompareExponentialNumber(double base1, double exp1, double base2, double exp2)
+{
+  return exp1*log(base1) > exp2 * log(base2);
+}
+
+/*
+  http://en.wikipedia.org/wiki/Extended_Euclidean_algorithm;
+  http://en.wikipedia.org/wiki/B%C3%A9zout%27s_identity;
+
+  assume a > b;
+  r0 = a, r1 = b;
+  r_(i+1) = r_(i-1) - q_i * r_i, 0 <= r_(i+1) < r_i;
+  
+  a * s_i + b * t_i = r_i; define s_i, t_i to keep the equation
+  s_0 = 1, t_0 = 0;
+  s_1 = 0, t_1 = 1; so when i = 0,1, the equation is keeping
+
+  to keep the equation hold when i > 1, we should have:
+  a * s_(i+1) + b * t_(i+1) = a * s_(i-1) + b * t_(i-1) - q_i * (a * s_i + b * t_i);
+  then, we could have:
+  s_(i+1) = s_(i-1) - q_i * s_i;
+  t_(i+1) = t_(i-1) - q_i * t_i;
+
+  when r_(k+1) = 0, r_(k-1) = q_k * r_k; gcd(r0, r1) = gcd(r_k, r_(k-1)) = r_k
+  and a * s_k + b * t_k = r_k = gcd(r_k, r_(k-1))
+ */
+void MathUtil::ExtendedEuclideanAlgorithm(int a, int b, int* gcd, int* s, int* t)
+{
+  int rPrevious = a, rCurrent = b, rNext;
+  int sPrevious = 1, sCurrent = 0, sNext;
+  int tPrevious = 0, tCurrent = 1, tNext;
+  int q;
+
+  if (a < b){
+    rPrevious = b;
+    rCurrent = a;
+  }
+  do{
+    q = rPrevious / rCurrent;
+    rNext = rPrevious - q * rCurrent;
+
+    sNext = sPrevious - q * sCurrent;
+    tNext = tPrevious - q * tCurrent;
+
+    rPrevious = rCurrent;
+    rCurrent = rNext;
+
+    sPrevious = sCurrent;
+    sCurrent = sNext;
+
+    tPrevious = tCurrent;
+    tCurrent = tNext;
+  }while (rNext > 0);
+
+  *gcd = rPrevious;
+  *s = sPrevious;
+  *t = tPrevious;
+}
 
 int MathUtil::SumOfMultiplesBelow(int n, int factor)
 {

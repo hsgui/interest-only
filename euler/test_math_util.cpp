@@ -63,6 +63,15 @@ void testSumOfDivisors()
     printf("n=%d, sum of divisors is: %d\n", i, MathUtil::SumOfDivisors(i));
 }
 
+void testExtendedEuclideanAlgorithm()
+{
+  int a = 240, b = 46;
+  int gcd = 2, s = -9, t = 47;
+  int ag, as, at;
+  MathUtil::ExtendedEuclideanAlgorithm(a, b, &ag, &as, &at);
+  printf("eg=%d,ag=%d; es=%d,as=%d; et=%d,at=%d\n", gcd, ag, s, as, t, at);
+}
+
 int main()
 {
   testSumOfMultiplesBelow();
@@ -72,7 +81,8 @@ int main()
   testIsSquare();
   testLESqrt();
   testModPower();
-  testSumOfDivisors();
+  //testSumOfDivisors();
+  testExtendedEuclideanAlgorithm();
 
   return 0;
 }
