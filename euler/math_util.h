@@ -42,7 +42,51 @@ class MathUtil{
   static bool CompareExponentialNumber(double base1, double exp1, double base2, double exp2);
 
   static void ExtendedEuclideanAlgorithm(int a, int b, int* gcd, int* s, int* t);
+
+  static int ESieve(int limit, int primes[], int length);
 };
+
+/*
+  http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+ */
+int MathUtil::ESieve(int limit, int primes[], int length)
+{
+  bool tags[limit + 1];
+  int i, j;
+  int currentPrime;
+  int count = 0;
+  // assume all the numbers are primes
+  for (i=2; i < limit; i++) tags[i] = true;
+
+  int sqrt = LESqrt(limit);
+  i = 2;
+  while (i <= sqrt){
+    // find the next prime
+    while (tags[i] == false) i++;
+    currentPrime = i;
+    i++;//forward for next lookup
+
+    if (length <= count) return length;
+    // store the prime
+    primes[count++] = currentPrime;
+
+    // set the numbers {n^2, n^2+n, n^2 + 2*n, ..., n^2+k*n(<=limit)} to be non-prime
+    j = currentPrime * currentPrime;
+    while (j <= limit) {
+      tags[j] = false;
+      j += currentPrime;
+    }
+  }
+  // store the remain primes to array primes
+  while (i <= limit){
+    if (tags[i]){
+      if (length <= count) return length;
+      primes[count++] = i;
+    }
+    i++;
+  }
+  return count;
+}
 
 bool MathUtil::CompareExponentialNumber(double base1, double exp1, double base2, double exp2)
 {

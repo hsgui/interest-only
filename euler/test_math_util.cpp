@@ -72,6 +72,18 @@ void testExtendedEuclideanAlgorithm()
   printf("eg=%d,ag=%d; es=%d,as=%d; et=%d,at=%d\n", gcd, ag, s, as, t, at);
 }
 
+void testESieve()
+{
+  int limit = 100;
+  int primes[100], length=100;
+  int count = MathUtil::ESieve(limit, primes, length);
+  int i;
+  for (i = 0; i < count; i++){
+    printf("%d ", primes[i]);
+  }
+  printf("\n");
+}
+
 int main()
 {
   testSumOfMultiplesBelow();
@@ -83,6 +95,7 @@ int main()
   testModPower();
   //testSumOfDivisors();
   testExtendedEuclideanAlgorithm();
+  testESieve();
 
   return 0;
 }
