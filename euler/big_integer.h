@@ -30,6 +30,8 @@ class BigInteger{
 
   void static PrintBigInteger(BigInteger& a);
 
+  void static CopyTo(BigInteger& a, BigInteger& b);
+
  private:
   void Init(int* digitsArg, int lengthArg, int sdcountArg);
 
@@ -53,6 +55,16 @@ void BigInteger::Init(int* digitsArg, int lengthArg, int sdcountArg)
   sdcount = sdcountArg;
   length = lengthArg;
   digits = digitsArg;
+}
+
+void BigInteger::CopyTo(BigInteger& a, BigInteger& b)
+{
+  int i = 0;
+  while (i < a.sdcount && i < b.length){
+    b.digits[i] = a.digits[i];
+    i++;
+  }
+  b.sdcount = (a.sdcount > b.length) ? b.length : a.sdcount; 
 }
 
 void BigInteger::ConvertIntToBigInteger(int n, BigInteger& bi)
