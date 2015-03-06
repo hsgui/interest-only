@@ -18,6 +18,8 @@ class BigInteger{
 
   void static MultiplePower10(BigInteger& a, int power);
 
+  void static MultipleInt(BigInteger& a, int num);
+
   void static DividePower10(BigInteger& a, int power);
 
   void static AddOneDigit(BigInteger& a, int digit, int pos);
@@ -112,6 +114,21 @@ void BigInteger::MultiplePower10(BigInteger& a, int power){
     a.digits[i] = 0;
   }
   a.sdcount += power;
+}
+
+void BigInteger::MultipleInt(BigInteger& a, int num)
+{
+  int carry = 0;
+  int sd = 0;
+  while (sd < a.sdcount){
+    int sum = carry + a.digits[sd] * num;
+    a.digits[sd++] = sum % 10;
+    carry = sum / 10;
+  }
+  while (carry > 0){
+    a.digits[a.sdcount++] = carry % 10;
+    carry /= 10;
+  }
 }
 
 void BigInteger::DividePower10(BigInteger& a, int power){

@@ -20,6 +20,9 @@ void test()
 
   BigInteger::AddOneDigit(a, 0, 2);
   BigInteger::PrintBigInteger(a);
+
+  BigInteger::MultipleInt(a, 23);
+  BigInteger::PrintBigInteger(a);
 }
 
 int main()
