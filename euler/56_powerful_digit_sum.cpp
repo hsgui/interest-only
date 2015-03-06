@@ -3,29 +3,26 @@
 
 #include "big_integer.h"
 
-int PowerfulDigitSum_56(int a, int b)
+void PowerfulDigitSum_56()
 {
+  int a = 100, b = 100;
   int length = 202;
   int digits[length];
   BigInteger biga(digits, length);
 
-  BigInteger::ConvertIntToBigInteger(a, biga);
-
-  for (int i = 1; i < b; i++){
-    BigInteger::MultipleInt(biga, a);
+  int max = 0;
+  for (int i = 2; i < a; i++){
+    BigInteger::ConvertIntToBigInteger(i, biga);
+    for (int j = 1; j < b; j++){
+      BigInteger::MultipleInt(biga, i);
+      int sum = BigInteger::CountDigitSum(biga);
+      if (sum > max) max = sum;
+    }
   }
-
-  return BigInteger::CountDigitSum(biga);
+  printf("%d\n", max);
 }
 
 int main()
 {
-  int max = 1;
-
-  for (int a = 2; a < 100; a++)
-    for (int b = 1; b < 100; b++){
-      int sum = PowerfulDigitSum_56(a, b);
-      if (max < sum) max = sum;
-    }
-  printf("%d\n", max);
+  PowerfulDigitSum_56();
 }
