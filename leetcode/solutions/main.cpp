@@ -6,10 +6,11 @@
 #include <string>
 
 #include "001-TwoSum.h"
+#include "143-ReorderList.h"
 
 using namespace std;
 
-typedef bool (*Tester)();
+typedef std::function<bool ()> Tester;
 
 // class std::_Bind<1,bool,struct std::_Pmf_wrap<bool (__thiscall ClassName::*)(void),bool,class ClassName>,class ClassName &>
 void parseClassName(const string& typeName, string& className)
@@ -25,19 +26,22 @@ void parseClassName(const string& typeName, string& className)
 	}
 }
 
-void setupTest(shared_ptr<vector<function<bool()>>>& tests, shared_ptr<vector<void*>> objects)
+void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	shared_ptr<TwoSum> s001 = make_shared<TwoSum>();
-	objects->push_back((void*)(s001.get()));
-	function<bool()> fn = bind(&TwoSum::Test, *s001);
+	Tester fn = bind(&TwoSum::Test, *s001);
+	tests->push_back(fn);
+
+	shared_ptr<ReorderList> s143 = make_shared<ReorderList>();
+	fn = bind(&ReorderList::Test, *s143);
 	tests->push_back(fn);
 }
 
-void runTest(shared_ptr<vector<function<bool()>>>& tests)
+void runTest(shared_ptr<vector<Tester>>& tests)
 {
 	for (auto it = tests->begin(); it != tests->end(); ++it)
 	{
-		function<bool()> tester = (*it);
+		Tester tester = (*it);
 		tester();
 		const type_info& type = tester.target_type();
 		string typeName(type.name());
@@ -49,10 +53,9 @@ void runTest(shared_ptr<vector<function<bool()>>>& tests)
 
 int main()
 {
-	shared_ptr<vector<function<bool()>>> allTests = make_shared<vector<function<bool()>>>();
-	shared_ptr<vector<void*>> allObjects = make_shared<vector<void*>>();
+	shared_ptr<vector<Tester>> allTests = make_shared<vector<Tester>>();
 	
-	setupTest(allTests, allObjects);
+	setupTest(allTests);
 	runTest(allTests);
 
 	system("pause");
