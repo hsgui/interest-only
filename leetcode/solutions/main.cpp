@@ -7,6 +7,7 @@
 
 #include "001-TwoSum.h"
 #include "143-ReorderList.h"
+#include "146-LRUCache.h"
 
 using namespace std;
 
@@ -34,6 +35,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<ReorderList> s143 = make_shared<ReorderList>();
 	fn = bind(&ReorderList::Test, *s143);
+	tests->push_back(fn);
+
+	shared_ptr<LRUCache> s146 = make_shared<LRUCache>(10);
+	fn = bind(&LRUCache::Test, *s146);
 	tests->push_back(fn);
 }
 
