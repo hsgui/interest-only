@@ -41,7 +41,7 @@ public:
 		it = m_map->find(key);
 		if (it == m_map->end())
 		{
-			shared_ptr<DoubleNode> node = make_shared<DoubleNode>(value);
+			shared_ptr<DoubleNode> node = make_shared<DoubleNode>(key, value);
 			m_map->insert({ key, node });
 			if (m_size < m_capacity)
 			{
@@ -50,8 +50,8 @@ public:
 			}
 			else
 			{
-				// todo remove element from the unordered_map
-				remove(tail);
+				m_map->erase(tail->key);
+				remove(tail); // tail is changed
 				update(node);
 			}
 		}
@@ -76,22 +76,32 @@ public:
 		assert(cache.get(1) == -1);
 		assert(cache.get(3) == 3);
 
+		LRUCache cache1(1);
+		cache1.set(2, 1);
+		assert(cache1.get(2) == 1);
+		cache1.set(3, 2);
+		assert(cache1.get(2) == -1);
+		assert(cache1.get(3) == 2);
+
 		return true;
 	}
 
 private:
 	struct DoubleNode
 	{
+		int key;
 		int value;
 		shared_ptr<DoubleNode> previous;
 		shared_ptr<DoubleNode> next;
-		DoubleNode(int v) :
+		DoubleNode(int k, int v) :
+			key(k),
 			value(v),
 			previous(NULL),
 			next(NULL){}
 	};
 
-	void update(shared_ptr<DoubleNode>& latest)
+	// insert into the head of the double linked list
+	void update(shared_ptr<DoubleNode> latest)
 	{
 		assert(NULL != latest);
 		if (NULL == head)
@@ -108,12 +118,19 @@ private:
 		}
 	}
 
-	void remove(shared_ptr<DoubleNode>& latest)
+	// remove from the double linked list
+	void remove(shared_ptr<DoubleNode> latest)
 	{
 		assert(NULL != latest);
+		if (latest != head && latest != tail)
+		{
+			latest->previous->next = latest->next;
+			latest->next->previous = latest->previous;
+		}
+
 		if (head == latest)
 		{
-			head = latest->next;
+			head = head->next;
 			if (NULL != head)
 			{
 				head->previous = NULL;
@@ -121,16 +138,11 @@ private:
 		}
 		if (tail == latest)
 		{
-			tail = latest->previous;
+			tail = tail->previous;
 			if (NULL != tail)
 			{
 				tail->next = NULL;
 			}
-		}
-		if (latest != head && latest != tail)
-		{
-			latest->previous->next = latest->next;
-			latest->next->previous = latest->previous;
 		}
 
 		latest->next = NULL;
