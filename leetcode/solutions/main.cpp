@@ -9,6 +9,7 @@
 #include "143-ReorderList.h"
 #include "146-LRUCache.h"
 #include "005-LongestPalindromicSubstring.h"
+#include "075-SortColors.h"
 
 using namespace std;
 
@@ -44,6 +45,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<LongestPalindromicSubstring> s005 = make_shared<LongestPalindromicSubstring>();
 	fn = bind(&LongestPalindromicSubstring::Test, *s005);
+	tests->push_back(fn);
+
+	shared_ptr<SortColors> s075 = make_shared<SortColors>();
+	fn = bind(&SortColors::Test, *s075);
 	tests->push_back(fn);
 }
 
