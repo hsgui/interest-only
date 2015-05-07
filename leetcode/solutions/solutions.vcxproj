@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="001-TwoSum.h" />
+    <ClInclude Include="005-LongestPalindromicSubstring.h" />
     <ClInclude Include="143-ReorderList.h" />
     <ClInclude Include="146-LRUCache.h" />
   </ItemGroup>

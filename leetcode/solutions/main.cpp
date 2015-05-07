@@ -8,6 +8,7 @@
 #include "001-TwoSum.h"
 #include "143-ReorderList.h"
 #include "146-LRUCache.h"
+#include "005-LongestPalindromicSubstring.h"
 
 using namespace std;
 
@@ -39,6 +40,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<LRUCache> s146 = make_shared<LRUCache>(10);
 	fn = bind(&LRUCache::Test, *s146);
+	tests->push_back(fn);
+
+	shared_ptr<LongestPalindromicSubstring> s005 = make_shared<LongestPalindromicSubstring>();
+	fn = bind(&LongestPalindromicSubstring::Test, *s005);
 	tests->push_back(fn);
 }
 
