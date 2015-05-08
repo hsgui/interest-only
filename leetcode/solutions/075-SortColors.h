@@ -30,16 +30,38 @@ public:
 	}
 
 	// one-pass algorithm
-	void sortColors(vector<int>& nums)
+	void sortColorsV2(vector<int>& nums)
 	{
-
+		int left = -1, right = nums.size() ;
+		int curr = 0;
+		while (curr < right && left < curr)
+		{
+			switch (nums[curr])
+			{
+			case 0:
+				swap(nums[curr], nums[++left]);
+				curr++;
+				break;
+			case 1:
+				curr++;
+				break;
+			case 2:
+				swap(nums[curr], nums[--right]);
+				break;
+			}
+		}
 	}
 
 	bool Test()
 	{
 		vector<int> v = { 1, 1, 2, 0, 1, 2, 0, 0, 1 };
 		vector<int> e = { 0, 0, 0, 1, 1, 1, 1, 2, 2 };
-		sortColors(v);
+		sortColorsV2(v);
+		assert(equal(v.begin(), v.end(), e.begin()));
+
+		v = { 0, 2, 1 };
+		e = { 0, 1, 2 };
+		sortColorsV2(v);
 		assert(equal(v.begin(), v.end(), e.begin()));
 
 		return true;
