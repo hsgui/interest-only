@@ -5,18 +5,12 @@
 #include <unordered_set>
 #include <cassert>
 
+#include "TreeNode.h"
+
 using namespace std;
 
 class BinaryTreeLevelOrderTraversal{
 public:
-	struct TreeNode
-	{
-		int val;
-		TreeNode* left;
-		TreeNode* right;
-		TreeNode(int x) : val(x), left(NULL), right(NULL){}
-	};
-
 	// the recursive method is not that efficient
 	vector<vector<int>> levelOrder(TreeNode* root)
 	{
