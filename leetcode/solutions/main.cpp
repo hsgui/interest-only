@@ -6,10 +6,11 @@
 #include <string>
 
 #include "001-TwoSum.h"
-#include "143-ReorderList.h"
-#include "146-LRUCache.h"
 #include "005-LongestPalindromicSubstring.h"
 #include "075-SortColors.h"
+#include "128-LongestConsecutiveSequence.h"
+#include "143-ReorderList.h"
+#include "146-LRUCache.h"
 
 using namespace std;
 
@@ -49,6 +50,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<SortColors> s075 = make_shared<SortColors>();
 	fn = bind(&SortColors::Test, *s075);
+	tests->push_back(fn);
+
+	shared_ptr<LongestConsecutiveSequence> s128 = make_shared<LongestConsecutiveSequence>();
+	fn = bind(&LongestConsecutiveSequence::Test, *s128);
 	tests->push_back(fn);
 }
 

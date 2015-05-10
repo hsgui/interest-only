@@ -14,6 +14,7 @@
     <ClInclude Include="001-TwoSum.h" />
     <ClInclude Include="005-LongestPalindromicSubstring.h" />
     <ClInclude Include="075-SortColors.h" />
+    <ClInclude Include="128-LongestConsecutiveSequence.h" />
     <ClInclude Include="143-ReorderList.h" />
     <ClInclude Include="146-LRUCache.h" />
   </ItemGroup>
