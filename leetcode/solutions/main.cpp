@@ -7,6 +7,7 @@
 
 #include "001-TwoSum.h"
 #include "005-LongestPalindromicSubstring.h"
+#include "034-SearchForARange.h"
 #include "075-SortColors.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "143-ReorderList.h"
@@ -54,6 +55,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<LongestConsecutiveSequence> s128 = make_shared<LongestConsecutiveSequence>();
 	fn = bind(&LongestConsecutiveSequence::Test, *s128);
+	tests->push_back(fn);
+
+	shared_ptr<SearchForARange> s034 = make_shared<SearchForARange>();
+	fn = bind(&SearchForARange::Test, *s034);
 	tests->push_back(fn);
 }
 
