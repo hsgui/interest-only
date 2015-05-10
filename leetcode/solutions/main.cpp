@@ -9,6 +9,7 @@
 #include "005-LongestPalindromicSubstring.h"
 #include "034-SearchForARange.h"
 #include "075-SortColors.h"
+#include "102-BinaryTreeLevelOrderTraversal.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "143-ReorderList.h"
 #include "146-LRUCache.h"
@@ -59,6 +60,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<SearchForARange> s034 = make_shared<SearchForARange>();
 	fn = bind(&SearchForARange::Test, *s034);
+	tests->push_back(fn);
+
+	shared_ptr<BinaryTreeLevelOrderTraversal> s102 = make_shared<BinaryTreeLevelOrderTraversal>();
+	fn = bind(&BinaryTreeLevelOrderTraversal::Test, *s102);
 	tests->push_back(fn);
 }
 
