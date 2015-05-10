@@ -1,3 +1,6 @@
+#ifndef _TREE_NODE_H_
+#define _TREE_NODE_H_
+
 #include <algorithm>
 
 struct TreeNode
@@ -7,3 +10,5 @@ struct TreeNode
 	TreeNode* right;
 	TreeNode(int x) : val(x), left(NULL), right(NULL){}
 };
+
+#endif

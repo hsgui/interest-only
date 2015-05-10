@@ -10,51 +10,56 @@
 
 using namespace std;
 
-class BinaryTreeLevelOrderTraversal{
+class BinaryTreeLevelOrderTraversalII
+{
 public:
-	// the recursive method is not that efficient
-	vector<vector<int>> levelOrder(TreeNode* root)
+	// recursive method
+	vector<vector<int>> levelOrderBottom(TreeNode* root) 
 	{
 		vector<vector<int>> levels;
+
 		if (root == NULL)
 		{
 			return levels;
 		}
-		vector<int> head;
-		head.push_back(root->val);
-		levels.push_back(head);
 
 		vector<vector<int>> leftLevel;
 		vector<vector<int>> rightLevel;
 		if (root->left != NULL)
 		{
-			leftLevel = levelOrder(root->left);
+			leftLevel = levelOrderBottom(root->left);
 		}
 		if (root->right != NULL)
 		{
-			rightLevel = levelOrder(root->right);
+			rightLevel = levelOrderBottom(root->right);
 		}
 
 		int maxChildrenLevel = max(leftLevel.size(), rightLevel.size());
-		for (int i = 0; i < maxChildrenLevel; ++i)
+		for (int i = maxChildrenLevel; i > 0; --i)
 		{
 			vector<int> levelI;
-			if (i < leftLevel.size())
+			if (leftLevel.size() >= i)
 			{
-				levelI.insert(levelI.begin(), leftLevel[i].begin(), leftLevel[i].end());
+				levelI.insert(levelI.begin(), leftLevel[leftLevel.size() - i].begin(), 
+					leftLevel[leftLevel.size() - i].end());
 			}
-			if (i < rightLevel.size())
+			if (rightLevel.size() >= i)
 			{
-				levelI.insert(levelI.end(), rightLevel[i].begin(), rightLevel[i].end());
+				levelI.insert(levelI.end(), rightLevel[rightLevel.size() - i].begin(), 
+					rightLevel[rightLevel.size() - i].end());
 			}
 			levels.push_back(levelI);
 		}
 
+		vector<int> head;
+		head.push_back(root->val);
+		levels.push_back(head);
+
 		return levels;
 	}
 
-	// todo: the non-recursive method
-	vector<vector<int>> levelOrderV2(TreeNode* root)
+	// not recursive method
+	vector<vector<int>> levelOrderBottomV2(TreeNode* root)
 	{
 		vector<vector<int>> levels;
 
@@ -72,17 +77,17 @@ public:
 		t20.left = &t15, t20.right = &t7;
 		t3.left = &t9, t3.right = &t20;
 
-		vector<vector<int>> expected = 
+		vector<vector<int>> expected =
 		{
-			{3},
-			{9, 20},
-			{15, 7}
+			{ 15, 7 },
+			{ 9, 20 },
+			{ 3 }
 		};
 
-		vector<vector<int>> actual = levelOrder(&t3);
+		vector<vector<int>> actual = levelOrderBottom(&t3);
 
 		assert(Utils::equalVectorVector<int>(expected, actual) == true);
-		
+
 		return true;
 	}
 };

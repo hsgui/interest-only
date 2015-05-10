@@ -16,9 +16,12 @@
     <ClInclude Include="034-SearchForARange.h" />
     <ClInclude Include="075-SortColors.h" />
     <ClInclude Include="102-BinaryTreeLevelOrderTraversal.h" />
+    <ClInclude Include="107-BinaryTreeLevelOrderTraversalII.h" />
     <ClInclude Include="128-LongestConsecutiveSequence.h" />
     <ClInclude Include="143-ReorderList.h" />
     <ClInclude Include="146-LRUCache.h" />
+    <ClInclude Include="TreeNode.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
