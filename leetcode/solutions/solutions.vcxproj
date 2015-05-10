@@ -16,6 +16,7 @@
     <ClInclude Include="034-SearchForARange.h" />
     <ClInclude Include="075-SortColors.h" />
     <ClInclude Include="102-BinaryTreeLevelOrderTraversal.h" />
+    <ClInclude Include="103-BinaryTreeZigzagLevelOrderTraversal.h" />
     <ClInclude Include="107-BinaryTreeLevelOrderTraversalII.h" />
     <ClInclude Include="128-LongestConsecutiveSequence.h" />
     <ClInclude Include="143-ReorderList.h" />
