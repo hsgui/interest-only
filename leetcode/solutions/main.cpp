@@ -10,6 +10,7 @@
 #include "034-SearchForARange.h"
 #include "075-SortColors.h"
 #include "102-BinaryTreeLevelOrderTraversal.h"
+#include "103-BinaryTreeZigzagLevelOrderTraversal.h"
 #include "107-BinaryTreeLevelOrderTraversalII.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "143-ReorderList.h"
@@ -69,6 +70,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<BinaryTreeLevelOrderTraversalII> s107 = make_shared<BinaryTreeLevelOrderTraversalII>();
 	fn = bind(&BinaryTreeLevelOrderTraversalII::Test, *s107);
+	tests->push_back(fn);
+
+	shared_ptr<BinaryTreeZigzagLevelOrderTraversal> s103 = make_shared<BinaryTreeZigzagLevelOrderTraversal>();
+	fn = bind(&BinaryTreeZigzagLevelOrderTraversal::Test, *s103);
 	tests->push_back(fn);
 }
 
