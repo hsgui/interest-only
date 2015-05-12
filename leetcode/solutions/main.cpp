@@ -9,13 +9,17 @@
 #include "005-LongestPalindromicSubstring.h"
 #include "034-SearchForARange.h"
 #include "075-SortColors.h"
+#include "094-BinaryTreeInorderTraversal.h"
 #include "100-SameTree.h"
+#include "101-SymmetricTree.h"
 #include "102-BinaryTreeLevelOrderTraversal.h"
 #include "103-BinaryTreeZigzagLevelOrderTraversal.h"
 #include "104-MaximumDepthOfBinaryTree.h"
 #include "105-ConstructBinaryTreeFromPreorderInorderTraveral.h"
 #include "106-ConstructBinaryTreeFromInorderPostorderTraversal.h"
 #include "107-BinaryTreeLevelOrderTraversalII.h"
+#include "110-BalancedBinaryTree.h"
+#include "111-MinimumDepthOfBinaryTree.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "143-ReorderList.h"
 #include "146-LRUCache.h"
@@ -94,6 +98,22 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<ConstructBinaryTreeFromInorderPostorderTraversal> s106 = make_shared<ConstructBinaryTreeFromInorderPostorderTraversal>();
 	fn = bind(&ConstructBinaryTreeFromInorderPostorderTraversal::Test, *s106);
+	tests->push_back(fn);
+
+	shared_ptr<SymmetricTree> s101 = make_shared<SymmetricTree>();
+	fn = bind(&SymmetricTree::Test, *s101);
+	tests->push_back(fn);
+
+	shared_ptr<BalancedBinaryTree> s110 = make_shared<BalancedBinaryTree>();
+	fn = bind(&BalancedBinaryTree::Test, *s110);
+	tests->push_back(fn);
+
+	shared_ptr<MinimumDepthOfBinaryTree> s111 = make_shared<MinimumDepthOfBinaryTree>();
+	fn = bind(&MinimumDepthOfBinaryTree::Test, *s111);
+	tests->push_back(fn);
+
+	shared_ptr<BinaryTreeInorderTraversal> s094 = make_shared<BinaryTreeInorderTraversal>();
+	fn = bind(&BinaryTreeInorderTraversal::Test, *s094);
 	tests->push_back(fn);
 }
 

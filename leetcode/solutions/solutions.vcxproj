@@ -15,13 +15,17 @@
     <ClInclude Include="005-LongestPalindromicSubstring.h" />
     <ClInclude Include="034-SearchForARange.h" />
     <ClInclude Include="075-SortColors.h" />
+    <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
     <ClInclude Include="100-SameTree.h" />
+    <ClInclude Include="101-SymmetricTree.h" />
     <ClInclude Include="102-BinaryTreeLevelOrderTraversal.h" />
     <ClInclude Include="103-BinaryTreeZigzagLevelOrderTraversal.h" />
     <ClInclude Include="104-MaximumDepthOfBinaryTree.h" />
     <ClInclude Include="105-ConstructBinaryTreeFromPreorderInorderTraveral.h" />
     <ClInclude Include="106-ConstructBinaryTreeFromInorderPostorderTraversal.h" />
     <ClInclude Include="107-BinaryTreeLevelOrderTraversalII.h" />
+    <ClInclude Include="110-BalancedBinaryTree.h" />
+    <ClInclude Include="111-MinimumDepthOfBinaryTree.h" />
     <ClInclude Include="128-LongestConsecutiveSequence.h" />
     <ClInclude Include="143-ReorderList.h" />
     <ClInclude Include="146-LRUCache.h" />
