@@ -22,6 +22,8 @@
 #include "111-MinimumDepthOfBinaryTree.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "143-ReorderList.h"
+#include "144-BinaryTreePreorderTraversal.h"
+#include "145-BinaryTreePostorderTraversal.h"
 #include "146-LRUCache.h"
 
 using namespace std;
@@ -115,6 +117,14 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 	shared_ptr<BinaryTreeInorderTraversal> s094 = make_shared<BinaryTreeInorderTraversal>();
 	fn = bind(&BinaryTreeInorderTraversal::Test, *s094);
 	tests->push_back(fn);
+
+	shared_ptr<BinaryTreePreorderTraversal> s144 = make_shared<BinaryTreePreorderTraversal>();
+	fn = bind(&BinaryTreePreorderTraversal::Test, *s144);
+	tests->push_back(fn);
+
+	shared_ptr<BinaryTreePostorderTraversal> s145 = make_shared<BinaryTreePostorderTraversal>();
+	fn = bind(&BinaryTreePostorderTraversal::Test, *s145);
+	tests->push_back(fn);
 }
 
 void runTest(shared_ptr<vector<Tester>>& tests)
@@ -137,6 +147,8 @@ int main()
 	
 	setupTest(allTests);
 	runTest(allTests);
+	
+	printf("I have solved %d problems!", allTests->size());
 
 	system("pause");
 	return 0;

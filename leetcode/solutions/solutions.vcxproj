@@ -28,6 +28,8 @@
     <ClInclude Include="111-MinimumDepthOfBinaryTree.h" />
     <ClInclude Include="128-LongestConsecutiveSequence.h" />
     <ClInclude Include="143-ReorderList.h" />
+    <ClInclude Include="144-BinaryTreePreorderTraversal.h" />
+    <ClInclude Include="145-BinaryTreePostorderTraversal.h" />
     <ClInclude Include="146-LRUCache.h" />
     <ClInclude Include="174-DungeonGame.h" />
     <ClInclude Include="TreeNode.h" />
