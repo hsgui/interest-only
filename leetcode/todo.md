@@ -4,3 +4,6 @@
 - [ ] 174 dungeon problem
 - [ ] 094 binary tree inorder traveral using iterative algorithm - simplify the logical
 - [ ] 144 & 145 - simplify the logical
+- [ ] 199 binary tree right side view
+- [ ] 114 flatten the binary tree to linked list
+- [ ] 124 binary tree maximum path sum

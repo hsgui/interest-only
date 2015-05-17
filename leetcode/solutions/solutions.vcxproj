@@ -26,12 +26,15 @@
     <ClInclude Include="107-BinaryTreeLevelOrderTraversalII.h" />
     <ClInclude Include="110-BalancedBinaryTree.h" />
     <ClInclude Include="111-MinimumDepthOfBinaryTree.h" />
+    <ClInclude Include="114-FlattenBinaryTreeToLinkedList.h" />
+    <ClInclude Include="124-BinaryTreeMaximumPathSum.h" />
     <ClInclude Include="128-LongestConsecutiveSequence.h" />
     <ClInclude Include="143-ReorderList.h" />
     <ClInclude Include="144-BinaryTreePreorderTraversal.h" />
     <ClInclude Include="145-BinaryTreePostorderTraversal.h" />
     <ClInclude Include="146-LRUCache.h" />
     <ClInclude Include="174-DungeonGame.h" />
+    <ClInclude Include="199-BinaryTreeRightSideView.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
