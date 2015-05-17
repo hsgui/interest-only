@@ -12,6 +12,7 @@ using namespace std;
 class BinaryTreeInorderTraversal
 {
 public:
+	// simplify the logical
 	vector<int> inorderTraversal(TreeNode* root)
 	{
 		vector<int> inorder;
@@ -21,22 +22,58 @@ public:
 		}
 
 		TreeNode* childRoot = root;
+		TreeNode* lastRoot = NULL;
 		vector<TreeNode*> rootStack;
 		rootStack.push_back(childRoot);
 		while (!rootStack.empty())
 		{
 			childRoot = rootStack.back();
-			if (childRoot->left != NULL)
+			// enter the stack
+			if (lastRoot == NULL)
 			{
-				rootStack.push_back(childRoot->left);
+				if (childRoot->left == NULL)
+				{
+					inorder.push_back(childRoot->val);
+					if (childRoot->right == NULL)
+					{
+						lastRoot = childRoot;
+						rootStack.pop_back();
+					}
+					else
+					{
+						rootStack.push_back(childRoot->right);
+					}
+				}
+				else
+				{
+					rootStack.push_back(childRoot->left);
+				}
 			}
+			// pop from the stack
 			else
 			{
-				inorder.push_back(childRoot->val);
-				rootStack.pop_back();
-				if (childRoot->right != NULL)
+				if (childRoot->left == lastRoot)
 				{
-					rootStack.push_back(childRoot->right);
+					inorder.push_back(childRoot->val);
+					if (childRoot->right == NULL)
+					{
+						lastRoot = childRoot;
+						rootStack.pop_back();						
+					}
+					else
+					{
+						rootStack.push_back(childRoot->right);
+						lastRoot = NULL;
+					}
+				}
+				else if (childRoot->right == lastRoot)
+				{
+					rootStack.pop_back();
+					lastRoot = childRoot;
+				}
+				else
+				{
+					assert(false);
 				}
 			}
 		}
@@ -61,6 +98,13 @@ public:
 		vector<int> inorder = { 4, 2, 5, 1, 6, 3, 7 };
 
 		vector<int> actual = inorderTraversal(&t1);
+		assert(equal(actual.begin(), actual.end(), inorder.begin()));
+
+		t2.left = NULL, t2.right = &t3;
+		t3.left = NULL, t3.right = &t1;
+		t1.left = NULL, t1.right = NULL;
+		inorder = { 2, 3, 1 };
+		actual = inorderTraversal(&t2);
 		assert(equal(actual.begin(), actual.end(), inorder.begin()));
 
 		return true;
