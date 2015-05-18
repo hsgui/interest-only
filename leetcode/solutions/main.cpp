@@ -20,6 +20,7 @@
 #include "107-BinaryTreeLevelOrderTraversalII.h"
 #include "110-BalancedBinaryTree.h"
 #include "111-MinimumDepthOfBinaryTree.h"
+#include "114-FlattenBinaryTreeToLinkedList.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "143-ReorderList.h"
 #include "144-BinaryTreePreorderTraversal.h"
@@ -130,6 +131,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 	shared_ptr<BinaryTreeRightSideView> s199 = make_shared<BinaryTreeRightSideView>();
 	fn = bind(&BinaryTreeRightSideView::Test, *s199);
 	tests->push_back(fn);
+
+	shared_ptr<FlattenBinaryTreeToLinkedList> s114 = make_shared<FlattenBinaryTreeToLinkedList>();
+	fn = bind(&FlattenBinaryTreeToLinkedList::Test, *s114);
+	tests->push_back(fn);
 }
 
 void runTest(shared_ptr<vector<Tester>>& tests)
@@ -153,7 +158,7 @@ int main()
 	setupTest(allTests);
 	runTest(allTests);
 	
-	printf("I have solved %d problems!", allTests->size());
+	printf("I have solved %d problems!\n", allTests->size());
 
 	system("pause");
 	return 0;

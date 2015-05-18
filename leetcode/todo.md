@@ -5,6 +5,7 @@
 - [ ] 094 binary tree inorder traveral using iterative algorithm - simplify the logical
 - [ ] 144 & 145 - simplify the logical
 - [x] 199 binary tree right side view
-- [ ] 199 using the iterative algorithm to solve this problem
-- [ ] 114 flatten the binary tree to linked list
+  - [ ] 199 using the iterative algorithm to solve this problem
+- [x] 114 flatten the binary tree to linked list
+  - [ ] using iterative algorithm to solve
 - [ ] 124 binary tree maximum path sum
