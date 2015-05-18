@@ -25,6 +25,7 @@
 #include "144-BinaryTreePreorderTraversal.h"
 #include "145-BinaryTreePostorderTraversal.h"
 #include "146-LRUCache.h"
+#include "199-BinaryTreeRightSideView.h"
 
 using namespace std;
 
@@ -124,6 +125,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<BinaryTreePostorderTraversal> s145 = make_shared<BinaryTreePostorderTraversal>();
 	fn = bind(&BinaryTreePostorderTraversal::Test, *s145);
+	tests->push_back(fn);
+
+	shared_ptr<BinaryTreeRightSideView> s199 = make_shared<BinaryTreeRightSideView>();
+	fn = bind(&BinaryTreeRightSideView::Test, *s199);
 	tests->push_back(fn);
 }
 
