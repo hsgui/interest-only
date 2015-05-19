@@ -21,6 +21,7 @@
 #include "110-BalancedBinaryTree.h"
 #include "111-MinimumDepthOfBinaryTree.h"
 #include "114-FlattenBinaryTreeToLinkedList.h"
+#include "124-BinaryTreeMaximumPathSum.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "143-ReorderList.h"
 #include "144-BinaryTreePreorderTraversal.h"
@@ -134,6 +135,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<FlattenBinaryTreeToLinkedList> s114 = make_shared<FlattenBinaryTreeToLinkedList>();
 	fn = bind(&FlattenBinaryTreeToLinkedList::Test, *s114);
+	tests->push_back(fn);
+
+	shared_ptr<BinaryTreeMaximumPathSum> s124 = make_shared<BinaryTreeMaximumPathSum>();
+	fn = bind(&BinaryTreeMaximumPathSum::Test, *s124);
 	tests->push_back(fn);
 }
 

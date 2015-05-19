@@ -8,4 +8,4 @@
   - [ ] 199 using the iterative algorithm to solve this problem
 - [x] 114 flatten the binary tree to linked list
   - [ ] using iterative algorithm to solve
-- [ ] 124 binary tree maximum path sum
+- [x] 124 binary tree maximum path sum
