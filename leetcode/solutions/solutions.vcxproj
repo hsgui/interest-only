@@ -16,6 +16,8 @@
     <ClInclude Include="034-SearchForARange.h" />
     <ClInclude Include="075-SortColors.h" />
     <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
+    <ClInclude Include="095-UniqueBinarySearchTreesII.h" />
+    <ClInclude Include="096-UniqueBinarySearchTrees.h" />
     <ClInclude Include="100-SameTree.h" />
     <ClInclude Include="101-SymmetricTree.h" />
     <ClInclude Include="102-BinaryTreeLevelOrderTraversal.h" />

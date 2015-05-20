@@ -10,6 +10,8 @@
 #include "034-SearchForARange.h"
 #include "075-SortColors.h"
 #include "094-BinaryTreeInorderTraversal.h"
+#include "095-UniqueBinarySearchTreesII.h"
+#include "096-UniqueBinarySearchTrees.h"
 #include "100-SameTree.h"
 #include "101-SymmetricTree.h"
 #include "102-BinaryTreeLevelOrderTraversal.h"
@@ -49,8 +51,14 @@ void parseClassName(const string& typeName, string& className)
 
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
+	Tester fn;
+
+	shared_ptr<UniqueBinarySearchTreesII> s095 = make_shared<UniqueBinarySearchTreesII>();
+	fn = bind(&UniqueBinarySearchTreesII::Test, *s095);
+	tests->push_back(fn);
+
 	shared_ptr<TwoSum> s001 = make_shared<TwoSum>();
-	Tester fn = bind(&TwoSum::Test, *s001);
+	fn = bind(&TwoSum::Test, *s001);
 	tests->push_back(fn);
 
 	shared_ptr<ReorderList> s143 = make_shared<ReorderList>();
@@ -139,6 +147,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<BinaryTreeMaximumPathSum> s124 = make_shared<BinaryTreeMaximumPathSum>();
 	fn = bind(&BinaryTreeMaximumPathSum::Test, *s124);
+	tests->push_back(fn);
+
+	shared_ptr<UniqueBinarySearchTrees> s096 = make_shared<UniqueBinarySearchTrees>();
+	fn = bind(&UniqueBinarySearchTrees::Test, *s096);
 	tests->push_back(fn);
 }
 
