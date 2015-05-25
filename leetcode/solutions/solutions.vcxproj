@@ -18,6 +18,7 @@
     <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
     <ClInclude Include="095-UniqueBinarySearchTreesII.h" />
     <ClInclude Include="096-UniqueBinarySearchTrees.h" />
+    <ClInclude Include="099-RecoverBinarySearchTree.h" />
     <ClInclude Include="100-SameTree.h" />
     <ClInclude Include="101-SymmetricTree.h" />
     <ClInclude Include="102-BinaryTreeLevelOrderTraversal.h" />
@@ -26,6 +27,8 @@
     <ClInclude Include="105-ConstructBinaryTreeFromPreorderInorderTraveral.h" />
     <ClInclude Include="106-ConstructBinaryTreeFromInorderPostorderTraversal.h" />
     <ClInclude Include="107-BinaryTreeLevelOrderTraversalII.h" />
+    <ClInclude Include="108-ConvertSortedArrayToBinarySearchTree.h" />
+    <ClInclude Include="109-ConvertSortedListToBinarySearchTree.h" />
     <ClInclude Include="110-BalancedBinaryTree.h" />
     <ClInclude Include="111-MinimumDepthOfBinaryTree.h" />
     <ClInclude Include="114-FlattenBinaryTreeToLinkedList.h" />
@@ -37,6 +40,7 @@
     <ClInclude Include="146-LRUCache.h" />
     <ClInclude Include="174-DungeonGame.h" />
     <ClInclude Include="199-BinaryTreeRightSideView.h" />
+    <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

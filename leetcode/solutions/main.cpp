@@ -12,6 +12,7 @@
 #include "094-BinaryTreeInorderTraversal.h"
 #include "095-UniqueBinarySearchTreesII.h"
 #include "096-UniqueBinarySearchTrees.h"
+#include "099-RecoverBinarySearchTree.h"
 #include "100-SameTree.h"
 #include "101-SymmetricTree.h"
 #include "102-BinaryTreeLevelOrderTraversal.h"
@@ -20,6 +21,8 @@
 #include "105-ConstructBinaryTreeFromPreorderInorderTraveral.h"
 #include "106-ConstructBinaryTreeFromInorderPostorderTraversal.h"
 #include "107-BinaryTreeLevelOrderTraversalII.h"
+#include "108-ConvertSortedArrayToBinarySearchTree.h"
+#include "109-ConvertSortedListToBinarySearchTree.h"
 #include "110-BalancedBinaryTree.h"
 #include "111-MinimumDepthOfBinaryTree.h"
 #include "114-FlattenBinaryTreeToLinkedList.h"
@@ -52,6 +55,18 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<ConvertSortedListToBinarySearchTree> s109 = make_shared<ConvertSortedListToBinarySearchTree>();
+	fn = bind(&ConvertSortedListToBinarySearchTree::Test, *s109);
+	tests->push_back(fn);
+
+	shared_ptr<RecoverBinarySearchTree> s099 = make_shared<RecoverBinarySearchTree>();
+	fn = bind(&RecoverBinarySearchTree::Test, *s099);
+	tests->push_back(fn);
+
+	shared_ptr<ConvertSortedArrayToBinarySearchTree> s108 = make_shared<ConvertSortedArrayToBinarySearchTree>();
+	fn = bind(&ConvertSortedArrayToBinarySearchTree::Test, *s108);
+	tests->push_back(fn);
 
 	shared_ptr<UniqueBinarySearchTreesII> s095 = make_shared<UniqueBinarySearchTreesII>();
 	fn = bind(&UniqueBinarySearchTreesII::Test, *s095);

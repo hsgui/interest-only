@@ -11,3 +11,7 @@
 - [x] 124 binary tree maximum path sum
 - [x] 096 unique binary search tree ii
   - [x] time limit exceeded!
+
+- [ ] 099 - recover binary search tree
+- [ ] 108 - convert sorted array to binary search tree
+- [ ] 109 - convert sorted list to binary search tree
