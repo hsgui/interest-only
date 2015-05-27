@@ -18,6 +18,7 @@
     <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
     <ClInclude Include="095-UniqueBinarySearchTreesII.h" />
     <ClInclude Include="096-UniqueBinarySearchTrees.h" />
+    <ClInclude Include="098-ValidateBinarySearchTree.h" />
     <ClInclude Include="099-RecoverBinarySearchTree.h" />
     <ClInclude Include="100-SameTree.h" />
     <ClInclude Include="101-SymmetricTree.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="144-BinaryTreePreorderTraversal.h" />
     <ClInclude Include="145-BinaryTreePostorderTraversal.h" />
     <ClInclude Include="146-LRUCache.h" />
+    <ClInclude Include="173-BinarySearchTreeIterator.h" />
     <ClInclude Include="174-DungeonGame.h" />
     <ClInclude Include="199-BinaryTreeRightSideView.h" />
     <ClInclude Include="ListNode.h" />

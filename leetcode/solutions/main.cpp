@@ -12,6 +12,7 @@
 #include "094-BinaryTreeInorderTraversal.h"
 #include "095-UniqueBinarySearchTreesII.h"
 #include "096-UniqueBinarySearchTrees.h"
+#include "098-ValidateBinarySearchTree.h"
 #include "099-RecoverBinarySearchTree.h"
 #include "100-SameTree.h"
 #include "101-SymmetricTree.h"
@@ -32,6 +33,7 @@
 #include "144-BinaryTreePreorderTraversal.h"
 #include "145-BinaryTreePostorderTraversal.h"
 #include "146-LRUCache.h"
+#include "173-BinarySearchTreeIterator.h"
 #include "199-BinaryTreeRightSideView.h"
 
 using namespace std;
@@ -55,6 +57,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<ValidateBinarySearchTree> s098 = make_shared<ValidateBinarySearchTree>();
+	fn = bind(&ValidateBinarySearchTree::Test, *s098);
+	tests->push_back(fn);
+
+	shared_ptr<BSTIterator> s173 = make_shared<BSTIterator>();
+	fn = bind(&BSTIterator::Test, *s173);
+	tests->push_back(fn);
 
 	shared_ptr<ConvertSortedListToBinarySearchTree> s109 = make_shared<ConvertSortedListToBinarySearchTree>();
 	fn = bind(&ConvertSortedListToBinarySearchTree::Test, *s109);

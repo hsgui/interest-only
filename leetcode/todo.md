@@ -26,3 +26,7 @@
 - [x] 108 - convert sorted array to binary search tree
 
 - [x] 109 - convert sorted list to binary search tree
+
+- [x] 098 - validate binary search tree
+
+- [ ] 173 - binary search tree itertor
