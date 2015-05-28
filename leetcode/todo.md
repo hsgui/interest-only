@@ -29,4 +29,4 @@
 
 - [x] 098 - validate binary search tree
 
-- [ ] 173 - binary search tree itertor
+- [x] 173 - binary search tree itertor

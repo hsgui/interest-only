@@ -22,6 +22,16 @@ public:
 		}
 		return true;
 	}
+
+	static uint64_t align(uint64_t size, uint64_t alignment)
+	{
+		if (0 == size)
+		{
+			return alignment;
+		}
+		// 0 - alignment = 2^64 - alignment
+		return (size + alignment - 1) & (0 - alignment);
+	}
 };
 
 #endif

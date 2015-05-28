@@ -1,3 +1,6 @@
+#ifndef _CONVERTER_SORTED_ARRAY_TO_BINARY_SEARCH_TREE_H_
+#define _CONVERTER_SORTED_ARRAY_TO_BINARY_SEARCH_TREE_H_
+
 #include <algorithm>
 #include <vector>
 #include <memory>
@@ -56,3 +59,5 @@ public:
 		return true;
 	}
 };
+
+#endif

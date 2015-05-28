@@ -200,7 +200,7 @@ int main()
 	setupTest(allTests);
 	runTest(allTests);
 	
-	printf("I have solved %d problems!\n", allTests->size());
+	printf("%d problems have been solved!\n", allTests->size());
 
 	system("pause");
 	return 0;
