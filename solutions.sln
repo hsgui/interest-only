@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "solutions", "solutions\solutions.vcxproj", "{AD957736-AF3B-4ECA-A334-4FCD1E6B4D6F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "solutions", "leetcode\solutions\solutions.vcxproj", "{AD957736-AF3B-4ECA-A334-4FCD1E6B4D6F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PdiV4WriteSSDTestServer", "..\..\Tools\PdiV4WriteSSDTestServer\PdiV4WriteSSDTestServer.vcxproj", "{F3A35143-1BB5-4525-A121-E8B6BE296DA6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "algorithms", "algorithms\cplusplus\src\algorithms.vcxproj", "{0A940B29-719E-478F-A3A5-4717B35A5D2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,16 +27,16 @@ Global
 		{AD957736-AF3B-4ECA-A334-4FCD1E6B4D6F}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{AD957736-AF3B-4ECA-A334-4FCD1E6B4D6F}.Release|Win32.ActiveCfg = Release|Win32
 		{AD957736-AF3B-4ECA-A334-4FCD1E6B4D6F}.Release|Win32.Build.0 = Release|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Debug|Win32.Build.0 = Debug|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Release|Any CPU.ActiveCfg = Release|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Release|Win32.ActiveCfg = Release|Win32
-		{F3A35143-1BB5-4525-A121-E8B6BE296DA6}.Release|Win32.Build.0 = Release|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Debug|Win32.Build.0 = Debug|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Release|Any CPU.ActiveCfg = Release|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Release|Win32.ActiveCfg = Release|Win32
+		{0A940B29-719E-478F-A3A5-4717B35A5D2A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

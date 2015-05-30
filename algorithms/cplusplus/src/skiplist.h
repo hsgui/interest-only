@@ -74,6 +74,7 @@ class SkipList {
    SkipListNode* node = (SkipListNode*)malloc(sizeof(SkipListNode) + sizeof(SkipListNode *) * level);
    node->key = key;
    node->backward = NULL;
+   return node;
  };
 
  template<typename Key, class Comparator>
@@ -222,7 +223,7 @@ class SkipList {
        printf("head-> ");
        SkipListNode* skipNode = _head->level[l];
        SkipListNode* linkNode = _head->level[0];
-       for (int i = 0; i < _length; i++){
+       for (unsigned long i = 0; i < _length; i++){
          if (linkNode != skipNode){
            printf(" \t");
            linkNode = linkNode->level[0];
