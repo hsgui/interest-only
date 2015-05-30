@@ -30,3 +30,11 @@
 - [x] 098 - validate binary search tree
 
 - [x] 173 - binary search tree itertor
+
+- [ ] 206 - reverse linked list recursively
+
+- [ ] 203 - remove linked list elements
+
+- [ ] 160 - Intersection of two linked lists
+
+- [ ] 019 - Remove Nth node from end of list

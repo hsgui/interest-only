@@ -7,6 +7,7 @@
 
 #include "001-TwoSum.h"
 #include "005-LongestPalindromicSubstring.h"
+#include "019-RemoveNthNodeFromEndOfList.h"
 #include "034-SearchForARange.h"
 #include "075-SortColors.h"
 #include "094-BinaryTreeInorderTraversal.h"
@@ -33,8 +34,11 @@
 #include "144-BinaryTreePreorderTraversal.h"
 #include "145-BinaryTreePostorderTraversal.h"
 #include "146-LRUCache.h"
+#include "160-IntersectionOfTwoLinkedLists.h"
 #include "173-BinarySearchTreeIterator.h"
 #include "199-BinaryTreeRightSideView.h"
+#include "203-RemoveLinkedListElements.h"
+#include "206-ReverseLinkedList.h"
 
 using namespace std;
 
@@ -57,6 +61,22 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<RemoveNthNodeFromEndOfList> s019 = make_shared<RemoveNthNodeFromEndOfList>();
+	fn = bind(&RemoveNthNodeFromEndOfList::Test, *s019);
+	tests->push_back(fn);
+
+	shared_ptr<IntersectionOfTwoLinkedList> s160 = make_shared<IntersectionOfTwoLinkedList>();
+	fn = bind(&IntersectionOfTwoLinkedList::Test, *s160);
+	tests->push_back(fn);
+
+	shared_ptr<RemoveLinkedListElements> s203 = make_shared<RemoveLinkedListElements>();
+	fn = bind(&RemoveLinkedListElements::Test, *s203);
+	tests->push_back(fn);
+
+	shared_ptr<ReverseLinkedList> s206 = make_shared<ReverseLinkedList>();
+	fn = bind(&ReverseLinkedList::Test, *s206);
+	tests->push_back(fn);
 
 	shared_ptr<ValidateBinarySearchTree> s098 = make_shared<ValidateBinarySearchTree>();
 	fn = bind(&ValidateBinarySearchTree::Test, *s098);

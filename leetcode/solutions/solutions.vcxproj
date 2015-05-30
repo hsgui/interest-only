@@ -39,9 +39,12 @@
     <ClInclude Include="144-BinaryTreePreorderTraversal.h" />
     <ClInclude Include="145-BinaryTreePostorderTraversal.h" />
     <ClInclude Include="146-LRUCache.h" />
+    <ClInclude Include="160-IntersectionOfTwoLinkedLists.h" />
     <ClInclude Include="173-BinarySearchTreeIterator.h" />
     <ClInclude Include="174-DungeonGame.h" />
     <ClInclude Include="199-BinaryTreeRightSideView.h" />
+    <ClInclude Include="203-RemoveLinkedListElements.h" />
+    <ClInclude Include="206-ReverseLinkedList.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="Utils.h" />
