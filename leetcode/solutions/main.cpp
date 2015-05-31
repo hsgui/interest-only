@@ -34,6 +34,7 @@
 #include "144-BinaryTreePreorderTraversal.h"
 #include "145-BinaryTreePostorderTraversal.h"
 #include "146-LRUCache.h"
+#include "147-InsertionSortList.h"
 #include "160-IntersectionOfTwoLinkedLists.h"
 #include "173-BinarySearchTreeIterator.h"
 #include "199-BinaryTreeRightSideView.h"
@@ -61,6 +62,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<InsertionSortList> s147 = make_shared<InsertionSortList>();
+	fn = bind(&InsertionSortList::Test, *s147);
+	tests->push_back(fn);
 
 	shared_ptr<RemoveNthNodeFromEndOfList> s019 = make_shared<RemoveNthNodeFromEndOfList>();
 	fn = bind(&RemoveNthNodeFromEndOfList::Test, *s019);

@@ -33,8 +33,10 @@
 
 - [ ] 206 - reverse linked list recursively
 
-- [ ] 203 - remove linked list elements
+- [x] 203 - remove linked list elements
 
 - [ ] 160 - Intersection of two linked lists
 
 - [ ] 019 - Remove Nth node from end of list
+
+- [x] 147 - Insertion Sort List

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="001-TwoSum.h" />
     <ClInclude Include="005-LongestPalindromicSubstring.h" />
+    <ClInclude Include="019-RemoveNthNodeFromEndOfList.h" />
     <ClInclude Include="034-SearchForARange.h" />
     <ClInclude Include="075-SortColors.h" />
     <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="144-BinaryTreePreorderTraversal.h" />
     <ClInclude Include="145-BinaryTreePostorderTraversal.h" />
     <ClInclude Include="146-LRUCache.h" />
+    <ClInclude Include="147-InsertionSortList.h" />
     <ClInclude Include="160-IntersectionOfTwoLinkedLists.h" />
     <ClInclude Include="173-BinarySearchTreeIterator.h" />
     <ClInclude Include="174-DungeonGame.h" />
