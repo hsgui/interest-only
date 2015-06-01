@@ -37,6 +37,6 @@
 
 - [ ] 160 - Intersection of two linked lists
 
-- [ ] 019 - Remove Nth node from end of list
+- [x] 019 - Remove Nth node from end of list
 
 - [x] 147 - Insertion Sort List
