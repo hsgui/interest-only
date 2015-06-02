@@ -35,7 +35,7 @@
 
 - [x] 203 - remove linked list elements
 
-- [ ] 160 - Intersection of two linked lists
+- [x] 160 - Intersection of two linked lists
 
 - [x] 019 - Remove Nth node from end of list
 
