@@ -41,6 +41,8 @@
     <ClInclude Include="145-BinaryTreePostorderTraversal.h" />
     <ClInclude Include="146-LRUCache.h" />
     <ClInclude Include="147-InsertionSortList.h" />
+    <ClInclude Include="148-SortList.h" />
+    <ClInclude Include="152-MaximumProductSubarray.h" />
     <ClInclude Include="160-IntersectionOfTwoLinkedLists.h" />
     <ClInclude Include="173-BinarySearchTreeIterator.h" />
     <ClInclude Include="174-DungeonGame.h" />

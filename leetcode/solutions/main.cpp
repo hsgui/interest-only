@@ -35,6 +35,8 @@
 #include "145-BinaryTreePostorderTraversal.h"
 #include "146-LRUCache.h"
 #include "147-InsertionSortList.h"
+#include "148-SortList.h"
+#include "152-MaximumProductSubarray.h"
 #include "160-IntersectionOfTwoLinkedLists.h"
 #include "173-BinarySearchTreeIterator.h"
 #include "199-BinaryTreeRightSideView.h"
@@ -62,6 +64,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<SortList> s148 = make_shared<SortList>();
+	fn = bind(&SortList::Test, *s148);
+	tests->push_back(fn);
+
+	shared_ptr<MaximumProductSubarray> s152 = make_shared<MaximumProductSubarray>();
+	fn = bind(&MaximumProductSubarray::Test, *s152);
+	tests->push_back(fn);
 
 	shared_ptr<InsertionSortList> s147 = make_shared<InsertionSortList>();
 	fn = bind(&InsertionSortList::Test, *s147);

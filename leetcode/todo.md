@@ -39,4 +39,7 @@
 
 - [x] 019 - Remove Nth node from end of list
 
+- [ ] 148 - Sort List
+
+- [ ] 152 - Maximum product subarray
 - [x] 147 - Insertion Sort List
