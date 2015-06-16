@@ -41,6 +41,6 @@
 
 - [x] 148 - Sort List
 
-- [ ] 152 - Maximum product subarray
+- [x] 152 - Maximum product subarray
 
 - [x] 147 - Insertion Sort List

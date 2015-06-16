@@ -23,12 +23,32 @@ public:
 		int minproduct = nums[0];
 		for (int i = 1; i < nums.size(); ++i)
 		{
+			assert(minproduct <= maxproduct);
 			if (nums[i] > 0)
 			{
-				
+				int maxIncludeCurrent = maxproduct * nums[i];
+				int minIncludeCurrent = minproduct * nums[i];
+				maxproduct = max(nums[i], maxIncludeCurrent);
+				minproduct = minIncludeCurrent;
+				result = max(result, maxproduct);
+			}
+			else if (nums[i] < 0)
+			{
+				int minIncludeCurrent = maxproduct * nums[i];
+				int maxIncludeCurrent = minproduct * nums[i];
+				maxproduct = max(maxIncludeCurrent, minIncludeCurrent);
+				minproduct = min(maxIncludeCurrent, minIncludeCurrent);
+				minproduct = min(minproduct, nums[i]);
+				result = max(result, maxproduct);
+			}
+			else
+			{
+				minproduct = 1;
+				maxproduct = 1;
+				result = max(result, 0);
 			}
 		}
-		return 0;
+		return result;
 	}
 
 	bool Test()
@@ -47,6 +67,9 @@ public:
 
 		nums = { 0, 0, 0, 0 };
 		assert(maxProduct(nums) == 0);
+
+		nums = { 2, -5, -2, -4, 3 };
+		assert(maxProduct(nums) == 24);
 		return true;
 	}
 };
