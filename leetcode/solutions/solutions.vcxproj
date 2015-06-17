@@ -49,6 +49,7 @@
     <ClInclude Include="199-BinaryTreeRightSideView.h" />
     <ClInclude Include="203-RemoveLinkedListElements.h" />
     <ClInclude Include="206-ReverseLinkedList.h" />
+    <ClInclude Include="226-InvertBinaryTree.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="Utils.h" />

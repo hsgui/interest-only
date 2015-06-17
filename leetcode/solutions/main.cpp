@@ -42,6 +42,7 @@
 #include "199-BinaryTreeRightSideView.h"
 #include "203-RemoveLinkedListElements.h"
 #include "206-ReverseLinkedList.h"
+#include "226-InvertBinaryTree.h"
 
 using namespace std;
 
@@ -64,6 +65,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<InvertBinaryTree> s226 = make_shared<InvertBinaryTree>();
+	fn = bind(&InvertBinaryTree::Test, *s226);
+	tests->push_back(fn);
 
 	shared_ptr<SortList> s148 = make_shared<SortList>();
 	fn = bind(&SortList::Test, *s148);
