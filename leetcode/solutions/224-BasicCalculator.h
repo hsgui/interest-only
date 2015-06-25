@@ -12,98 +12,93 @@ class BasicCalculator
 public:
 	int calculate(string s)
 	{
-		operands.clear();
-		operators.clear();
+		vector<int> operands;
 
 		for (int i = 0; i < s.size(); ++i)
 		{
 			char ch = s[i];
 			if (ch == '(' || ch == '-' || ch == '+')
 			{
-				operators.push_back(ch);
+				operands.push_back(ch);
 			}
 			else if (ch == ' ')
 			{
 			}
 			else if (ch == ')')
 			{
-				operators.pop_back();
-				if (!operands.empty())
+				// top must be a number
+				int secondOperand = operands.back();
+				operands.pop_back();
+				assert(operands.size() > 0);
+				// top must be (, 
+				operands.pop_back();
+				if (operands.size() > 0)
 				{
-					int secondOperand = operands.back();
-					if (!operators.empty())
+					// back must be (, +, or -, or nothing
+					if (operands.size() == 0 || operands.back() == '(')
 					{
-						char op = operators.back();
-						if (op == '+')
-						{
-							operands.pop_back();
-							int firstOperand = operands.back();
-							operands.pop_back();
-							operands.push_back(firstOperand + secondOperand);
-							operators.pop_back();
-						}
-						else if (op == '-')
-						{
-							operands.pop_back();
-							int firstOperand = operands.back();
-							operands.pop_back();
-							operands.push_back(firstOperand - secondOperand);
-							operators.pop_back();
-						}
-					}
-				}
-			}
-			else if (ch <= '9' && ch >= '0')
-			{
-				int number = ch - '0';
-				// no number in the operands currently
-				if (operands.empty())
-				{
-					// check the top operator if exist
-					if (!operators.empty())
-					{
-						char op = operators.back();
-						if (op == '+')
-						{
-							operators.pop_back();
-							operands.push_back(number);
-						}
-						else if (op == '-')
-						{
-							operators.pop_back();
-							operands.push_back(-number);
-						}
-						else
-						{
-							operands.push_back(number);
-						}
+						operands.push_back(secondOperand);
 					}
 					else
 					{
-						operands.push_back(number);
+						// back must be + or -
+						if (operands.back() == '-')
+						{
+							secondOperand = 0 - secondOperand;
+						}
+						operands.pop_back();
+
+						// back must be ( or nothing, or number
+						if (operands.size() == 0 || operands.back() == '(')
+						{
+							operands.push_back(secondOperand);
+						}
+						else
+						{
+							int firstOperand = operands.back();
+							operands.pop_back();
+							operands.push_back(firstOperand + secondOperand);
+						}
 					}
 				}
 				else
 				{
-					assert(!operators.empty());
-					char op = operators.back();
-					if (op == '+')
+					operands.push_back(secondOperand);
+				}
+			}
+			else if (ch <= '9' && ch >= '0')
+			{
+				int number = 0;
+				while (i < s.size() && s[i] >= '0' && s[i] <= '9')
+				{
+					number = number * 10 + s[i] - '0';
+					i++;
+				}
+				i--;
+				// top must be (, nothing, +, -
+				if (operands.size() == 0 || operands.back() == '(')
+				{
+					operands.push_back(number);
+				}
+				else
+				{
+					// top must be +, or -
+					if (operands.back() == '-')
+					{
+						number = 0 - number;
+					}
+					operands.pop_back();
+
+					// top must be (, nothing, or number
+					if (operands.size() == 0 || operands.back() == '(')
+					{
+						operands.push_back(number);
+					}
+					else
 					{
 						int firstOperand = operands.back();
 						operands.pop_back();
 						operands.push_back(firstOperand + number);
-						operators.pop_back();
-					}
-					else if (op == '-')
-					{
-						int firstOperand = operands.back();
-						operands.pop_back();
-						operands.push_back(firstOperand - number);
-						operators.pop_back();
-					}
-					else
-					{
-						operands.push_back(number);
 					}
 				}
 			}
@@ -117,16 +112,29 @@ public:
 		string s = "(1+(4+5+2)-3)+(6+8)";
 		assert(calculate(s) == 23);
 
-		s = "(((-1)))";
-		assert(calculate(s) == -1);
+		s = " - 1-(((-1)))";
+		assert(calculate(s) == 0);
 
 		s = "((( -2 + 3)) + (-1))";
 		assert(calculate(s) == 0);
 
+		s = "1 - ( 2 - ((-3)))";
+		assert(calculate(s) == -4);
+
+		s = "-3 + 2";
+		assert(calculate(s) == -1);
+
+		s = "1-(2+3-(4+(5-(1-(2+4-(5+6))))))";
+		assert(calculate(s) == -1);
+
+		s = "-(2)";
+		assert(calculate(s) == -2);
+
+		s = "(-(2))";
+		assert(calculate(s) == -2);
+
+		s = "-((4) - ((5))) + (((7)))";
+		assert(calculate(s) == 8);
 		return true;
 	}
-
-private:
-	vector<int> operands;
-	vector<char> operators;
 };
