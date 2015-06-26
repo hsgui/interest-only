@@ -12,6 +12,12 @@ using namespace std;
 class BasicCalculator
 {
 public:
+	struct Element
+	{
+		int value;
+		bool isSymbol;
+	};
+
 	// this is clever
 	int calculate(string s)
 	{
@@ -20,36 +26,171 @@ public:
 		int contextNumberMult = 1;
 		int localNumberMult = 1;
 		int result = 0;
-
 		for (const char *x = s.c_str(); *x; x++){
 			switch (*x)
 			{
-				case '-':
-					localNumberMult = -1;
-					break;
-				case '(':
-					contextNumberMult *= localNumberMult;
-					ctx.push_back(localNumberMult);
-					localNumberMult = 1;
-					break;
-				case ')':
-					// this will eliminate the localNumberMult when push_back
-					contextNumberMult *= ctx.back();
-					ctx.pop_back();
-				case ' ':
-				case '+':
-					break;
-				default:
-				{
-					char *end;
-					ll n = strtol(x, &end, 10);
-					result += n * contextNumberMult  * localNumberMult;
-					localNumberMult = 1;
-					x = end - 1;
-				}
+			case '-':
+				localNumberMult = -1;
+				break;
+			case '(':
+				contextNumberMult *= localNumberMult;
+				ctx.push_back(localNumberMult);
+				localNumberMult = 1;
+				break;
+			case ')':
+				// this will eliminate the localNumberMult when push_back
+				contextNumberMult *= ctx.back();
+				ctx.pop_back();
+			case ' ':
+			case '+':
+				break;
+			default:
+			{
+				char *end;
+				ll n = strtol(x, &end, 10);
+				result += n * contextNumberMult  * localNumberMult;
+				localNumberMult = 1;
+				x = end - 1;
+			}
 			}
 		}
 		return result;
+	}
+
+	int calculate1(string s)
+	{
+		vector<Element> operands;
+		for (int i = 0; i < s.size(); ++i)
+		{
+			char ch = s[i];
+			if (ch == '(' || ch == '-' || ch == '+')
+			{
+				Element e = { ch, true };
+				operands.push_back(e);
+			}
+			else if (ch == ' ')
+			{
+			}
+			else if (ch == ')')
+			{
+				// top must be a number
+				Element e = operands.back();
+				assert(e.isSymbol == false);
+				int secondOperand = e.value;
+				operands.pop_back();
+				assert(operands.size() > 0);
+				// top must be (, 
+				e = operands.back();
+				assert(e.isSymbol == true && e.value == '(');
+				operands.pop_back();
+				if (operands.size() > 0)
+				{
+					// back must be (, +, or -, 
+					e = operands.back();
+					assert(e.isSymbol);
+					if ((e.value == '('))
+					{
+						Element e = { secondOperand, false };
+						operands.push_back(e);
+					}
+					else
+					{
+						// back must be + or -
+						if (e.value == '-')
+						{
+							secondOperand = 0 - secondOperand;
+						}
+						operands.pop_back();
+
+						// back must be ( or nothing, or number
+						if (operands.size() == 0)
+						{
+							Element e = { secondOperand, false };
+							operands.push_back(e);
+							continue;
+						}
+						e = operands.back();
+						if ((e.value == '(' && e.isSymbol))
+						{
+							Element e = { secondOperand, false };
+							operands.push_back(e);
+						}
+						else
+						{
+							assert(e.isSymbol == false);
+							int firstOperand = e.value;
+							operands.pop_back();
+							e = { firstOperand + secondOperand, false };
+							operands.push_back(e);
+						}
+					}
+				}
+				else
+				{
+					e = { secondOperand, false };
+					operands.push_back(e);
+				}
+			}
+			else if (ch <= '9' && ch >= '0')
+			{
+				int number = 0;
+				while (i < s.size() && s[i] >= '0' && s[i] <= '9')
+				{
+					number = number * 10 + s[i] - '0';
+					i++;
+				}
+				i--;
+				Element e;
+				// top must be (, nothing, +, -
+				if (operands.size() == 0)
+				{
+					e = { number, false };
+					operands.push_back(e);
+					continue;
+				}
+				e = operands.back();
+				assert(e.isSymbol);
+				if (e.value == '(')
+				{
+					e = { number, false };
+					operands.push_back(e);
+				}
+				else
+				{
+					// top must be +, or -
+					if (e.value == '-')
+					{
+						number = 0 - number;
+					}
+					operands.pop_back();
+
+
+					// top must be (, nothing, or number
+					if (operands.size() == 0)
+					{
+						e = { number, false };
+						operands.push_back(e);
+						continue;
+					}
+					e = operands.back();
+					if ((e.value == '(' && e.isSymbol))
+					{
+						e = { number, false };
+						operands.push_back(e);
+					}
+					else
+					{
+						assert(e.isSymbol == false);
+						int firstOperand = e.value;
+						operands.pop_back();
+						e = { firstOperand + number, false };
+						operands.push_back(e);
+					}
+				}
+			}
+		}
+		assert(operands.size() == 1);
+		return operands.back().value;
 	}
 
 	bool Test()
