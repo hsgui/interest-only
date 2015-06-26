@@ -51,6 +51,7 @@
     <ClInclude Include="206-ReverseLinkedList.h" />
     <ClInclude Include="224-BasicCalculator.h" />
     <ClInclude Include="226-InvertBinaryTree.h" />
+    <ClInclude Include="228-SummaryRanges.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="Utils.h" />
