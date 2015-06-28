@@ -43,6 +43,7 @@
 #include "203-RemoveLinkedListElements.h"
 #include "206-ReverseLinkedList.h"
 #include "224-BasicCalculator.h"
+#include "225-ImplementStackUsingQueues.h"
 #include "226-InvertBinaryTree.h"
 #include "227-BasicCalculatorII.h"
 #include "228-SummaryRanges.h"
@@ -68,6 +69,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<ImplementStackUsingQueues> s225 = make_shared<ImplementStackUsingQueues>();
+	fn = bind(&ImplementStackUsingQueues::Test, *s225);
+	tests->push_back(fn);
 
 	shared_ptr<BasicCalculatorII> s227 = make_shared<BasicCalculatorII>();
 	fn = bind(&BasicCalculatorII::Test, *s227);
