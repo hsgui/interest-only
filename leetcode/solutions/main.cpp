@@ -5,6 +5,7 @@
 #include <functional>
 #include <string>
 
+#include "UnitTest-Utils.h"
 #include "001-TwoSum.h"
 #include "005-LongestPalindromicSubstring.h"
 #include "019-RemoveNthNodeFromEndOfList.h"
@@ -236,6 +237,10 @@ void setupTest(shared_ptr<vector<Tester>>& tests)
 
 	shared_ptr<UniqueBinarySearchTrees> s096 = make_shared<UniqueBinarySearchTrees>();
 	fn = bind(&UniqueBinarySearchTrees::Test, *s096);
+	tests->push_back(fn);
+
+	shared_ptr<UnitTest_Utils> unitTest_Utils = make_shared<UnitTest_Utils>();
+	fn = bind(&UnitTest_Utils::Test, *unitTest_Utils);
 	tests->push_back(fn);
 }
 
