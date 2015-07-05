@@ -43,11 +43,15 @@
 #include "199-BinaryTreeRightSideView.h"
 #include "203-RemoveLinkedListElements.h"
 #include "206-ReverseLinkedList.h"
+#include "215-KthLargestElementInArray.h"
+#include "222-CountCompleteTreeNodes.h"
+#include "223-RectangleArea.h"
 #include "224-BasicCalculator.h"
 #include "225-ImplementStackUsingQueues.h"
 #include "226-InvertBinaryTree.h"
 #include "227-BasicCalculatorII.h"
 #include "228-SummaryRanges.h"
+#include "230-KthSmallestElementInBST.h"
 
 using namespace std;
 
@@ -70,6 +74,22 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<KthLargestElementInArray> s215 = make_shared<KthLargestElementInArray>();
+	fn = bind(&KthLargestElementInArray::Test, *s215);
+	tests->push_back(fn);
+
+	shared_ptr<CountCompleteTreeNodes> s222 = make_shared<CountCompleteTreeNodes>();
+	fn = bind(&CountCompleteTreeNodes::Test, *s222);
+	tests->push_back(fn);
+
+	shared_ptr<KthSmallestElementInBST> s230 = make_shared<KthSmallestElementInBST>();
+	fn = bind(&KthSmallestElementInBST::Test, *s230);
+	tests->push_back(fn);
+
+	shared_ptr<RectangleArea> s223 = make_shared<RectangleArea>();
+	fn = bind(&RectangleArea::Test, *s223);
+	tests->push_back(fn);
 
 	shared_ptr<ImplementStackUsingQueues> s225 = make_shared<ImplementStackUsingQueues>();
 	fn = bind(&ImplementStackUsingQueues::Test, *s225);

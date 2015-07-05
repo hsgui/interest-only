@@ -49,11 +49,15 @@
     <ClInclude Include="199-BinaryTreeRightSideView.h" />
     <ClInclude Include="203-RemoveLinkedListElements.h" />
     <ClInclude Include="206-ReverseLinkedList.h" />
+    <ClInclude Include="215-KthLargestElementInArray.h" />
+    <ClInclude Include="222-CountCompleteTreeNodes.h" />
+    <ClInclude Include="223-RectangleArea.h" />
     <ClInclude Include="224-BasicCalculator.h" />
     <ClInclude Include="225-ImplementStackUsingQueues.h" />
     <ClInclude Include="226-InvertBinaryTree.h" />
     <ClInclude Include="227-BasicCalculatorII.h" />
     <ClInclude Include="228-SummaryRanges.h" />
+    <ClInclude Include="230-KthSmallestElementInBST.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />
