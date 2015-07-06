@@ -52,6 +52,7 @@
 #include "227-BasicCalculatorII.h"
 #include "228-SummaryRanges.h"
 #include "230-KthSmallestElementInBST.h"
+#include "231-PowerOfTwo.h"
 
 using namespace std;
 
@@ -74,6 +75,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<PowerOfTwo> s231 = make_shared<PowerOfTwo>();
+	fn = bind(&PowerOfTwo::Test, *s231);
+	tests->push_back(fn);
 
 	shared_ptr<KthLargestElementInArray> s215 = make_shared<KthLargestElementInArray>();
 	fn = bind(&KthLargestElementInArray::Test, *s215);

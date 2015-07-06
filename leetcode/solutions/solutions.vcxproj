@@ -58,6 +58,7 @@
     <ClInclude Include="227-BasicCalculatorII.h" />
     <ClInclude Include="228-SummaryRanges.h" />
     <ClInclude Include="230-KthSmallestElementInBST.h" />
+    <ClInclude Include="231-PowerOfTwo.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />
