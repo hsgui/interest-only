@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <unordered_map>
 #include <cassert>
 
 using namespace std;
@@ -14,29 +15,32 @@ public:
 	{
 		m_isWord = false;
 		m_isPrefix = false;
-		for (int i = 0; i < ChildCount; ++i)
-		{
-			edges[i] = nullptr;
-		}
 	}
 
 	shared_ptr<TrieNode> appendChildNode(char p_char)
 	{
-		int index = p_char - 'a';
-		assert(index >= 0 && index <= 25);
-		if (edges[index] == nullptr)
+		assert(p_char >= 'a' && p_char <= 'z');
+		auto it = m_edges.find(p_char);
+		if (it == m_edges.end())
 		{
-			edges[index] = make_shared<TrieNode>();
+			m_edges[p_char] = make_shared<TrieNode>();
 		}
 
-		return edges[index];
+		return m_edges[p_char];
 	}
 
-	shared_ptr<TrieNode>& getChildNode(char p_char)
+	shared_ptr<TrieNode> getChildNode(char p_char)
 	{
-		int index = p_char - 'a';
-		assert(index >= 0 && index <= 25);
-		return edges[index];
+		assert(p_char >= 'a' && p_char <= 'z');
+		auto it = m_edges.find(p_char);
+		if (it == m_edges.end())
+		{
+			return nullptr;
+		}
+		else
+		{
+			return it->second;
+		}
 	}
 
 	bool isWord() { return m_isWord; }
@@ -50,7 +54,7 @@ public:
 private:
 	bool m_isWord;
 	bool m_isPrefix;
-	shared_ptr<TrieNode> edges[ChildCount];
+	unordered_map<char, shared_ptr<TrieNode>> m_edges;
 };
 
 class Trie
