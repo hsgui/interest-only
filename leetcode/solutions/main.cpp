@@ -43,6 +43,7 @@
 #include "199-BinaryTreeRightSideView.h"
 #include "203-RemoveLinkedListElements.h"
 #include "206-ReverseLinkedList.h"
+#include "208-Trie.h"
 #include "215-KthLargestElementInArray.h"
 #include "222-CountCompleteTreeNodes.h"
 #include "223-RectangleArea.h"
@@ -75,6 +76,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<Trie> s208 = make_shared<Trie>();
+	fn = bind(&Trie::Test, *s208);
+	tests->push_back(fn);
 
 	shared_ptr<PowerOfTwo> s231 = make_shared<PowerOfTwo>();
 	fn = bind(&PowerOfTwo::Test, *s231);
