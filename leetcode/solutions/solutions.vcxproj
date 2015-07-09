@@ -15,6 +15,7 @@
     <ClInclude Include="005-LongestPalindromicSubstring.h" />
     <ClInclude Include="019-RemoveNthNodeFromEndOfList.h" />
     <ClInclude Include="034-SearchForARange.h" />
+    <ClInclude Include="053-MaximumSubarray.h" />
     <ClInclude Include="075-SortColors.h" />
     <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
     <ClInclude Include="095-UniqueBinarySearchTreesII.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="203-RemoveLinkedListElements.h" />
     <ClInclude Include="206-ReverseLinkedList.h" />
     <ClInclude Include="208-Trie.h" />
+    <ClInclude Include="209-MinimumSizeSubarraySum.h" />
     <ClInclude Include="215-KthLargestElementInArray.h" />
     <ClInclude Include="222-CountCompleteTreeNodes.h" />
     <ClInclude Include="223-RectangleArea.h" />
@@ -60,6 +62,7 @@
     <ClInclude Include="228-SummaryRanges.h" />
     <ClInclude Include="230-KthSmallestElementInBST.h" />
     <ClInclude Include="231-PowerOfTwo.h" />
+    <ClInclude Include="076-MinimumWindowSubstring.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />

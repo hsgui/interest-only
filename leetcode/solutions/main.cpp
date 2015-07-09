@@ -10,7 +10,9 @@
 #include "005-LongestPalindromicSubstring.h"
 #include "019-RemoveNthNodeFromEndOfList.h"
 #include "034-SearchForARange.h"
+#include "053-MaximumSubarray.h"
 #include "075-SortColors.h"
+#include "076-MinimumWindowSubstring.h"
 #include "094-BinaryTreeInorderTraversal.h"
 #include "095-UniqueBinarySearchTreesII.h"
 #include "096-UniqueBinarySearchTrees.h"
@@ -44,6 +46,7 @@
 #include "203-RemoveLinkedListElements.h"
 #include "206-ReverseLinkedList.h"
 #include "208-Trie.h"
+#include "209-MinimumSizeSubarraySum.h"
 #include "215-KthLargestElementInArray.h"
 #include "222-CountCompleteTreeNodes.h"
 #include "223-RectangleArea.h"
@@ -76,6 +79,18 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<MaximumSubarray> s053 = make_shared<MaximumSubarray>();
+	fn = bind(&MaximumSubarray::Test, *s053);
+	tests->push_back(fn);
+
+	shared_ptr<MinimumSizeSubarraySum> s209 = make_shared<MinimumSizeSubarraySum>();
+	fn = bind(&MinimumSizeSubarraySum::Test, *s209);
+	tests->push_back(fn);
+
+	shared_ptr<MinimumWindowSubstring> s076 = make_shared<MinimumWindowSubstring>();
+	fn = bind(&MinimumWindowSubstring::Test, *s076);
+	tests->push_back(fn);
 
 	shared_ptr<Trie> s208 = make_shared<Trie>();
 	fn = bind(&Trie::Test, *s208);
