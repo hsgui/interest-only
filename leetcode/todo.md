@@ -44,3 +44,5 @@
 - [x] 152 - Maximum product subarray
 
 - [x] 147 - Insertion Sort List
+
+- [ ] 053 - solve it using divide and conquer aproach
