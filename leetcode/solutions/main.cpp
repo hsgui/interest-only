@@ -13,6 +13,7 @@
 #include "053-MaximumSubarray.h"
 #include "075-SortColors.h"
 #include "076-MinimumWindowSubstring.h"
+#include "081-SearchInRotatedSortedArray.h"
 #include "094-BinaryTreeInorderTraversal.h"
 #include "095-UniqueBinarySearchTreesII.h"
 #include "096-UniqueBinarySearchTrees.h"
@@ -40,6 +41,8 @@
 #include "147-InsertionSortList.h"
 #include "148-SortList.h"
 #include "152-MaximumProductSubarray.h"
+#include "153-FindMinimumInRotatedSortedArray.h"
+#include "154-FindMinimumInRotatedSortedArrayII.h"
 #include "160-IntersectionOfTwoLinkedLists.h"
 #include "173-BinarySearchTreeIterator.h"
 #include "199-BinaryTreeRightSideView.h"
@@ -48,6 +51,7 @@
 #include "208-Trie.h"
 #include "209-MinimumSizeSubarraySum.h"
 #include "215-KthLargestElementInArray.h"
+#include "221-MaximalSquare.h"
 #include "222-CountCompleteTreeNodes.h"
 #include "223-RectangleArea.h"
 #include "224-BasicCalculator.h"
@@ -57,6 +61,8 @@
 #include "228-SummaryRanges.h"
 #include "230-KthSmallestElementInBST.h"
 #include "231-PowerOfTwo.h"
+#include "234-PalindromeLinkedList.h"
+#include "235-LowestCommonAncestorOfBST.h"
 
 using namespace std;
 
@@ -79,6 +85,30 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<SearchInRotatedSortedArray> s081 = make_shared<SearchInRotatedSortedArray>();
+	fn = bind(&SearchInRotatedSortedArray::Test, *s081);
+	tests->push_back(fn);
+
+	shared_ptr<FindMinimumInRotatedSortedArrayII> s154 = make_shared<FindMinimumInRotatedSortedArrayII>();
+	fn = bind(&FindMinimumInRotatedSortedArrayII::Test, *s154);
+	tests->push_back(fn);
+
+	shared_ptr<FindMinimumInRotatedSortedArray> s153 = make_shared<FindMinimumInRotatedSortedArray>();
+	fn = bind(&FindMinimumInRotatedSortedArray::Test, *s153);
+	tests->push_back(fn);
+
+	shared_ptr<MaximalSquare> s221 = make_shared<MaximalSquare>();
+	fn = bind(&MaximalSquare::Test, *s221);
+	tests->push_back(fn);
+
+	shared_ptr<PalindromeLinkedList> s234 = make_shared<PalindromeLinkedList>();
+	fn = bind(&PalindromeLinkedList::Test, *s234);
+	tests->push_back(fn);
+
+	shared_ptr<LowestCommonAncestorOfBST> s235 = make_shared<LowestCommonAncestorOfBST>();
+	fn = bind(&LowestCommonAncestorOfBST::Test, *s235);
+	tests->push_back(fn);
 
 	shared_ptr<MaximumSubarray> s053 = make_shared<MaximumSubarray>();
 	fn = bind(&MaximumSubarray::Test, *s053);

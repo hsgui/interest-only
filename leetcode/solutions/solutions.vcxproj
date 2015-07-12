@@ -17,6 +17,7 @@
     <ClInclude Include="034-SearchForARange.h" />
     <ClInclude Include="053-MaximumSubarray.h" />
     <ClInclude Include="075-SortColors.h" />
+    <ClInclude Include="081-SearchInRotatedSortedArray.h" />
     <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
     <ClInclude Include="095-UniqueBinarySearchTreesII.h" />
     <ClInclude Include="096-UniqueBinarySearchTrees.h" />
@@ -44,6 +45,8 @@
     <ClInclude Include="147-InsertionSortList.h" />
     <ClInclude Include="148-SortList.h" />
     <ClInclude Include="152-MaximumProductSubarray.h" />
+    <ClInclude Include="153-FindMinimumInRotatedSortedArray.h" />
+    <ClInclude Include="154-FindMinimumInRotatedSortedArrayII.h" />
     <ClInclude Include="160-IntersectionOfTwoLinkedLists.h" />
     <ClInclude Include="173-BinarySearchTreeIterator.h" />
     <ClInclude Include="174-DungeonGame.h" />
@@ -53,6 +56,7 @@
     <ClInclude Include="208-Trie.h" />
     <ClInclude Include="209-MinimumSizeSubarraySum.h" />
     <ClInclude Include="215-KthLargestElementInArray.h" />
+    <ClInclude Include="221-MaximalSquare.h" />
     <ClInclude Include="222-CountCompleteTreeNodes.h" />
     <ClInclude Include="223-RectangleArea.h" />
     <ClInclude Include="224-BasicCalculator.h" />
@@ -63,6 +67,8 @@
     <ClInclude Include="230-KthSmallestElementInBST.h" />
     <ClInclude Include="231-PowerOfTwo.h" />
     <ClInclude Include="076-MinimumWindowSubstring.h" />
+    <ClInclude Include="234-PalindromeLinkedList.h" />
+    <ClInclude Include="235-LowestCommonAncestorOfBST.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />

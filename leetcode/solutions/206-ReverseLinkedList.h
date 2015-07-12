@@ -18,7 +18,22 @@ public:
 
 	ListNode* reverseListIteratively(ListNode* head)
 	{
-		return NULL;
+		if (head == nullptr)
+		{
+			return nullptr;
+		}
+		ListNode* currentReverseListHead = head;
+		ListNode* nextNode = currentReverseListHead->next;
+		currentReverseListHead->next = nullptr;
+		while (nextNode != nullptr)
+		{
+			ListNode* nextNext = nextNode->next;
+			nextNode->next = currentReverseListHead;
+			currentReverseListHead = nextNode;
+			nextNode = nextNext;
+		}
+
+		return currentReverseListHead;
 	}
 
 	ListNode* reverseListRecursively(ListNode* head)
