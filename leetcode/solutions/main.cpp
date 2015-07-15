@@ -63,6 +63,8 @@
 #include "231-PowerOfTwo.h"
 #include "234-PalindromeLinkedList.h"
 #include "235-LowestCommonAncestorOfBST.h"
+#include "236-LowestCommonAncestorOfBinaryTree.h"
+#include "237-DeleteNodeInLinkedList.h"
 
 using namespace std;
 
@@ -85,6 +87,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<DeleteNodeInLinkedList> s237 = make_shared<DeleteNodeInLinkedList>();
+	fn = bind(&DeleteNodeInLinkedList::Test, *s237);
+	tests->push_back(fn);
+
+	shared_ptr<LowestCommonAncestorOfBinaryTree> s236 = make_shared<LowestCommonAncestorOfBinaryTree>();
+	fn = bind(&LowestCommonAncestorOfBinaryTree::Test, *s236);
+	tests->push_back(fn);
 
 	shared_ptr<SearchInRotatedSortedArray> s081 = make_shared<SearchInRotatedSortedArray>();
 	fn = bind(&SearchInRotatedSortedArray::Test, *s081);
