@@ -65,6 +65,7 @@
 #include "235-LowestCommonAncestorOfBST.h"
 #include "236-LowestCommonAncestorOfBinaryTree.h"
 #include "237-DeleteNodeInLinkedList.h"
+#include "238-ProductOfArrayExceptSelf.h"
 
 using namespace std;
 
@@ -87,6 +88,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<ProductOfArrayExceptSelf> s238 = make_shared<ProductOfArrayExceptSelf>();
+	fn = bind(&ProductOfArrayExceptSelf::Test, *s238);
+	tests->push_back(fn);
 
 	shared_ptr<DeleteNodeInLinkedList> s237 = make_shared<DeleteNodeInLinkedList>();
 	fn = bind(&DeleteNodeInLinkedList::Test, *s237);

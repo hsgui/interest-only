@@ -71,6 +71,7 @@
     <ClInclude Include="235-LowestCommonAncestorOfBST.h" />
     <ClInclude Include="236-LowestCommonAncestorOfBinaryTree.h" />
     <ClInclude Include="237-DeleteNodeInLinkedList.h" />
+    <ClInclude Include="238-ProductOfArrayExceptSelf.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />
