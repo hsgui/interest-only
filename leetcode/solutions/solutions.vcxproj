@@ -38,6 +38,7 @@
     <ClInclude Include="114-FlattenBinaryTreeToLinkedList.h" />
     <ClInclude Include="124-BinaryTreeMaximumPathSum.h" />
     <ClInclude Include="128-LongestConsecutiveSequence.h" />
+    <ClInclude Include="138-CopyWithRandomPointer.h" />
     <ClInclude Include="143-ReorderList.h" />
     <ClInclude Include="144-BinaryTreePreorderTraversal.h" />
     <ClInclude Include="145-BinaryTreePostorderTraversal.h" />

@@ -34,6 +34,7 @@
 #include "114-FlattenBinaryTreeToLinkedList.h"
 #include "124-BinaryTreeMaximumPathSum.h"
 #include "128-LongestConsecutiveSequence.h"
+#include "138-CopyWithRandomPointer.h"
 #include "143-ReorderList.h"
 #include "144-BinaryTreePreorderTraversal.h"
 #include "145-BinaryTreePostorderTraversal.h"
@@ -88,6 +89,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<CopyWithRandomPointer> s138 = make_shared<CopyWithRandomPointer>();
+	fn = bind(&CopyWithRandomPointer::Test, *s138);
+	tests->push_back(fn);
 
 	shared_ptr<ProductOfArrayExceptSelf> s238 = make_shared<ProductOfArrayExceptSelf>();
 	fn = bind(&ProductOfArrayExceptSelf::Test, *s238);
