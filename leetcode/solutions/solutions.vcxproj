@@ -38,6 +38,7 @@
     <ClInclude Include="114-FlattenBinaryTreeToLinkedList.h" />
     <ClInclude Include="124-BinaryTreeMaximumPathSum.h" />
     <ClInclude Include="128-LongestConsecutiveSequence.h" />
+    <ClInclude Include="133-CloneGraph.h" />
     <ClInclude Include="138-CopyWithRandomPointer.h" />
     <ClInclude Include="143-ReorderList.h" />
     <ClInclude Include="144-BinaryTreePreorderTraversal.h" />
@@ -73,6 +74,7 @@
     <ClInclude Include="236-LowestCommonAncestorOfBinaryTree.h" />
     <ClInclude Include="237-DeleteNodeInLinkedList.h" />
     <ClInclude Include="238-ProductOfArrayExceptSelf.h" />
+    <ClInclude Include="239-SlidingWindowMaximum.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />

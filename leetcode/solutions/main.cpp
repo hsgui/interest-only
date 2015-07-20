@@ -34,6 +34,7 @@
 #include "114-FlattenBinaryTreeToLinkedList.h"
 #include "124-BinaryTreeMaximumPathSum.h"
 #include "128-LongestConsecutiveSequence.h"
+#include "133-CloneGraph.h"
 #include "138-CopyWithRandomPointer.h"
 #include "143-ReorderList.h"
 #include "144-BinaryTreePreorderTraversal.h"
@@ -67,6 +68,7 @@
 #include "236-LowestCommonAncestorOfBinaryTree.h"
 #include "237-DeleteNodeInLinkedList.h"
 #include "238-ProductOfArrayExceptSelf.h"
+#include "239-SlidingWindowMaximum.h"
 
 using namespace std;
 
@@ -89,6 +91,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<SlidingWindowMaximum> s239 = make_shared<SlidingWindowMaximum>();
+	fn = bind(&SlidingWindowMaximum::Test, *s239);
+	tests->push_back(fn);
+
+	shared_ptr<CloneGraph> s133 = make_shared<CloneGraph>();
+	fn = bind(&CloneGraph::Test, *s133);
+	tests->push_back(fn);
 
 	shared_ptr<CopyWithRandomPointer> s138 = make_shared<CopyWithRandomPointer>();
 	fn = bind(&CopyWithRandomPointer::Test, *s138);
