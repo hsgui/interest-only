@@ -16,9 +16,10 @@ public:
 	//	random:				1 ------> 3
 	//	random:				2 <- 3
 	// copied linked list:
-	// next:				1 -> 2 -> 3 -> 4 -> 5
+	// next:				copied node 1 -> the next pointer of original node 1
 	// random:				copied node 1 -> the random pointer of original node 1
-	// random:				original node 1 -> copied node 1 => one to one
+	// relation of original and copied:
+	// next of original pointer the correspond copied node
 	RandomListNode *copyRandomList(RandomListNode *head) 
 	{
 		RandomListNode* copiedListHead = nullptr;
@@ -29,7 +30,6 @@ public:
 
 		RandomListNode* currentNode = head;
 		RandomListNode* copiedCurrentNode = nullptr;
-		RandomListNode* copiedPreviousNode = nullptr;
 
 		// copy the next pointer
 		while (currentNode != nullptr)
@@ -37,45 +37,59 @@ public:
 			RandomListNode* copiedCurrentNode = new RandomListNode(currentNode->label);
 
 			// hack
-			// use the copiedCurrentNode->next to store more useful information
+			// use the copiedCurrentNode->next and copiedCurrentNode->random to store more useful information
+			RandomListNode* nextNode = currentNode->next;
+
 			copiedCurrentNode->random = currentNode->random;
-			currentNode->random = copiedCurrentNode;
+			copiedCurrentNode->next = nextNode;
 
-			currentNode = currentNode->next;
+			// 1:1 -- the currentNode with copiedCurrentNode
+			currentNode->next = copiedCurrentNode;
 
-			// link the next of copied link list
-			if (copiedListHead == nullptr)
-			{
-				copiedListHead = copiedCurrentNode;
-			}
-			else
-			{
-				copiedPreviousNode->next = copiedCurrentNode;
-			}
-
-			copiedPreviousNode = copiedCurrentNode;
+			currentNode = nextNode;
 		}
 
 		// link the random pointer
 		currentNode = head;
 		while (currentNode != nullptr)
 		{
-			RandomListNode* copiedNode = currentNode->random;
-			RandomListNode* randomPointerToOriginal = copiedNode->random;
-			if (randomPointerToOriginal == nullptr)
+			RandomListNode* random = currentNode->random;
+			RandomListNode* copiedNode = currentNode->next;
+
+			assert(copiedNode != nullptr);
+			if (random != nullptr)
 			{
-				copiedNode->random = nullptr;
-				// restore the original node's random pointer -- cann't restore here!
-				currentNode->random = nullptr;
+				copiedNode->random = random->next;
 			}
 			else
 			{
-				copiedNode->random = randomPointerToOriginal->random;
-				// restore the original node's random pointer
-				currentNode->random = randomPointerToOriginal;
+				copiedNode->random = nullptr;
 			}
 
-			currentNode = currentNode->next;
+			currentNode = copiedNode->next;
+		}
+
+		// restore original list & link  the copied list
+		currentNode = head;
+		copiedListHead = head->next;
+
+		while (currentNode != nullptr)
+		{
+			RandomListNode* copiedNode = currentNode->next;
+			RandomListNode* nextOfOriginal = copiedNode->next;
+
+			currentNode->next = nextOfOriginal;
+			// the last node
+			if (nextOfOriginal != nullptr)
+			{
+				copiedNode->next = nextOfOriginal->next;
+			}
+			else
+			{
+				copiedNode->next = nullptr;
+			}
+
+			currentNode = nextOfOriginal;
 		}
 
 		return copiedListHead;
