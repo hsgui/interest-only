@@ -16,6 +16,7 @@
     <ClInclude Include="019-RemoveNthNodeFromEndOfList.h" />
     <ClInclude Include="034-SearchForARange.h" />
     <ClInclude Include="053-MaximumSubarray.h" />
+    <ClInclude Include="074-Search2DMatrix.h" />
     <ClInclude Include="075-SortColors.h" />
     <ClInclude Include="081-SearchInRotatedSortedArray.h" />
     <ClInclude Include="094-BinaryTreeInorderTraversal.h" />
@@ -75,6 +76,7 @@
     <ClInclude Include="237-DeleteNodeInLinkedList.h" />
     <ClInclude Include="238-ProductOfArrayExceptSelf.h" />
     <ClInclude Include="239-SlidingWindowMaximum.h" />
+    <ClInclude Include="240-Search2DMatrixII.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />

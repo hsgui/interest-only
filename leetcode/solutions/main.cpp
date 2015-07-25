@@ -11,6 +11,7 @@
 #include "019-RemoveNthNodeFromEndOfList.h"
 #include "034-SearchForARange.h"
 #include "053-MaximumSubarray.h"
+#include "074-Search2DMatrix.h"
 #include "075-SortColors.h"
 #include "076-MinimumWindowSubstring.h"
 #include "081-SearchInRotatedSortedArray.h"
@@ -69,6 +70,7 @@
 #include "237-DeleteNodeInLinkedList.h"
 #include "238-ProductOfArrayExceptSelf.h"
 #include "239-SlidingWindowMaximum.h"
+#include "240-Search2DMatrixII.h"
 
 using namespace std;
 
@@ -91,6 +93,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<Search2DMatrixII> s240 = make_shared<Search2DMatrixII>();
+	fn = bind(&Search2DMatrixII::Test, *s240);
+	tests->push_back(fn);
+
+	shared_ptr<Search2DMatrix> s074 = make_shared<Search2DMatrix>();
+	fn = bind(&Search2DMatrix::Test, *s074);
+	tests->push_back(fn);
 
 	shared_ptr<SlidingWindowMaximum> s239 = make_shared<SlidingWindowMaximum>();
 	fn = bind(&SlidingWindowMaximum::Test, *s239);
