@@ -7,6 +7,7 @@
 
 #include "UnitTest-Utils.h"
 #include "001-TwoSum.h"
+#include "002-AddTwoNumbers.h"
 #include "005-LongestPalindromicSubstring.h"
 #include "019-RemoveNthNodeFromEndOfList.h"
 #include "034-SearchForARange.h"
@@ -93,6 +94,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<AddTwoNumbers> s002 = make_shared<AddTwoNumbers>();
+	fn = bind(&AddTwoNumbers::Test, *s002);
+	tests->push_back(fn);
 
 	shared_ptr<Search2DMatrixII> s240 = make_shared<Search2DMatrixII>();
 	fn = bind(&Search2DMatrixII::Test, *s240);

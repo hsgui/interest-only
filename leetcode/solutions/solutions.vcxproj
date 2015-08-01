@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="001-TwoSum.h" />
+    <ClInclude Include="002-AddTwoNumbers.h" />
     <ClInclude Include="005-LongestPalindromicSubstring.h" />
     <ClInclude Include="019-RemoveNthNodeFromEndOfList.h" />
     <ClInclude Include="034-SearchForARange.h" />
@@ -89,12 +90,13 @@
     <ProjectGuid>{AD957736-AF3B-4ECA-A334-4FCD1E6B4D6F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>solutions</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
