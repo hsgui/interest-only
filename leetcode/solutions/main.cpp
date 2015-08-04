@@ -72,6 +72,7 @@
 #include "238-ProductOfArrayExceptSelf.h"
 #include "239-SlidingWindowMaximum.h"
 #include "240-Search2DMatrixII.h"
+#include "242-ValidAnagram.h"
 
 using namespace std;
 
@@ -94,6 +95,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<ValidAnagram> s242 = make_shared<ValidAnagram>();
+	fn = bind(&ValidAnagram::Test, *s242);
+	tests->push_back(fn);
 
 	shared_ptr<AddTwoNumbers> s002 = make_shared<AddTwoNumbers>();
 	fn = bind(&AddTwoNumbers::Test, *s002);
