@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bubbleSortTest.hpp" />
+    <ClInclude Include="factorial.hpp" />
     <ClInclude Include="max.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="max.cpp" />
+    <ClCompile Include="bubbleSort.hpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{28A11C81-0B13-4646-B4B2-D29C36D437AA}</ProjectGuid>

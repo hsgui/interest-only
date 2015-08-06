@@ -12,15 +12,27 @@
     <Filter Include="Header Files\basics">
       <UniqueIdentifier>{326d1623-f9a4-4f22-a9ec-b7a0bf1c42fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\tests">
+      <UniqueIdentifier>{8bdcb36a-d214-4820-a1e5-9ea4eaca5c2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="max.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
+    <ClInclude Include="factorial.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="bubbleSortTest.hpp">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="max.cpp">
+    <ClCompile Include="bubbleSort.hpp">
       <Filter>Header Files\basics</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
