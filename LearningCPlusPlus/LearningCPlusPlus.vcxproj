@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="array.hpp" />
     <ClInclude Include="bubbleSortTest.hpp" />
     <ClInclude Include="factorial.hpp" />
     <ClInclude Include="max.hpp" />
+    <ClInclude Include="pair.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp" />

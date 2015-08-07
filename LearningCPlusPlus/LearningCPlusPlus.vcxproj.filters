@@ -26,6 +26,12 @@
     <ClInclude Include="bubbleSortTest.hpp">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="pair.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="array.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">
