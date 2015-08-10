@@ -21,7 +21,11 @@
   <ItemGroup>
     <ClInclude Include="array.hpp" />
     <ClInclude Include="bubbleSortTest.hpp" />
+    <ClInclude Include="category.hpp" />
+    <ClInclude Include="categoryTest.hpp" />
     <ClInclude Include="factorial.hpp" />
+    <ClInclude Include="lrvalue.hpp" />
+    <ClInclude Include="lrvalueTest.hpp" />
     <ClInclude Include="max.hpp" />
     <ClInclude Include="pair.hpp" />
   </ItemGroup>

@@ -4,6 +4,8 @@
 #include "max.hpp"
 #include "factorial.hpp"
 #include "bubbleSortTest.hpp"
+#include "categoryTest.hpp"
+#include "lrvalueTest.hpp"
 
 int main()
 {
@@ -21,6 +23,12 @@ int main()
 	std::cout << TemplatePractice::Factorial<4>::value << std::endl;
 
 	TemplatePractice::testBubbleSort();
+
+	CategoryPractice::testFmap();
+
+	C11Practice::testLRValue();
+
+	system("pause");
 
 	return 0;
 }
