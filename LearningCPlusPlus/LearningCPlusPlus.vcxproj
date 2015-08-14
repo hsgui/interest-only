@@ -24,10 +24,13 @@
     <ClInclude Include="category.hpp" />
     <ClInclude Include="categoryTest.hpp" />
     <ClInclude Include="factorial.hpp" />
+    <ClInclude Include="fraction.hpp" />
+    <ClInclude Include="list.hpp" />
     <ClInclude Include="lrvalue.hpp" />
     <ClInclude Include="lrvalueTest.hpp" />
     <ClInclude Include="max.hpp" />
     <ClInclude Include="pair.hpp" />
+    <ClInclude Include="templatemetaTest.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp" />

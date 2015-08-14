@@ -6,6 +6,7 @@
 #include "bubbleSortTest.hpp"
 #include "categoryTest.hpp"
 #include "lrvalueTest.hpp"
+#include "templatemetaTest.hpp"
 
 int main()
 {
@@ -27,6 +28,8 @@ int main()
 	CategoryPractice::testFmap();
 
 	C11Practice::testLRValue();
+
+	TemplatePractice::testMetaTemplate();
 
 	system("pause");
 
