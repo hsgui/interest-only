@@ -25,10 +25,13 @@
     <ClInclude Include="categoryTest.hpp" />
     <ClInclude Include="factorial.hpp" />
     <ClInclude Include="fraction.hpp" />
-    <ClInclude Include="list.hpp" />
+    <ClInclude Include="hierarchyGenerator.hpp" />
+    <ClInclude Include="typelist.hpp" />
     <ClInclude Include="lrvalue.hpp" />
     <ClInclude Include="lrvalueTest.hpp" />
     <ClInclude Include="max.hpp" />
+    <ClInclude Include="modernDesign.hpp" />
+    <ClInclude Include="modernDesignTest.hpp" />
     <ClInclude Include="pair.hpp" />
     <ClInclude Include="templatemetaTest.hpp" />
   </ItemGroup>

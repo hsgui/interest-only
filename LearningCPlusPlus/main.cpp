@@ -7,6 +7,7 @@
 #include "categoryTest.hpp"
 #include "lrvalueTest.hpp"
 #include "templatemetaTest.hpp"
+#include "modernDesignTest.hpp"
 
 int main()
 {
@@ -30,6 +31,8 @@ int main()
 	C11Practice::testLRValue();
 
 	TemplatePractice::testMetaTemplate();
+
+	ModernDesign::testModernDesign();
 
 	system("pause");
 

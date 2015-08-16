@@ -3,7 +3,8 @@
 #include <iostream>
 #include "factorial.hpp"
 #include "fraction.hpp"
-#include "list.hpp"
+#include "typelist.hpp"
+#include "modernDesign.hpp"
 
 namespace TemplatePractice {
 	void testFraction()
@@ -24,18 +25,28 @@ namespace TemplatePractice {
 		typedef E<5>::result X;
 		std::cout << "e = " << (1.0 * X::Num / X::Den) << std::endl;
 		std::cout << "e = " << X::Num << "/" << X::Den << std::endl;
+	}
 
-		std::cout << "Length(oneTwoThree): " << Length<oneTwoThree>::result << std::endl;
+	void testTypeList()
+	{
+		// all these will be calculated at compile time, they are constant!
+		std::cout << std::endl;
+		std::cout << "test type list -- all these are calculated at compile time" << std::endl;
 
-		std::cout << "Nth(oneTwoThree, 1): " << Nth<oneTwoThree, 1>::result::result << std::endl;
+		typedef TypeList < ModernDesign::Int2Type<1>, TypeList<ModernDesign::Int2Type<2>,
+			TypeList<ModernDesign::Int2Type<3>> >> oneTwoThree;
 
-		std::cout << "Include(3, oneTwoThree): " << Include<Int<3>, oneTwoThree>::result << std::endl;
-		std::cout << "Include(4, oneTwoThree): " << Include<Int<4>, oneTwoThree>::result << std::endl;
+		std::cout << "Length(oneTwoThree): " << TL::Length<oneTwoThree>::result << std::endl;
 
-		typedef Append<Int<4>, oneTwoThree>::result T1234;
-		std::cout << "Include(4, T1234): " << Include<Int<4>, T1234>::result << std::endl;
+		std::cout << "Nth(oneTwoThree, 1): " << TL::Nth<oneTwoThree, 1>::result::value << std::endl;
 
-		int position = Position<Int<4>, T1234>::result;
+		std::cout << "Include(3, oneTwoThree): " << TL::Include<ModernDesign::Int2Type<3>, oneTwoThree>::result << std::endl;
+		std::cout << "Include(4, oneTwoThree): " << TL::Include<ModernDesign::Int2Type<4>, oneTwoThree>::result << std::endl;
+
+		typedef TL::Append<ModernDesign::Int2Type<4>, oneTwoThree>::result T1234;
+		std::cout << "Include(4, T1234): " << TL::Include<ModernDesign::Int2Type<4>, T1234>::result << std::endl;
+
+		int position = TL::Position<ModernDesign::Int2Type<4>, T1234>::result;
 		std::cout << "Position<Int<4>, T1234>::result "
 			<< position << std::endl;
 	}
@@ -43,5 +54,6 @@ namespace TemplatePractice {
 	void testMetaTemplate()
 	{
 		testFraction();
+		testTypeList();
 	}
 }
