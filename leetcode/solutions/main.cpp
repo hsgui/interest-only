@@ -34,6 +34,8 @@
 #include "110-BalancedBinaryTree.h"
 #include "111-MinimumDepthOfBinaryTree.h"
 #include "114-FlattenBinaryTreeToLinkedList.h"
+#include "121-BestTimeToBuyAndSellStock1.h"
+#include "122-BestTimeToBuyAndSellStock2.h"
 #include "124-BinaryTreeMaximumPathSum.h"
 #include "128-LongestConsecutiveSequence.h"
 #include "133-CloneGraph.h"
@@ -95,6 +97,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<BestTimeToBuyAndSellStock2> s122 = make_shared<BestTimeToBuyAndSellStock2>();
+	fn = bind(&BestTimeToBuyAndSellStock2::Test, *s122);
+	tests->push_back(fn);
+
+	shared_ptr<BestTimeToBuyAndSellStock1> s121 = make_shared<BestTimeToBuyAndSellStock1>();
+	fn = bind(&BestTimeToBuyAndSellStock1::Test, *s121);
+	tests->push_back(fn);
 
 	shared_ptr<ValidAnagram> s242 = make_shared<ValidAnagram>();
 	fn = bind(&ValidAnagram::Test, *s242);
