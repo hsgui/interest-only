@@ -4,7 +4,7 @@
 #include "factorial.hpp"
 #include "fraction.hpp"
 #include "typelist.hpp"
-#include "modernDesign.hpp"
+#include "typemanip.hpp"
 
 namespace TemplatePractice {
 	void testFraction()

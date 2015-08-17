@@ -30,10 +30,11 @@
     <ClInclude Include="lrvalue.hpp" />
     <ClInclude Include="lrvalueTest.hpp" />
     <ClInclude Include="max.hpp" />
-    <ClInclude Include="modernDesign.hpp" />
+    <ClInclude Include="typemanip.hpp" />
     <ClInclude Include="modernDesignTest.hpp" />
     <ClInclude Include="pair.hpp" />
     <ClInclude Include="templatemetaTest.hpp" />
+    <ClInclude Include="typetraits.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp" />

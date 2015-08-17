@@ -1,6 +1,6 @@
 #pragma once
 
-#include "modernDesign.hpp"
+#include "typemanip.hpp"
 
 struct NullListType {
 	typedef NullListType Head;

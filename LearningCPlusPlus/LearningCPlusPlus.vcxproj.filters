@@ -50,9 +50,6 @@
     <ClInclude Include="fraction.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
-    <ClInclude Include="modernDesign.hpp">
-      <Filter>Header Files\basics</Filter>
-    </ClInclude>
     <ClInclude Include="modernDesignTest.hpp">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
@@ -60,6 +57,12 @@
       <Filter>Header Files\basics</Filter>
     </ClInclude>
     <ClInclude Include="hierarchyGenerator.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="typemanip.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="typetraits.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
   </ItemGroup>

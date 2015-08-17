@@ -50,40 +50,6 @@ namespace ModernDesign {
 
 	struct EmptyType {};
 
-	template<typename T>
-	class TypeTraits{
-	private:
-		/*
-			whether U is a pointer type
-		*/
-		template<typename U> struct PointerTraits {
-			enum{result = false};
-			typedef NullType PointeeType;
-		};
-
-		template<typename U> struct PointerTraits<U*> {
-			enum{result = true};
-			typedef U PointeeType;
-		};
-
-		/*
-			stripping the qualifiers
-		*/
-		template<typename T> struct UnConst {
-			typedef T Result;
-		};
-		template<typename T> struct UnConst<const T> {
-			typedef T Result;
-		};
-
-	public:
-		enum {isPointer = PointerTraits<T>::result};
-		typedef typename PointerTraits<T>::PointeeType PointeeType;
-
-		// stripping the qualifiers
-		typedef typename UnConst<T>::Result NonConstType;
-	};
-
 	template<typename T, typename U> class Conversion;
 
 	/*
