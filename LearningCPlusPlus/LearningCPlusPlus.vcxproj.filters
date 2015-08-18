@@ -65,6 +65,9 @@
     <ClInclude Include="typetraits.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
+    <ClInclude Include="smallobj.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">
