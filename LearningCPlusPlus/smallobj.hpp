@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+#include <algorithm>
 
 #ifndef DEFAULT_CHUNK_SIZE
 #define DEFAULT_CHUNK_SIZE 4096
@@ -124,6 +125,28 @@ namespace ModernDeisgn {
 		mutable const FixedAllocator* m_next;
 	};
 
+	class SmallObjAllocator
+	{
+	public:
+		SmallObjAllocator(std::size_t m_chunkSize, std::size_t m_maxObjectSize);
+
+		void* Allocate(std::size_t m_numBytes);
+
+		void Deallocate(void* p_ptr, std::size_t m_size);
+
+	private:
+		SmallObjAllocator(const SmallObjAllocator&);
+		SmallObjAllocator& operator=(const SmallObjAllocator&);
+
+		typedef std::vector<FixedAllocator> Pool;
+		Pool m_pool;
+
+		FixedAllocator* m_pLastAllocate;
+		FixedAllocator* m_pLastDeallocate;
+		
+		std::size_t m_chunkSize;
+		std::size_t m_maxObjectSize;
+	};
 
 	bool FixedAllocator::Chunk::Init(std::size_t p_blockSize, unsigned char p_blocks)
 	{
@@ -215,6 +238,58 @@ namespace ModernDeisgn {
 		assert(m_numBlocks == numBlocks);
 	}
 
+	FixedAllocator::FixedAllocator(const FixedAllocator& rhs)
+		: m_blockSize(rhs.m_blockSize)
+		, m_numBlocks(rhs.m_numBlocks)
+		, m_chunks(rhs.m_chunks)
+	{
+		m_previous = &rhs;
+		m_next = rhs.m_next;
+		rhs.m_next->m_previous = this;
+		rhs.m_next = this;
+
+		m_allocateChunk = rhs.m_allocateChunk ? 
+			(&m_chunks.front() + (rhs.m_allocateChunk - &rhs.m_chunks.front())) : 0;
+		m_deallocateChunk = rhs.m_deallocateChunk ?
+			(&m_chunks.front() + (rhs.m_deallocateChunk - &rhs.m_chunks.front())) : 0;
+	}
+
+	FixedAllocator& FixedAllocator::operator=(const FixedAllocator& rhs)
+	{
+		FixedAllocator copy(rhs);
+		copy.Swap(*this);
+
+		return *this;
+	}
+
+	FixedAllocator::~FixedAllocator()
+	{
+		if (m_previous != this)
+		{
+			m_previous->m_next = m_next;
+			m_next->m_previous - m_previous;
+			return;
+		}
+		assert(m_previous == this);
+		ChunkIter it = m_chunks.begin();
+		for (; it != m_chunks.end(); ++it)
+		{
+			assert(it->m_blocksAvailable == m_numBlocks);
+			it->Release();
+		}
+	}
+
+	void FixedAllocator::Swap(FixedAllocator& rhs)
+	{
+		using namespace std;
+
+		swap(m_blockSize, rhs.m_blockSize);
+		swap(m_numBlocks, rhs.m_numBlocks);
+		m_chunks.swap(rhs.m_chunks);
+		swap(m_allocateChunk, rhs.m_allocateChunk);
+		swap(m_deallocateChunk, rhs.m_deallocateChunk);
+	}
+
 	void * FixedAllocator::Allocate()
 	{
 		if (m_allocateChunk == nullptr || m_allocateChunk->m_blocksAvailable == 0)
@@ -248,6 +323,143 @@ namespace ModernDeisgn {
 
 	void FixedAllocator::Deallocate(void* p_ptr)
 	{
+		assert(!m_chunks.empty());
+		assert(&m_chunks.front() <= m_deallocateChunk);
+		assert(&m_chunks.back() >= m_deallocateChunk);
 
+		m_deallocateChunk = VicinityFind(p_ptr);
+		assert(m_deallocateChunk);
+
+		DoDeallocate(p_ptr);
+	}
+
+	FixedAllocator::Chunk* FixedAllocator::VicinityFind(void* p_ptr)
+	{
+		assert(!m_chunks.empty());
+		assert(m_deallocateChunk);
+
+		const std::size_t chunkLength = m_numBlocks * m_blockSize;
+
+		Chunk* low = m_deallocateChunk;
+		Chunk* high = m_deallocateChunk + 1;
+		Chunk* lowBound = &m_chunks.front();
+		Chunk* highBound = &m_chunks.back() + 1;
+
+		// m_deallocateChunk is the last Chunk in the array
+		if (high == highBound) high = nullptr;
+		for (;;)
+		{
+			if (low)
+			{
+				if (p_ptr >= low->m_pData && p_ptr < low->m_pData + chunkLength)
+				{
+					return low;
+				}
+				if (low = lowBound) low = nullptr;
+				else --low;
+			}
+			if (high)
+			{
+				if (p_ptr >= high->m_pData && p_ptr < high->m_pData + chunkLength)
+				{
+					return high;
+				}
+				if (++high == highBound) high = nullptr;
+			}
+		}
+	}
+
+	void FixedAllocator::DoDeallocate(void* p_ptr)
+	{
+		assert(m_deallocateChunk->m_pData <= p_ptr);
+		assert(p_ptr < m_deallocateChunk->m_pData + m_numBlocks * m_blockSize);
+
+		// call into the chunk, will adjust the inner list, but won't release memory
+		m_deallocateChunk->Deallocate(p_ptr, m_blockSize);
+
+		if (m_deallocateChunk->m_blocksAvailable == m_numBlocks)
+		{
+			// m_deallocateChunk is completely free
+			Chunk& lastChunk = m_chunks.back();
+			if (&lastChunk == m_deallocateChunk)
+			{
+				// m_deallocateChunk is the last chunk
+				// check if we have two last chunks empty
+				if (m_chunks.size() > 1
+					&& m_deallocateChunk[-1].m_blocksAvailable == m_numBlocks)
+				{
+					// two last free chunks, discard the last one
+					// Release the memory of the last chunk
+					lastChunk.Release();
+					m_chunks.pop_back();
+					m_allocateChunk = m_deallocateChunk = &m_chunks.front();
+				}
+				return;
+			}
+
+			if (lastChunk.m_blocksAvailable == m_numBlocks)
+			{
+				// two free chunks, the other is in other index
+				lastChunk.Release();
+				m_chunks.pop_back();
+				m_allocateChunk = m_deallocateChunk;
+			}
+			else
+			{
+				// move the empty chunk to the end of array
+				std::swap(*m_deallocateChunk, lastChunk);
+				m_allocateChunk = &m_chunks.back();
+			}
+		}
+	}
+
+	SmallObjAllocator::SmallObjAllocator(std::size_t p_chunkSize, std::size_t p_maxObjectSize)
+		: m_pLastAllocate(nullptr)
+		, m_pLastDeallocate(nullptr)
+		, m_chunkSize(p_chunkSize)
+		, m_maxObjectSize(p_maxObjectSize)
+	{
+	}
+
+	void * SmallObjAllocator::Allocate(std::size_t p_numBytes)
+	{
+		if (p_numBytes > m_maxObjectSize)
+		{
+			return operator new(p_numBytes);
+		}
+
+		if (m_pLastAllocate != nullptr && m_pLastAllocate->BlockSize() == p_numBytes)
+		{
+			return m_pLastAllocate->Allocate();
+		}
+
+		Pool::iterator it = std::lower_bound(m_pool.begin(), m_pool.end(), p_numBytes);
+		if (it == m_pool.end() || it->BlockSize() != p_numBytes)
+		{
+			it = m_pool.insert(it, FixedAllocator(p_numBytes));
+			m_pLastDeallocate = &*m_pool.begin();
+		}
+
+		m_pLastAllocate = &*it;
+		return m_pLastAllocate->Allocate();
+	}
+
+	void SmallObjAllocator::Deallocate(void* p_ptr, std::size_t p_numBytes)
+	{
+		if (p_numBytes > m_maxObjectSize) {
+			return operator delete(p_ptr);
+		}
+
+		if (m_pLastDeallocate != nullptr && m_pLastDeallocate->BlockSize() == p_numBytes)
+		{
+			m_pLastDeallocate->Deallocate(p_ptr);
+			return;
+		}
+
+		Pool::iterator it = std::lower_bound(m_pool.begin(), m_pool.end(), p_numBytes);
+		assert(it != m_pool.end());
+		assert(it->BlockSize() == p_numBytes);
+		m_pLastDeallocate = &*it;
+		m_pLastDeallocate->Deallocate(p_ptr);
 	}
 };
