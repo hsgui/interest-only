@@ -27,6 +27,7 @@
     <ClInclude Include="fraction.hpp" />
     <ClInclude Include="hierarchyGenerator.hpp" />
     <ClInclude Include="smallobj.hpp" />
+    <ClInclude Include="Threads.hpp" />
     <ClInclude Include="typelist.hpp" />
     <ClInclude Include="lrvalue.hpp" />
     <ClInclude Include="lrvalueTest.hpp" />

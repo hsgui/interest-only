@@ -68,6 +68,9 @@
     <ClInclude Include="smallobj.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Threads.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">
