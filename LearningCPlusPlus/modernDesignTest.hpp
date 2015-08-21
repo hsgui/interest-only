@@ -3,6 +3,7 @@
 #include "typemanip.hpp"
 #include "hierarchyGenerator.hpp"
 #include "typelist.hpp"
+#include "functor.hpp"
 #include <iostream>
 #include <vector>
 
@@ -14,6 +15,37 @@ namespace ModernDesign {
 	struct Holder
 	{
 		T value;
+	};
+
+	// define a test functor
+	struct TestFunctor1
+	{
+		void operator()(int i, double d)
+		{
+			std::cout << "TestFunctor1::operator() ("
+				<< i << ", " << d << ") called." << std::endl;
+		}
+	};
+
+	void TestFunction1(int i, double d)
+	{
+		std::cout << "TestFunction1("
+			<< i << ", " << d << ") called." << std::endl;
+	}
+
+	const char* TestFunction2(int i, int j)
+	{
+		std::cout << "TestFunction2(" << i << ", " << j << ") called" << std::endl;
+		return "0";
+	}
+
+	class TestMemFun
+	{
+	public:
+		void Test()
+		{
+			std::cout << "TestMemFun.Test() is called" << std::endl;
+		}
 	};
 
 	void testConversion()
@@ -69,6 +101,32 @@ namespace ModernDesign {
 		std::cout << "std::vector<int>::iterator is "
 			<< (iterIsPointer ? "fast" : "smart") << std::endl;
 	}
+
+	void testFunctor()
+	{
+		TestFunctor1 f1;
+		Functor<void, TYPELIST_2(int, double)> cmd1(f1);
+		cmd1(4, 4.5);
+
+		// funtion pointer is also supported
+		Functor<void, TYPELIST_2(int, double)> cmd2(&ModernDesign::TestFunction1);
+		cmd2(4, 5.6);
+
+		// handling pointers to member functions
+		TestMemFun o1;
+		Functor<void, NullListType> cmd3(&o1, &TestMemFun::Test);
+		cmd3();
+
+		// binding
+		Functor<const char*, TYPELIST_2(int, int)> f2(&ModernDesign::TestFunction2);
+		Functor<const char*, TYPELIST_1(int)> f3(BindFirst(f2, 10));
+		f3(15);
+
+		// chain
+		std::cout << "Chain(cmd1, cmd2)(2, 4) is called..." << std::endl;
+		Chain(cmd1, cmd2)(2, 4);
+	}
+
 	void testModernDesign()
 	{
 		std::cout << std::endl
@@ -82,5 +140,9 @@ namespace ModernDesign {
 		std::cout << std::endl
 			<< "test generate scatter hierarchy ..." << std::endl;
 		testGenerateScatterHierarchy();
+
+		std::cout << std::endl
+			<< "test functor..." << std::endl;
+		testFunctor();
 	}
 }

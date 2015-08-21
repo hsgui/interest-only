@@ -25,6 +25,7 @@
     <ClInclude Include="categoryTest.hpp" />
     <ClInclude Include="factorial.hpp" />
     <ClInclude Include="fraction.hpp" />
+    <ClInclude Include="functor.hpp" />
     <ClInclude Include="hierarchyGenerator.hpp" />
     <ClInclude Include="smallobj.hpp" />
     <ClInclude Include="Threads.hpp" />

@@ -71,6 +71,31 @@ namespace TL {
 		static const bool result = true;
 	};
 
+	template<typename TList, unsigned int I, typename DefaultType = NullListType>
+	struct TypeAtNonStrict
+	{
+		typedef typename TList::Head Head;
+		typedef typename TList::Tail Tail;
+	private:
+		template<typename TList1, unsigned int I>
+		struct In
+		{
+			typedef typename TypeAtNonStrict<typename TList1::Tail, I - 1, DefaultType>::Result Result;
+		};
+		template<>
+		struct In<TypeList<Head, Tail>, 0>
+		{
+			typedef Head Result;
+		};
+		template<>
+		struct In<NullListType, I>
+		{
+			typedef DefaultType Result;
+		};
+	public:
+		typedef typename In<TList, I>::Result Result;
+	};
+
 	template<typename Ele, typename TList> struct Include {
 		static const bool result = Eq<Ele, typename TList::Head>::result ||
 			Include<Ele, typename TList::Tail>::result;
