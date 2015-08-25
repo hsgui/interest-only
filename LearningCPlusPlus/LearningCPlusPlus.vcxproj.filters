@@ -77,6 +77,9 @@
     <ClInclude Include="Singleton.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
+    <ClInclude Include="smartptr.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">

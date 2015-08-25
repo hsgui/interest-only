@@ -29,6 +29,7 @@
     <ClInclude Include="hierarchyGenerator.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="smallobj.hpp" />
+    <ClInclude Include="smartptr.hpp" />
     <ClInclude Include="Threads.hpp" />
     <ClInclude Include="typelist.hpp" />
     <ClInclude Include="lrvalue.hpp" />
