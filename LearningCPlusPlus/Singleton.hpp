@@ -6,6 +6,8 @@
 
 namespace ModernDesign
 {
+	typedef void(__cdecl *atexit_pfn_t)();
+
 	namespace Private
 	{
 		class LifetimeTracker
@@ -31,8 +33,8 @@ namespace ModernDesign
 
 		typedef LifetimeTracker** TrackerArray;
 
-		extern TrackerArray m_trackerArray;
-		extern unsigned int m_elements;
+		extern TrackerArray m_trackerArray = nullptr;
+		extern unsigned int m_elements = 0;
 
 		// helper destroyer function
 		template <typename T>
@@ -91,9 +93,15 @@ namespace ModernDesign
 			p_pDynObject, p_longevity, p_destroy);
 
 		TrackerArray index = std::upper_bound(
-			m_trackerArray, m_trackerArray + m_elements, p_longevity, LifetimeTracker::Compare);
+			m_trackerArray, 
+			m_trackerArray + m_elements, 
+			p_longevity, 
+			LifetimeTracker::Compare);
 
-		std::copy_backward(index, m_trackerArray + m_elements, m_trackerArray + m_elements + 1);
+		std::copy_backward(
+			index, 
+			m_trackerArray + m_elements, 
+			m_trackerArray + m_elements + 1);
 
 		*index = tracker;
 		m_elements++;
@@ -122,11 +130,49 @@ namespace ModernDesign
 	template<typename T,
 		template<typename> class CreationPolicy,
 		template<typename> class LifetimePolicy,
-		template<typename> class ThreadingMedel>
+		template<typename> class ThreadingModel>
 	class SingletonHolder
 	{
+		typedef typename ThreadingModel<T*>::VolatileType PtrInstanceType;
 	public:
-		static T& Instance();
+		static T& Instance()
+		{
+			if (!m_pInstance)
+			{
+				MakeInstance();
+			}
+
+			return *m_pInstance;
+		}
 	private:
+		static void MakeInstance()
+		{
+			typename ThreadingModel<SingletonHolder>::Lock guard;
+			(void)guard;
+			if (!m_pInstance)
+			{
+				if (m_destroyed)
+				{
+					LifetimePolicy<T>::OnDeadReference();
+					m_destroyed = false;
+				}
+
+				m_pInstance = CreationPolicy<T>::Create();
+				LifetimePolicy<T>::ScheduleDestruction(m_pInstance, &DestroySingleton);
+			}
+		}
+
+		static void DestroySingleton()
+		{
+			assert(!m_destroyed);
+			CreationPolicy<T>::Destory(m_pInstance);
+			m_pInstance = nullptr;
+			m_destroyed = true;
+		}
+		// protection
+		SingletonHolder();
+
+		static bool m_destroyed;
+		static PtrInstanceType m_pInstance;
 	};
 }
