@@ -24,6 +24,7 @@
     <ClInclude Include="category.hpp" />
     <ClInclude Include="categoryTest.hpp" />
     <ClInclude Include="factorial.hpp" />
+    <ClInclude Include="factory.hpp" />
     <ClInclude Include="fraction.hpp" />
     <ClInclude Include="functor.hpp" />
     <ClInclude Include="hierarchyGenerator.hpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="smallobj.hpp" />
     <ClInclude Include="smartptr.hpp" />
     <ClInclude Include="Threads.hpp" />
+    <ClInclude Include="typeinfowrapper.hpp" />
     <ClInclude Include="typelist.hpp" />
     <ClInclude Include="lrvalue.hpp" />
     <ClInclude Include="lrvalueTest.hpp" />
