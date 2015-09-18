@@ -270,6 +270,25 @@ namespace TL {
 	public:
 		typedef TypeList<TMD, L> result;
 	};
+
+	template<typename TList> struct Reverse;
+
+	template<>
+	struct Reverse<NullListType>
+	{
+		typedef NullListType result;
+	};
+
+	template<typename TList>
+	struct Reverse
+	{
+	private:
+		typedef typename TList::Head Head;
+		typedef typename TList::Tail Tail;
+
+	public:
+		typedef typename Append<Head, typename Reverse<Tail>::result>::result result;
+	};
 }
 
 typedef TL::Append<SignedIntegrals,

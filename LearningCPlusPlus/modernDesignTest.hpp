@@ -4,6 +4,7 @@
 #include "hierarchyGenerator.hpp"
 #include "typelist.hpp"
 #include "functor.hpp"
+#include "abstractfactory.hpp"
 #include <iostream>
 #include <vector>
 
@@ -45,6 +46,51 @@ namespace ModernDesign {
 		void Test()
 		{
 			std::cout << "TestMemFun.Test() is called" << std::endl;
+		}
+	};
+
+	class Soldier
+	{
+	public:
+		virtual void WhatSolier() = 0;
+	};
+
+	class SillySoldier : public Soldier
+	{
+	public:
+		void WhatSolider()
+		{
+			std::cout << "Silly Soldier" << std::endl;
+		}
+	};
+
+	class Monster
+	{
+	public:
+		virtual void WhatMonster() = 0;
+	};
+
+	class SillyMonster : public Monster
+	{
+	public:
+		void WhatMonster()
+		{
+			std::cout << "Silly Monster" << std::endl;
+		}
+	};
+
+	class SuperMonster
+	{
+	public:
+		virtual void WhatSuperMonster() = 0;
+	};
+
+	class SillySuperMonster : public SuperMonster
+	{
+	public:
+		void WhatSuperMonster()
+		{
+			std::cout << "Silly SuperMonster" << std::endl;
 		}
 	};
 
@@ -127,6 +173,22 @@ namespace ModernDesign {
 		Chain(cmd1, cmd2)(2, 4);
 	}
 
+	void testAbstractFactory()
+	{
+		// AbstractEnemyFactory inherits AbstractFactoryUnit<Solider>, 
+		// AbstractFactoryUnit<Monster>, AbstractFactoryUnit<SuperMonster>
+		typedef AbstractFactory<TYPELIST_3(Soldier, Monster, SuperMonster)> AbstractEnemyFactory;
+
+		typedef ConcreteFactory<
+			AbstractEnemyFactory,
+			OpNewFactoryUnit,
+			TYPELIST_3(SillySoldier, SillySoldier, SillySuperMonster)> EasyLevelEnemyFactory;
+
+		AbstractEnemyFactory* f = new EasyLevelEnemyFactory();
+		Monster* p = f->Create<Monster>();
+		p->WhatMonster();
+	}
+
 	void testModernDesign()
 	{
 		std::cout << std::endl
@@ -144,5 +206,9 @@ namespace ModernDesign {
 		std::cout << std::endl
 			<< "test functor..." << std::endl;
 		testFunctor();
+
+		std::cout << std::endl
+			<< "test abstract factory..." << std::endl;
+		testAbstractFactory();
 	}
 }
