@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="abstractfactory.hpp" />
     <ClInclude Include="array.hpp" />
     <ClInclude Include="bubbleSortTest.hpp" />
     <ClInclude Include="category.hpp" />
