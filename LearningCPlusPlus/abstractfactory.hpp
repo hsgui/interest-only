@@ -14,7 +14,7 @@ namespace ModernDesign
 	class AbstractFactoryUnit
 	{
 	public:
-		virtual T* DoCreat(Type2Type<T>) = 0;
+		virtual T* DoCreate(Type2Type<T>) = 0;
 		virtual ~AbstractFactoryUnit() {}
 	};
 

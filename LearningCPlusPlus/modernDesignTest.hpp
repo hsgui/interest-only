@@ -52,13 +52,13 @@ namespace ModernDesign {
 	class Soldier
 	{
 	public:
-		virtual void WhatSolier() = 0;
+		virtual void WhatSoldier() = 0;
 	};
 
 	class SillySoldier : public Soldier
 	{
 	public:
-		void WhatSolider()
+		void WhatSoldier()
 		{
 			std::cout << "Silly Soldier" << std::endl;
 		}
@@ -182,7 +182,7 @@ namespace ModernDesign {
 		typedef ConcreteFactory<
 			AbstractEnemyFactory,
 			OpNewFactoryUnit,
-			TYPELIST_3(SillySoldier, SillySoldier, SillySuperMonster)> EasyLevelEnemyFactory;
+			TYPELIST_3(SillySoldier, SillyMonster, SillySuperMonster)> EasyLevelEnemyFactory;
 
 		AbstractEnemyFactory* f = new EasyLevelEnemyFactory();
 		Monster* p = f->Create<Monster>();
