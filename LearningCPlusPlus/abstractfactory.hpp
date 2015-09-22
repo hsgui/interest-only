@@ -52,6 +52,53 @@ namespace ModernDesign
 		}
 	};
 
+	template<typename ConcreteProduct, typename Base>
+	class PrototypeFactoryUnit : public Base
+	{
+		typedef typename Base::ProductList BaseProductList;
+	protected:
+		typedef typename BaseProductList::Tail ProductList;
+	public:
+		typedef typename BaseProductList::Head AbstractProduct;
+
+		PrototypeFactoryUnit(AbstractProduct* p = nullptr)
+			: m_prototype(p)
+		{}
+
+		friend void DoGetPrototype(const PrototypeFactoryUnit& me,
+			AbstractProduct*& prototype)
+		{
+			prototype = me.m_prototype;
+		}
+
+		friend void DoSetPrototype(PrototypeFactoryUnit& me,
+			AbstractProduct* prototype)
+		{
+			me.m_prototype = prototype;
+		}
+
+		template<typename U>
+		void GetPrototype(U*& p)
+		{
+			return DoGetPrototype(*this, p);
+		}
+
+		template<typename U>
+		void SetProtoype(U* p)
+		{
+			return DoSetPrototype(*this, p);
+		}
+
+		AbstractProduct* DoCreate(Type2Type<AbstractProduct>)
+		{
+			assert(m_prototype);
+			return m_prototype->Clone();
+		}
+
+	private:
+		AbstractProduct* m_prototype;
+	};
+
 	template<typename AbstractFact,
 			 template<typename, typename> class Creator = OpNewFactoryUnit,
 			 typename TList = typename AbstractFact::ProductList>

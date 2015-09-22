@@ -53,6 +53,8 @@ namespace ModernDesign {
 	{
 	public:
 		virtual void WhatSoldier() = 0;
+
+		virtual Soldier* Clone() = 0;
 	};
 
 	class SillySoldier : public Soldier
@@ -62,12 +64,19 @@ namespace ModernDesign {
 		{
 			std::cout << "Silly Soldier" << std::endl;
 		}
+
+		SillySoldier* Clone()
+		{
+			return new SillySoldier();
+		}
 	};
 
 	class Monster
 	{
 	public:
 		virtual void WhatMonster() = 0;
+
+		virtual Monster* Clone() = 0;
 	};
 
 	class SillyMonster : public Monster
@@ -77,12 +86,18 @@ namespace ModernDesign {
 		{
 			std::cout << "Silly Monster" << std::endl;
 		}
+
+		SillyMonster* Clone()
+		{
+			return new SillyMonster();
+		}
 	};
 
 	class SuperMonster
 	{
 	public:
 		virtual void WhatSuperMonster() = 0;
+		virtual SuperMonster* Clone() = 0;
 	};
 
 	class SillySuperMonster : public SuperMonster
@@ -91,6 +106,11 @@ namespace ModernDesign {
 		void WhatSuperMonster()
 		{
 			std::cout << "Silly SuperMonster" << std::endl;
+		}
+
+		SillySuperMonster* Clone()
+		{
+			return new SillySuperMonster();
 		}
 	};
 
@@ -186,7 +206,19 @@ namespace ModernDesign {
 
 		AbstractEnemyFactory* f = new EasyLevelEnemyFactory();
 		Monster* p = f->Create<Monster>();
+
+		std::cout << "Create Monster: " << std::endl;
 		p->WhatMonster();
+
+		typedef ConcreteFactory<AbstractEnemyFactory, PrototypeFactoryUnit> EnemyFactory;
+		EnemyFactory* g = new EnemyFactory();
+
+		SillyMonster* monster = new SillyMonster();
+		g->SetProtoype(monster);
+		Monster* clonedMonster = g->Create<Monster>();
+
+		std::cout << "Cloned Monster: " << std::endl;;
+		clonedMonster->WhatMonster();
 	}
 
 	void testModernDesign()
