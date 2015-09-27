@@ -89,6 +89,9 @@
     <ClInclude Include="abstractfactory.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
+    <ClInclude Include="multimethods.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">
