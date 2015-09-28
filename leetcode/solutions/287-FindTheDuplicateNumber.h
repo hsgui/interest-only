@@ -5,6 +5,9 @@
 
 using namespace std;
 
+// https://leetcode.com/problems/find-the-duplicate-number/
+// http://keithschwarz.com/interesting/code/?dir=find-duplicate
+// tortoise and hare algorithm
 class FindTheDuplicateNumber
 {
 public:
@@ -26,6 +29,9 @@ public:
 		vector<int> nums = { 2, 4, 5, 1, 2, 3 };
 		assert(nums.size() == 6);
 
+		assert(findDuplicate(nums) == 2);
+
+		nums = { 2, 2,2,2,2 };
 		assert(findDuplicate(nums) == 2);
 
 		return true;
