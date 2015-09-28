@@ -81,6 +81,7 @@
     <ClInclude Include="239-SlidingWindowMaximum.h" />
     <ClInclude Include="240-Search2DMatrixII.h" />
     <ClInclude Include="242-ValidAnagram.h" />
+    <ClInclude Include="287-FindTheDuplicateNumber.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UnitTest-Utils.h" />
