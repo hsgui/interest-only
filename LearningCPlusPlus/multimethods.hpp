@@ -39,44 +39,52 @@ namespace ModernDesign
 		typename ResultType = void>
 	class StaticDispatcher
 	{
-		typedef typename TypeLhs::Head Head;
-		typedef typename TypeLhs::Tail Tail;
-
-	public:
-		static ResultType Go(BaseLhs& lhs, BaseRhs& rhs, Executor exec)
+		template<typename SomeLhs>
+		static ResultType
+			DispatchRhs(SomeLhs& lhs, BaseRhs& rhs, Executor& exec, NullListType)
 		{
-			if (Head* pl = dynamic_cast<Head*>(&lhs))
-			{
-				StaticDispatcher<Executor, BaseLhs, NullListType,
-					BaseRhs, TypesRhs, ResultType>::DispatchRhs(*pl, rhs, exec);
-			}
-			else
-			{
-				return StaticDispatcher<Executor, BaseLhs, Tail, 
-					BaseRhs, TypesRhs, ResultType>::Go(*pl, rhs, exec);
-			}
+			return exec.OnError(lhs, rhs);
 		}
 
-		template<typename SomeLhs>
-		static ResultType DispatchRhs(SomeLhs& lhs, BaseRhs& rhs, Executor exec)
+		template<typename Head, typename Tail, typename SomeLhs>
+		static ResultType
+			DispatchRhs(SomeLhs& lhs, BaseRhs& rhs, Executor& exec, TypeList<Head, Tail>)
 		{
-			typedef typename TypesRhs::Head Head;
-			typedef typename TypesRhs::Tail Tail;
-
 			if (Head* pr = dynamic_cast<Head*>(&rhs))
 			{
-				enum {swapArgs = symmetric && 
-					TL::Position<Head, TypesRhs>::result < TL::Position<SomeLhs, TypesLhs>::result};
+				enum {
+					swapArgs = symmetric &&
+					TL::Position<Head, TypesRhs>::result < TL::Position<SomeLhs, TypesLhs>::result
+				};
 				Int2Type<swapArgs> int2Type;
 
 				typedef Private::InvocationTraits<SomeLhs, Head, Executor, ResultType> CallTraits;
 				return CallTraits::DoDispatch(lhs, *pr, exec, int2Type);
 			}
-			else
+			return DispatchRhs(lhs, rhs, exec, Tail());
+		}
+
+		static ResultType
+			DispatchLhs(BaseLhs& lhs, BaseRhs& rhs, Executor& exec, NullListType)
+		{
+			return exec.OnError(lhs, rhs);
+		}
+
+		template<typename Head, typename Tail>
+		static ResultType
+			DispatchLhs(BaseLhs& lhs, BaseRhs& rhs, Executor& exec, TypeList<Head, Tail>)
+		{
+			if (Head* pl = dynamic_cast<Head*>(&lhs))
 			{
-				return StaticDispatcher<Executor, SomeLhs, NullListType,
-					BaseRhs, Tail, ResultType>::DispatchRhs(lhs, rhs, exec);
+				return DispatchRhs(*pl, rhs, exec, TypesRhs());
 			}
+			return DispatchLhs(lhs, rhs, exec, Tail());
+		}
+
+	public:
+		static ResultType Go(BaseLhs& lhs, BaseRhs& rhs, Executor exec)
+		{
+			return DispatchLhs(lhs, rhs, exec, TypesLhs());
 		}
 	};
 }
