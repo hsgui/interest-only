@@ -6,7 +6,7 @@
 using namespace std;
 
 // https://leetcode.com/problems/find-the-duplicate-number/
-// http://keithschwarz.com/interesting/code/?dir=find-duplicate
+// http://keithschwarz.com/interesting/code/?dir=find-duplicate -- excellent explanation
 // tortoise and hare algorithm
 class FindTheDuplicateNumber
 {
@@ -14,14 +14,32 @@ public:
 	int findDuplicate(vector<int>& nums) 
 	{
 		size_t n = nums.size() - 1;
-		int sumOfN = ((n + 1) * n) / 2;
-		int sumOfNums = 0;
-		for (int ele : nums)
+		
+		size_t slow = 0;
+		size_t fast = 0;
+		size_t finder = 0;
+
+		while (true)
 		{
-			sumOfNums += ele;
+			slow = nums[slow];
+			fast = nums[nums[fast]];
+			if (slow == fast)
+			{
+				break;
+			}
+		}
+		// slow is the the smallest number that larger than c and multiple of l
+		while (true)
+		{
+			slow = nums[slow];
+			finder = nums[finder];
+			if (slow == finder)
+			{
+				break;
+			}
 		}
 
-		return sumOfNums - sumOfN;
+		return slow;
 	}
 
 	bool Test()
