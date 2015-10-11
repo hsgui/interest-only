@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+#include <map>
 #include "typelist.hpp"
 #include "typeinfowrapper.hpp"
 #include "functor.hpp"
@@ -87,4 +89,63 @@ namespace ModernDesign
 			return DispatchLhs(lhs, rhs, exec, TypesLhs());
 		}
 	};
+
+	template<
+		typename BaseLhs,
+		typename BaseRhs = BaseLhs,
+		typename ResultType = void,
+		typename CallbackType = ResultType (*) (BaseLhs&, BaseRhs&)>
+	class BasicDispatcher
+	{
+		typedef std::pair<TypeInfo, TypeInfo> KeyType;
+		typedef CallbackType MappedType;
+		typedef std::map<KeyType, MappedType> MapType;
+		MapType m_callbackMap;
+
+		void DoAdd(TypeInfo lhs, TypeInfo rhs, CallbackType func);
+		bool DoRemove(TypeInfo lhs, TypeInfo rhs);
+
+	public:
+		template<typename SomeLhs, typename SomeRhs>
+		void Add(CallbackType func)
+		{
+			DoAdd(typeid(SomeLhs), typeid(SomeRhs), func);
+		}
+
+		template<typename SomeLhs, typename SomeRhs>
+		bool Remove()
+		{
+			return DoRemoe(typeid(SomeLhs), typeid(SomeRhs));
+		}
+
+		ResultType Go(BaseLhs& lhs, BaseRhs& rhs);
+	};
+
+	template<typename BaseLhs, typename BaseRhs, typename ResultType, typename CallbackType>
+	void BasicDispatcher<BaseLhs, BaseRhs, ResultType, CallbackType>
+		::DoAdd(TypeInfo lhs, TypeInfo rhs, CallbackType func)
+	{
+		m_callbackMap[KeyType(lhs, rhs)] = func;
+	}
+
+	template<typename BaseLhs, typename BaseRhs, typename ResultType, typename CallbackType>
+	bool BasicDispatcher<BaseLhs, BaseRhs, ResultType, CallbackType>
+		::DoRemove(TypeInfo lhs, TypeInfo rhs)
+	{
+		return m_callbackMap.erase(KeyType(lhs, rhs)) == 1;
+	}
+
+	template<typename BaseLhs, typename BaseRhs, typename ResultType, typename CallbackType>
+	ResultType BasicDispatcher<BaseLhs, BaseRhs, ResultType, CallbackType>
+		::Go(BaseLhs& lhs, BaseRhs& rhs)
+	{
+		typename MapType::key_type key(typeid(lhs), typeid(rhs));
+		typename MapType::iterator it = m_callbackMap.find(key);
+		if (it == m_callbackMap.end())
+		{
+			throw std::runtime_error("Function not found!");
+		}
+
+		return (it->second)(lhs, rhs);
+	}
 }
