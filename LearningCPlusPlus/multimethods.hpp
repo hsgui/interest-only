@@ -148,4 +148,109 @@ namespace ModernDesign
 
 		return (it->second)(lhs, rhs);
 	}
+
+	template<typename To, typename From>
+	struct StaticCaster
+	{
+		static To& Cast(From& obj)
+		{
+			return static_cast<To&>(obj);
+		}
+	};
+
+	template<typename To, typename From>
+	struct DynamicCaster
+	{
+		static To& Cast(From& obj)
+		{
+			return dynamic_cast<To&>(obj);
+		}
+	};
+
+	template<typename BaseLhs, typename BaseRhs = BaseLhs, typename ResultType = void,
+		template<typename, typename> class CastingPolicy = DynamicCaster,
+		template<typename, typename, typename, typename> class DispatcherBackend = BasicDispatcher>
+	class FnDispatcher
+	{
+		DispatcherBackend<BaseLhs, BaseRhs, ResultType,
+			ResultType(*)(BaseLhs&, BaseRhs&)> m_backend;
+	public:
+		template<typename ConcreteLhs, typename ConcreteRhs,
+			ResultType (*callback)(ConcreteLhs&, ConcreteRhs&)>
+			void Add()
+		{
+			struct Local
+			{
+				static ResultType Trampoline(BaseLhs& lhs, BaseRhs& rhs)
+				{
+					return callback(CastingPolicy<ConcreteLhs, BaseLhs>(lhs),
+						CastingPolicy<ConcreteRhs, BaseRhs>(rhs));
+				}
+			};
+
+			m_backend.Add<ConcreteLhs, ConcreteRhs>(&Local::Trampoline);
+		}
+
+		template<typename ConcreteLhs, typename ConcreteRhs,
+			ResultType (*callback)(ConcreteLhs&, ConcreteRhs&),
+			bool symmetric>
+			void Add()
+		{
+			struct Local
+			{
+				static ResultType Trampoline(BaseLhs& lhs, BaseRhs& rhs)
+				{
+					return callback(CastingPolicy<ConcreteLhs, BaseLhs>(lhs),
+						CastingPolicy<ConcreteRhs, BaseRhs>(rhs));
+				}
+
+				static ResultType TrampolineR(BaseLhs& lhs, BaseRhs& rhs)
+				{
+					return callback(CastingPolicy<ConcreteRhs, BaseRhs>(rhs),
+						CastingPolicy<ConcreteLhs, BaseLhs>(lhs));
+				}
+			};
+			m_backend.Add<ConcreteLhs, ConcreteRhs>(&Local::Trampoline);
+			if (symmetric)
+			{
+				m_backend.Add<ConcreteRhs, ConcreteLhs>(&Local::TrampolineR);
+			}
+		}
+	};
+
+	template<typename BaseLhs, typename BaseRhs = BaseLhs, typename ResultType = void,
+		template<typename, typename> class CastingPolicy = DynamicCaster,
+		template<typename, typename, typename, typename> class DispatcherBackend = BasicDispatcher>
+	class FunctorDispatcher
+	{
+		typedef TYPELIST_2(BaseLhs&, BaseRhs&) ArgsList;
+		typedef Functor<ResultType, ArgsList> FunctorType;
+		typedef DispatcherBackend<BaseLhs, BaseRhs, ResultType, FunctorType> BackendType;
+
+		BackendType m_backend;
+	public:
+		template<typename SomeLhs, typename SomeRhs, typename Fun>
+		void Add(const Fun& fun)
+		{
+			typedef FunctorImpl<ResultType, ArgsList> FunctorImplType;
+			class Adapter : public FunctorImplType
+			{
+				Fun m_fun;
+				virtual ResultType operator() (BaseLhs& lhs, BaseRhs& rhs)
+				{
+					return m_fun(CastingPolicy<SomeLhs, BaseLhs>(lhs), 
+						CastingPolicy<SomeRhs, BaseLhs>(rhs));
+				}
+
+				virtual FunctorImplType* Clone()
+				{
+					return new Adapter();
+				}
+			public:
+				Adapter(const Fun& fun) : m_fun(fun) {}
+			};
+
+			m_backend.Add<SomeLhs, SomeRhs>(FunctorType(Adapter(fun)));
+		}
+	};
 }
