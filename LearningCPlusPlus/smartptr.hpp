@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+
 namespace ModernDesign
 {
 	/*
@@ -46,6 +48,158 @@ namespace ModernDesign
 		A rule for all policies is that they must have value semantics, 
 			that is, they must define a proper copy constructor and assignment operator.
 	*/
+
+	template<typename T>
+	class DefaultSPStorage
+	{
+	protected:
+		typedef T* StoredType;		// the type of the m_pointee object
+		typedef T* PointerType;		// type returned by operator->
+		typedef T& ReferenceType;	// type returned by operator*
+	public:
+		DefaultSPStorage() : m_pointee(Default())
+		{}
+
+		DefaultSPStorage(const StoredType& p) : m_pointee(p)
+		{}
+
+		PointerType operator->() const
+		{
+			return m_pointee;
+		}
+		ReferenceType operator*() const
+		{
+			return *m_pointee;
+		}
+
+		friend inline PointerType GetImpl(const DefaultSPStorage& sps)
+		{
+			return sps.m_pointee;
+		}
+
+		friend inline const StoredType& GetImplRef(const DefaultSPStorage& sps)
+		{
+			return sps.m_pointee;
+		}
+
+		friend inline StoredType& GetImplRef(DefaultSPStorage& sps)
+		{
+			return sps.m_pointee;
+		}
+	protected:
+		void Destroy()
+		{
+			delete m_pointee;
+		}
+		static StoredType Default()
+		{
+			return nullptr;
+		}
+	private:
+		StoredType m_pointee;
+	};
+
+	template<typename P>
+	class RefCounted
+	{
+	protected:
+		RefCounted()
+		{
+			m_pCount = new unsigned int(1);
+		}
+
+		P Clone(const P& val)
+		{
+			++*m_pCount;
+			return val;
+		}
+
+		bool Release(const P&)
+		{
+			if (!--*m_pCount)
+			{
+				delete m_pCount;
+				return true;
+			}
+			return false;
+		}
+
+		enum { destructiveCopy = false };
+	private:
+		unsigned int* m_pCount;
+	};
+
+	struct AllowConversion
+	{
+		enum { allow = true };
+
+		void Swap(AllowConversion&)
+		{}
+	};
+
+	struct DisallowConversion
+	{
+		enum { allow = false };
+
+		DisallowConversion()
+		{}
+
+		DisallowConversion(const AllowConversion&)
+		{}
+
+		void Swap(DisallowConversion&)
+		{}
+	};
+
+	template<typename S>
+	class NoCheck
+	{
+		NoCheck()
+		{}
+
+		template<typename S1>
+		NoCheck(const NoCheck<S1>&)
+		{}
+
+		static void OnDefault(const S&)
+		{}
+
+		static void OnInit(const S&)
+		{}
+
+		static void OnDereference(const S&)
+		{}
+
+		static void Swap(NoCheck&)
+		{}
+	};
+
+	template<typename S>
+	class AssertCheck
+	{
+		AssertCheck()
+		{}
+
+		template<typename S1>
+		AssertCheck(const AssertCheck<S1>&)
+		{}
+
+		static void OnDefault(const S&)
+		{}
+
+		static void OnInit(const S&)
+		{}
+
+		static void OnDereference(S val)
+		{
+			assert(val);
+			(void)val;
+		}
+
+		static void Swap(AssertCheck&)
+		{}
+	};
+
 	template<typename T>
 	class SmartPtr
 	{
