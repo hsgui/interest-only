@@ -200,6 +200,14 @@ namespace ModernDesign
 		{}
 	};
 
+	template<
+		typename T,
+		typename OwnershipPolicy = RefCounted,
+		typename ConversionPolicy = DisallowConversion,
+		typename CheckingPolicy = AssertCheck,
+		typename StoragePolicy = DefaultSPStorage>
+	class SmartPtr;
+
 	template<typename T>
 	class SmartPtr
 	{
