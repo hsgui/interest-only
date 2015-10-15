@@ -1,6 +1,9 @@
 #pragma once
 
 #include <cassert>
+#include <algorithm>
+
+#include "typemanip.hpp"
 
 namespace ModernDesign
 {
@@ -106,7 +109,18 @@ namespace ModernDesign
 		RefCounted()
 		{
 			m_pCount = new unsigned int(1);
+			assert(m_pCount != nullptr);
+			*m_pCount = 1;
 		}
+
+		RefCounted(const RefCounted& rhs)
+			: m_pCount(rhs.m_pCount)
+		{}
+
+		template<typename P1>
+		RefCounted(const RefCounted<P1>& rhs)
+			: m_pCount(reinterpret_cast<const RefCounted&>(rhs).m_pCount)
+		{}
 
 		P Clone(const P& val)
 		{
@@ -114,7 +128,7 @@ namespace ModernDesign
 			return val;
 		}
 
-		bool Release(const P&)
+		bool Release(const P&, bool = false)
 		{
 			if (!--*m_pCount)
 			{
@@ -122,6 +136,11 @@ namespace ModernDesign
 				return true;
 			}
 			return false;
+		}
+
+		void Swap(RefCounted& rhs)
+		{
+			std::swap(m_pCount, rhs.m_pCount);
 		}
 
 		enum { destructiveCopy = false };
@@ -200,37 +219,138 @@ namespace ModernDesign
 		{}
 	};
 
+	template<template<typename> class C>
+	struct WrapTemplate
+	{
+		template<typename T>
+		struct In
+		{
+			typedef C<T> type;
+		};
+
+		template<typename T>
+		struct PointerType : private C < T >
+		{
+			typedef typename C<T>::PointerType type;
+		};
+
+		template<typename T>
+		struct StoredType : private C < T >
+		{
+			typedef typename C<T>::StoredType type;
+		};
+	};
+
 	template<
 		typename T,
-		typename OwnershipPolicy = RefCounted,
+		typename OwnershipPolicy = WrapTemplate<RefCounted>,
 		typename ConversionPolicy = DisallowConversion,
-		typename CheckingPolicy = AssertCheck,
-		typename StoragePolicy = DefaultSPStorage>
+		typename CheckingPolicy = WrapTemplate<AssertCheck>,
+		typename StoragePolicy = WrapTemplate<DefaultSPStorage>>
 	class SmartPtr;
 
-	template<typename T>
+	template<
+		typename T,
+		typename OwnershipPolicy,
+		typename ConversionPolicy,
+		typename CheckingPolicy,
+		typename StoragePolicy>
 	class SmartPtr
+		: public StoragePolicy::In<T>::type
+		, public OwnershipPolicy::In<typename StoragePolicy::template PointerType<T>::type>::type
+		, public CheckingPolicy::In<typename StoragePolicy::template StoredType<T>::type>::type
+		, public ConversionPolicy
 	{
+		typedef typename StoragePolicy::template In<T>::type SP;
+		typedef typename OwnershipPolicy::template In<typename SP::PointerType>::type OP;
+		typedef typename CheckingPolicy::template In<typename SP::StoredType>::type KP;
+		typedef typename ConversionPolicy CP;
+
+		enum {CP_destructiveCopy = OP::destructiveCopy};
+		enum {CP_allow = CP::allow};
+
 	public:
-		explicit SmartPtr(T* p_pointee)
-			: m_pointee(p_pointee)
-		{}
+		typedef typename SP::PointerType PointerType;
+		typedef typename SP::StoredType StoredType;
+		typedef typename SP::ReferenceType ReferenceType;
 
-		SmartPtr& operator=(const SmartPtr& p_other);
-
-		~SmartPtr();
-
-		T& opeator*() const
-		{
-			return *m_pointee;
-		}
-
-		T* operator->() const
-		{
-			return m_pointee;
-		}
+		typedef typename Select<
+			OP_destructiveCopy,
+			SmartPtr,
+			const SmartPtr>::Result CopyArg;
 
 	private:
-		T* m_pointee;
+		void OnKPReject()
+		{
+			if (OP::Release(GetImpl(*static_cast<SP*>(this)), true)
+			{
+			}
+		}
+
+		class SmartPtrGuard
+		{
+		public:
+			typedef void(SmartPtr::*action_t) ();
+
+			SmartPtrGuard(SmartPtr& sptr, action_t action)
+				: m_sptr(sptr)
+				, m_action(action)
+				, m_guard(true)
+			{}
+
+			void Dismiss()
+			{
+				m_guard = false;
+			}
+
+			~SmartPtrGuard()
+			{
+				if (m_guard)
+				{
+					(m_sptr.*m_action)();
+				}
+			}
+
+		private:
+			SmartPtrGuard(const SmartPtrGuard&);
+			SmartPtrGuard& operator=(const SmartPtrGuard&);
+
+		private:
+			SmartPtr& m_sptr;
+			action_t m_action;
+			bool m_guard;
+		};
+
+	public:
+		SmartPtr()
+		{
+			SmartPtrGuard kpGuard(*this, &SmartPtr::OnKPReject);
+			KP::OnDefault(GetImpl(*this));
+			kpGuard.Dismiss();
+		}
+
+		SmartPtr(const StoredType& p)
+		{
+			SmartPtrGuard kpGuard(*this, &SmartPtr::OnKPReject);
+			KP::OnInit(GetImpl(*this));
+			kpGuard.Dismiss();
+		}
+
+		SmartPtr(CopyArg& rhs)
+		{
+			GetImplRef(*this) = OP::Clone(GetImplRef(rhs));
+		}
+
+		SmartPtr& operator=(CopyArg& rhs)
+		{
+			SmartPtr temp(rhs);
+			temp.Swap(*this);
+			return *this;
+		}
+
+		void Swap(SmartPtr& rhs)
+		{
+			OP::Swap(rhs);
+		}
 	};
 }
