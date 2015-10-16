@@ -171,7 +171,7 @@ namespace ModernDesign
 	};
 
 	template<typename S>
-	class NoCheck
+	struct NoCheck
 	{
 		NoCheck()
 		{}
@@ -194,7 +194,7 @@ namespace ModernDesign
 	};
 
 	template<typename S>
-	class AssertCheck
+	struct AssertCheck
 	{
 		AssertCheck()
 		{}
@@ -246,7 +246,8 @@ namespace ModernDesign
 		typename OwnershipPolicy = WrapTemplate<RefCounted>,
 		typename ConversionPolicy = DisallowConversion,
 		typename CheckingPolicy = WrapTemplate<AssertCheck>,
-		typename StoragePolicy = WrapTemplate<DefaultSPStorage>>
+		typename StoragePolicy = WrapTemplate<DefaultSPStorage>
+	>
 	class SmartPtr;
 
 	template<
@@ -254,11 +255,11 @@ namespace ModernDesign
 		typename OwnershipPolicy,
 		typename ConversionPolicy,
 		typename CheckingPolicy,
-		typename StoragePolicy>
+		typename StoragePolicy >
 	class SmartPtr
-		: public StoragePolicy::In<T>::type
-		, public OwnershipPolicy::In<typename StoragePolicy::template PointerType<T>::type>::type
-		, public CheckingPolicy::In<typename StoragePolicy::template StoredType<T>::type>::type
+		: public StoragePolicy::template In<T>::type
+		, public OwnershipPolicy::template In<typename StoragePolicy::template PointerType<T>::type>::type
+		, public CheckingPolicy::template In<typename StoragePolicy::template StoredType<T>::type>::type
 		, public ConversionPolicy
 	{
 		typedef typename StoragePolicy::template In<T>::type SP;
@@ -266,7 +267,7 @@ namespace ModernDesign
 		typedef typename CheckingPolicy::template In<typename SP::StoredType>::type KP;
 		typedef typename ConversionPolicy CP;
 
-		enum {CP_destructiveCopy = OP::destructiveCopy};
+		enum {OP_destructiveCopy = OP::destructiveCopy};
 		enum {CP_allow = CP::allow};
 
 	public:
@@ -282,7 +283,7 @@ namespace ModernDesign
 	private:
 		void OnKPReject()
 		{
-			if (OP::Release(GetImpl(*static_cast<SP*>(this)), true)
+			if (OP::Release(GetImpl(*static_cast<SP*>(this)), true))
 			{
 			}
 		}
@@ -330,6 +331,7 @@ namespace ModernDesign
 		}
 
 		SmartPtr(const StoredType& p)
+			: SP(p)
 		{
 			SmartPtrGuard kpGuard(*this, &SmartPtr::OnKPReject);
 			KP::OnInit(GetImpl(*this));
@@ -351,6 +353,18 @@ namespace ModernDesign
 		void Swap(SmartPtr& rhs)
 		{
 			OP::Swap(rhs);
+		}
+
+		PointerType operator->()
+		{
+			KP::OnDereference(GetImplRef(*this));
+			return SP::operator->();
+		}
+
+		PointerType operator->() const
+		{
+			KP::OnDereference(GetImplRef(*this));
+			return SP::operator->();
 		}
 	};
 }

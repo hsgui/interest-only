@@ -5,6 +5,7 @@
 #include "typelist.hpp"
 #include "functor.hpp"
 #include "abstractfactory.hpp"
+#include "smartptr.hpp"
 #include <iostream>
 #include <vector>
 
@@ -113,6 +114,12 @@ namespace ModernDesign {
 			return new SillySuperMonster();
 		}
 	};
+
+	void testSmartPtr()
+	{
+		SmartPtr<SillyMonster> ptr(new SillyMonster());
+		ptr->WhatMonster();
+	}
 
 	void testConversion()
 	{
@@ -242,5 +249,9 @@ namespace ModernDesign {
 		std::cout << std::endl
 			<< "test abstract factory..." << std::endl;
 		testAbstractFactory();
+
+		std::cout << std::endl
+			<< "test smart ptr..." << std::endl;
+		testSmartPtr();
 	}
 }

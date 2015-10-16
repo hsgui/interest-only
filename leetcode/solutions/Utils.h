@@ -2,6 +2,7 @@
 #define _UTILS_H_
 
 #include <vector>
+#include <algorithm>
 
 class Utils
 {
@@ -78,27 +79,7 @@ public:
 
 	static void removeDuplicatedElementFromSortedVector(std::vector<int>& p_idList)
 	{
-		if (p_idList.size() <= 1)
-		{
-			return;
-		}
-
-		std::vector<int>::iterator current = p_idList.begin();
-		std::vector<int>::iterator next = current + 1;
-		while (next != p_idList.end())
-		{
-			if (*current == *next)
-			{
-				next++;
-			}
-			else
-			{
-				current++;
-				*current = *next;
-				next++;
-			}
-		}
-		p_idList.erase(current + 1, next);
+		p_idList.erase(std::unique(p_idList.begin(), p_idList.end()), p_idList.end());
 	}
 };
 
