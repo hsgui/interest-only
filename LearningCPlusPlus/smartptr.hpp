@@ -366,5 +366,55 @@ namespace ModernDesign
 			KP::OnDereference(GetImplRef(*this));
 			return SP::operator->();
 		}
+
+		ReferenceType operator*()
+		{
+			KP::OnDeference(GetImplRef(*this));
+			return SP::operator*();
+		}
+
+		ReferenceType operator*() const
+		{
+			KP::OnDeference(GetImplRef(*this));
+			return SP::operator*();
+		}
+
+		bool operator!() const	// Enables "if (!sp) ... "
+		{
+			return GetImpl(*this) == nullptr;
+		}
+
+		~SmartPtr()
+		{
+			if (OP::Release(GetImpl(*static_cast<SP*>(this))))
+			{
+				SP::Destroy();
+			}
+		}
+
+	private:
+		// Helper for enabling 'if (sp)'
+		struct Tester
+		{
+			Tester() {}
+		private:
+			void operator delete(void*);
+		};
+
+	public:
+		// enable 'if (sp)'
+		// http://en.cppreference.com/w/cpp/language/cast_operator
+		// Conversion function is declared like a non-static memeber function or member function template 
+		//	with no return type and with the name of the form:
+		//	operator conversion-type-id
+		//		declares a user-defined conversion function that participates in all implicit and explicit conversions
+		//	explicit operator conversion-type-id
+		//		declares a user-defined conversion function that participates in all direct-initialization and explicit conversions.
+		operator const volatile Tester*() const
+		{
+			if (!*this) return 0;
+			static Tester t;
+			return &t;
+		}
 	};
 }

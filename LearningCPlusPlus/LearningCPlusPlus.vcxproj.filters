@@ -65,9 +65,6 @@
     <ClInclude Include="typetraits.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
-    <ClInclude Include="smallobj.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Threads.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
@@ -90,6 +87,9 @@
       <Filter>Header Files\basics</Filter>
     </ClInclude>
     <ClInclude Include="multimethods.hpp">
+      <Filter>Header Files\basics</Filter>
+    </ClInclude>
+    <ClInclude Include="smallobj.hpp">
       <Filter>Header Files\basics</Filter>
     </ClInclude>
   </ItemGroup>
