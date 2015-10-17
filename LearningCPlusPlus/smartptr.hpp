@@ -406,10 +406,15 @@ namespace ModernDesign
 		// http://en.cppreference.com/w/cpp/language/cast_operator
 		// Conversion function is declared like a non-static memeber function or member function template 
 		//	with no return type and with the name of the form:
-		//	operator conversion-type-id
+		//	operator conversion-type-id()
 		//		declares a user-defined conversion function that participates in all implicit and explicit conversions
-		//	explicit operator conversion-type-id
+		//	explicit operator conversion-type-id()
 		//		declares a user-defined conversion function that participates in all direct-initialization and explicit conversions.
+		//	regardless of typedef, conversion-type-id cannot represent an array or a function type.
+		// conversion function can be inherited and can be virtual, but can not be static. 
+		//	A conversion function in the derived class does not hide a conversion function in the base class
+		//		unless they are converting to the same type.
+		//	implicit conversion from SmartPtr to Tester*
 		operator const volatile Tester*() const
 		{
 			if (!*this) return 0;

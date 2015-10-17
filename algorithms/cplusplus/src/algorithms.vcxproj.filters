@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="random.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="skiplist.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="UnitTest">
+      <UniqueIdentifier>{8b05d884-eeb7-4762-aba1-fb0cd8edde17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{ebd12620-6ab5-4e09-8c47-883e96ca1943}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="skiplist_test.h">
+      <Filter>UnitTest</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
