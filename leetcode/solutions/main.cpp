@@ -75,6 +75,7 @@
 #include "239-SlidingWindowMaximum.h"
 #include "240-Search2DMatrixII.h"
 #include "242-ValidAnagram.h"
+#include "274-HIndex.h"
 #include "284-PeekingIterator.h"
 #include "287-FindTheDuplicateNumber.h"
 
@@ -99,6 +100,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<HIndex> s274 = make_shared<HIndex>();
+	fn = bind(&HIndex::Test, *s274);
+	tests->push_back(fn);
 
 	vector<int> dump = { 1,2,3 };
 	shared_ptr<PeekingIterator> s284 = make_shared<PeekingIterator>(dump);
