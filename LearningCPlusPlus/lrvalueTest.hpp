@@ -1,6 +1,8 @@
 #pragma once
 
 #include "lrvalue.hpp"
+#include <string>
+#include <iostream>
 
 namespace C11Practice
 {
@@ -69,5 +71,25 @@ namespace C11Practice
 		std::cout << "start to test rvalue and rvalue reference" << std::endl;
 		testRValueAndRValueReference(testC11StringValue());
 		std::cout << "finish to test rvalue and rvalue reference" << std::endl;
+	}
+
+	void testMove()
+	{
+		std::string s1 = "hello";
+		std::string s2 = "world";
+
+		std::cout << "Before move: " << std::endl;
+		std::cout << "s1 = " << s1 << ", s2 = " << s2 << std::endl;
+		s2 = std::move(s1);
+
+		std::cout << "After move: " << std::endl;
+		std::cout << "s1 = " << s1 << ", s2 = " << s2 << std::endl;
+	}
+
+	void testC11Practice()
+	{
+		testLRValue();
+
+		testMove();
 	}
 }

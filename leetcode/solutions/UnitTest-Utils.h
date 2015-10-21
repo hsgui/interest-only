@@ -12,6 +12,8 @@ public:
 	bool Test_MergeOrderedList();
 
 	bool Test_RemoveDuplicatedElementFromSortedVector();
+
+	bool Test_DedupItemsFromMultipleVectors();
 };
 
 bool
@@ -47,11 +49,41 @@ UnitTest_Utils::Test_RemoveDuplicatedElementFromSortedVector()
 }
 
 bool
+UnitTest_Utils::Test_DedupItemsFromMultipleVectors()
+{
+	std::cout << "Test DedupItemsFromMultipleVectors" << std::endl;
+	Utils::MultipleLevelVector v1;
+	v1.m_version = 2;
+	v1.m_items = { 1, 1, 3, 5, 5, 4, 4, 4, 8, 7 };
+
+	Utils::MultipleLevelVector v2;
+	v2.m_version = 1;
+	v2.m_items = { 1, 1, 0, 0, 5, 3, 4, 7, 8, 9, 9 };
+
+	Utils::MultipleLevelVector v3;
+	v3.m_version = 3;
+	v3.m_items = { 9 };
+
+	std::vector<Utils::MultipleLevelVector> levelVectors;
+	Utils::dedupItemFromMultipleVectors(levelVectors);
+
+	levelVectors.push_back(v1);
+	levelVectors.push_back(v2);
+	levelVectors.push_back(v3);
+
+	Utils::dedupItemFromMultipleVectors(levelVectors);
+
+	return true;
+}
+
+bool
 UnitTest_Utils::Test()
 {
 	Test_MergeOrderedList();
 
 	Test_RemoveDuplicatedElementFromSortedVector();
+
+	Test_DedupItemsFromMultipleVectors();
 
 	return true;
 }

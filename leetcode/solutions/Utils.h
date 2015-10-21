@@ -2,6 +2,7 @@
 #define _UTILS_H_
 
 #include <vector>
+#include <set>
 #include <algorithm>
 
 class Utils
@@ -80,6 +81,47 @@ public:
 	static void removeDuplicatedElementFromSortedVector(std::vector<int>& p_idList)
 	{
 		p_idList.erase(std::unique(p_idList.begin(), p_idList.end()), p_idList.end());
+	}
+
+	struct MultipleLevelVector
+	{
+		int m_version;
+		std::vector<int> m_items;
+	};
+
+	static void dedupItemFromMultipleVectors(std::vector<MultipleLevelVector>& p_levelVectors)
+	{
+		auto versionCompare = [](MultipleLevelVector& a, MultipleLevelVector& b)
+		{
+			return a.m_version > b.m_version;
+		};
+
+		std::sort(p_levelVectors.begin(), p_levelVectors.end(), versionCompare);
+
+		std::set<int> foundIdSet;
+		for (size_t versionIndex = 0; versionIndex < p_levelVectors.size(); versionIndex++)
+		{
+			std::vector<int>& itemList = p_levelVectors[versionIndex].m_items;
+			std::vector<int>::iterator dedupIt = itemList.begin();
+			std::vector<int>::iterator forwardIt = dedupIt;
+			while (forwardIt != itemList.end())
+			{
+				if (foundIdSet.find(*forwardIt) == foundIdSet.end())
+				{
+					foundIdSet.insert(*forwardIt);
+					*dedupIt = *forwardIt;
+					dedupIt++;
+				}
+				forwardIt++;
+			}
+
+			size_t count = forwardIt - dedupIt;
+			std::cout << "erase " << count << " from version: " << p_levelVectors[versionIndex].m_version << std::endl;
+
+			itemList.erase(dedupIt, forwardIt);
+		}
+
+		return ;
 	}
 };
 

@@ -28,7 +28,7 @@ int main()
 
 	CategoryPractice::testFmap();
 
-	C11Practice::testLRValue();
+	C11Practice::testC11Practice();
 
 	TemplatePractice::testMetaTemplate();
 
