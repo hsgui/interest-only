@@ -84,6 +84,7 @@
     <ClInclude Include="274-HIndex.h" />
     <ClInclude Include="284-PeekingIterator.h" />
     <ClInclude Include="287-FindTheDuplicateNumber.h" />
+    <ClInclude Include="295-FindMedianFromDataStream.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />

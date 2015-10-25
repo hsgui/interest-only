@@ -78,6 +78,7 @@
 #include "274-HIndex.h"
 #include "284-PeekingIterator.h"
 #include "287-FindTheDuplicateNumber.h"
+#include "295-FindMedianFromDataStream.h"
 
 using namespace std;
 
@@ -100,6 +101,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<MedianFinder> s295 = make_shared<MedianFinder>();
+	fn = bind(&MedianFinder::Test, *s295);
+	tests->push_back(fn);
 
 	shared_ptr<HIndex> s274 = make_shared<HIndex>();
 	fn = bind(&HIndex::Test, *s274);
