@@ -57,6 +57,7 @@
     <ClInclude Include="173-BinarySearchTreeIterator.h" />
     <ClInclude Include="174-DungeonGame.h" />
     <ClInclude Include="199-BinaryTreeRightSideView.h" />
+    <ClInclude Include="201-BitwiseAndOfNumbersRange.h" />
     <ClInclude Include="203-RemoveLinkedListElements.h" />
     <ClInclude Include="206-ReverseLinkedList.h" />
     <ClInclude Include="208-Trie.h" />
