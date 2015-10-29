@@ -101,4 +101,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="metaprogramming.md">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

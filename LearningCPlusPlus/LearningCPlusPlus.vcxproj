@@ -49,6 +49,9 @@
     <ClCompile Include="bubbleSort.hpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="metaprogramming.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{28A11C81-0B13-4646-B4B2-D29C36D437AA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
