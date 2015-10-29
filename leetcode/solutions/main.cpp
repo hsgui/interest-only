@@ -52,6 +52,7 @@
 #include "160-IntersectionOfTwoLinkedLists.h"
 #include "173-BinarySearchTreeIterator.h"
 #include "199-BinaryTreeRightSideView.h"
+#include "201-BitwiseAndOfNumbersRange.h"
 #include "203-RemoveLinkedListElements.h"
 #include "206-ReverseLinkedList.h"
 #include "208-Trie.h"
@@ -101,6 +102,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
 	Tester fn;
+
+	shared_ptr<BitwiseAndOfNumbersRange> s201 = make_shared<BitwiseAndOfNumbersRange>();
+	fn = bind(&BitwiseAndOfNumbersRange::Test, *s201);
+	tests->push_back(fn);
 
 	shared_ptr<MedianFinder> s295 = make_shared<MedianFinder>();
 	fn = bind(&MedianFinder::Test, *s295);
