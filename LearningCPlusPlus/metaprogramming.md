@@ -1,11 +1,18 @@
-# C++ metaprogramming
+# C++ template metaprogramming
 1. what's the spirit of metaprogramming
+
 2. Template parameters
     * value parameter
     * type parameter
     * template template parameter
 
-## spirit of metaprogramming
+3. function templates
+
+4. class templates
+
+5. Template compilation
+
+## 1 spirit of metaprogramming
 **All in one, template metaprogramming is all about types and works in compile time**.
 
 Normally, programmers write code that is compiled and does something at run-time. While metaprogrammars write code that generates code at complile-time. Metaprogrammers use **metafunctions** to describe the code that generates code. That is, a function that takes types or non-type parameters as parameters and return a new type.
@@ -18,10 +25,50 @@ As metaprogramming, we actually work with C++ type system, using types as values
 
 See [Introduction](http://blog.biicode.com/template-metaprogramming-with-modern-cpp-introduction/)
 
-## Template parameters
+## 2. Template parameters
 C++ templates can take three kinds of parameters: **Value parameters**, **type parameters**, and **template template parameter**.
 
-### value parameters
-For value parameters, C++ templates can only take parameters that are integral values known at compile time.
+### 2.1 value parameters
+For value parameters (nontype parameters), C++ templates can only take parameters that are values known at compile time - constant expression. A nontype parameter may be an integral type, or a pointer, or reference to an object, or to a function type. An argument bound to a nontype integral parameter must be a constant expresion.
 
+### 2.2 type parameters
+In general, we can use a type parameter as a type specifier in the same way that we use a built-in or class type specifier. In particular, a type parameter can be used to name the return type or a function parameter type, and for variable declarations or casts inside the function body.
+
+### 2.3 template template parameter
 See [Template metaprogramming](http://blog.biicode.com/template-metaprogramming-cpp-ii/)
+
+## 3. Function templates
+A function template can be declared *`inline`* or *`constexpr`* in the same way as nontemplate functions. The *`inline`* or *`constexpr`* specifier follows the template parameter list and precedes the return type:
+```c++
+template <typename T> inline T func(const T&);
+```
+
+## 4. class templates
+Class templates differ from function templates in that the **compiler cannot deduce the template parameter types for a class template**. Remember **the name of a class template is not the name of a type. A class template is used to instantiate a type, and an instantiated type always includes template argument(s)**.
+
+By default, a member of an instantiated class template is instantiated only if the member is used. **The fact that members are instantiated only if we use them lets us instantiate a class with a type that may not meet the requirements for some of the template's operations**.
+
+When we are inside the scope of a class template, the compiler treats references to the template itself as if we had supplied template arguments matching the template's own parameters.
+```c++
+template<typename T>
+class Cla
+{
+public:
+    Cla& operator++();
+}
+```
+When we define members outside the body of a class template, we must remember that we are not in the scope of the class until the class name is seen. Inside the function body, we are in the scope of the class so do not need to repeat the template argument.
+```c++
+template<typename T>
+Cla<T> Cla<T>::operator++(int)
+{
+    Cla ret = *this;
+    ++*this;
+    return ret;
+}
+```
+
+## 5. Template compilation
+When the compiler sees the definition of a template, it does not generate code. It generates code only when we instantiate a specific instance of the template. To generate an instantiation, the compiler needs to have the code that defines a function template or class template member function. **So definitions of function templates and member functions of class templates are ordinarily put into header files.**
+
+**Compilation errors of templates are mostly reported during instantiation**
