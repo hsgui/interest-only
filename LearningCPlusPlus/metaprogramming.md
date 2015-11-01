@@ -57,7 +57,7 @@ public:
     Cla& operator++();
 }
 ```
-When we define members outside the body of a class template, we must remember that we are not in the scope of the class until the class name is seen. Inside the function body, we are in the scope of the class so do not need to repeat the template argument.
+When we define members outside the body of a class template, we must remember that we are not in the scope of the class until the class name is seen. Inside the function body, we are in the scope of the class so do not need to repeat the template argument. When we do not supply template arguments, the compiler assumes that we are using the same type as the member's instantiation.
 ```c++
 template<typename T>
 Cla<T> Cla<T>::operator++(int)
