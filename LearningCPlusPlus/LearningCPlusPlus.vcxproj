@@ -29,7 +29,9 @@
     <ClInclude Include="fraction.hpp" />
     <ClInclude Include="functor.hpp" />
     <ClInclude Include="hierarchyGenerator.hpp" />
+    <ClInclude Include="learningcppTest.hpp" />
     <ClInclude Include="multimethods.hpp" />
+    <ClInclude Include="power.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="smallobj.hpp" />
     <ClInclude Include="smartptr.hpp" />

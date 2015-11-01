@@ -8,6 +8,7 @@
 #include "lrvalueTest.hpp"
 #include "templatemetaTest.hpp"
 #include "modernDesignTest.hpp"
+#include "learningcppTest.hpp"
 
 int main()
 {
@@ -29,6 +30,8 @@ int main()
 	CategoryPractice::testFmap();
 
 	C11Practice::testC11Practice();
+
+	LearningCPP::testLearningCPP();
 
 	TemplatePractice::testMetaTemplate();
 
