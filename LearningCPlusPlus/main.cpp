@@ -9,6 +9,7 @@
 #include "templatemetaTest.hpp"
 #include "modernDesignTest.hpp"
 #include "learningcppTest.hpp"
+#include "variadicTemplatesTest.hpp"
 
 int main()
 {
@@ -36,6 +37,8 @@ int main()
 	TemplatePractice::testMetaTemplate();
 
 	ModernDesign::testModernDesign();
+
+	LearningCPP::VariadicTemplate::test();
 
 	system("pause");
 

@@ -46,6 +46,7 @@
     <ClInclude Include="pair.hpp" />
     <ClInclude Include="templatemetaTest.hpp" />
     <ClInclude Include="typetraits.hpp" />
+    <ClInclude Include="variadicTemplatesTest.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp" />

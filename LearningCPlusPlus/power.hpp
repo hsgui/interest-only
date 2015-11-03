@@ -8,7 +8,7 @@ namespace LearningCPP
 		double y = 1.0;
 		while (p_n != 0)
 		{
-			if (p_n & 1 != 0) y *= p_x;
+			if ((p_n & 1) != 0) y *= p_x;
 			p_x *= p_x;
 			p_n >>= 1;
 		}

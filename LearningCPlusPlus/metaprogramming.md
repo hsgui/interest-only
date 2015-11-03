@@ -1,18 +1,31 @@
 # C++ template metaprogramming
-1. what's the spirit of metaprogramming
+#### 1. what's the spirit of metaprogramming
 
-2. Template parameters
-    * value parameter
-    * type parameter
-    * template template parameter
+#### 2. Template parameters
+###### 2.1 value parameter
+###### 2.2 type parameter
+###### 2.3 template template parameter
 
-3. function templates
+#### 3. function templates
 
-4. class templates
+#### 4. class templates
 
-5. Template compilation
+#### 5. Template compilation
 
-## 1 spirit of metaprogramming
+#### 6. Template Argument Deduction
+
+#### 7. Variadic Templates
+###### 7.1 `sizeof...` operator
+###### 7.2 writing a variadic function template
+###### 7.3 Pack expansion
+
+#### 8. Template Specializations
+###### 8.1 defining a function template specialization
+###### 8.2 function overloading versus template specializations
+###### 8.3 class template specializations
+###### 8.4 class-template partial specializations
+
+#### 1 spirit of metaprogramming
 **All in one, template metaprogramming is all about types and works in compile time**.
 
 Normally, programmers write code that is compiled and does something at run-time. While metaprogrammars write code that generates code at complile-time. Metaprogrammers use **metafunctions** to describe the code that generates code. That is, a function that takes types or non-type parameters as parameters and return a new type.
@@ -25,25 +38,25 @@ As metaprogramming, we actually work with C++ type system, using types as values
 
 See [Introduction](http://blog.biicode.com/template-metaprogramming-with-modern-cpp-introduction/)
 
-## 2. Template parameters
+#### 2. Template parameters
 C++ templates can take three kinds of parameters: **Value parameters**, **type parameters**, and **template template parameter**.
 
-### 2.1 value parameters
+###### 2.1 value parameters
 For value parameters (nontype parameters), C++ templates can only take parameters that are values known at compile time - constant expression. A nontype parameter may be an integral type, or a pointer, or reference to an object, or to a function type. An argument bound to a nontype integral parameter must be a constant expresion.
 
-### 2.2 type parameters
+###### 2.2 type parameters
 In general, we can use a type parameter as a type specifier in the same way that we use a built-in or class type specifier. In particular, a type parameter can be used to name the return type or a function parameter type, and for variable declarations or casts inside the function body.
 
-### 2.3 template template parameter
+###### 2.3 template template parameter
 See [Template metaprogramming](http://blog.biicode.com/template-metaprogramming-cpp-ii/)
 
-## 3. Function templates
+#### 3. Function templates
 A function template can be declared *`inline`* or *`constexpr`* in the same way as nontemplate functions. The *`inline`* or *`constexpr`* specifier follows the template parameter list and precedes the return type:
 ```c++
 template <typename T> inline T func(const T&);
 ```
 
-## 4. class templates
+#### 4. class templates
 Class templates differ from function templates in that the **compiler cannot deduce the template parameter types for a class template**. Remember **the name of a class template is not the name of a type. A class template is used to instantiate a type, and an instantiated type always includes template argument(s)**.
 
 By default, a member of an instantiated class template is instantiated only if the member is used. **The fact that members are instantiated only if we use them lets us instantiate a class with a type that may not meet the requirements for some of the template's operations**.
@@ -68,7 +81,166 @@ Cla<T> Cla<T>::operator++(int)
 }
 ```
 
-## 5. Template compilation
+#### 5. Template compilation
 When the compiler sees the definition of a template, it does not generate code. It generates code only when we instantiate a specific instance of the template. To generate an instantiation, the compiler needs to have the code that defines a function template or class template member function. **So definitions of function templates and member functions of class templates are ordinarily put into header files.**
 
 **Compilation errors of templates are mostly reported during instantiation**
+
+#### 6. Template Argument Deduction
+
+#### 7. Variadic Templates
+A variadic template is a template function or class that take a varying number of parameters. The varying parameters are known as a **parameter pack**.
+
+Two kinds of parameter packs:
+
+* A **template parameter pack** represents zero or more template parameters.
+* A **function parameter pack** represents zero or more function parameters.
+
+In a template parameter list, *`class...`* or *`typename...`* indicates that the following parameter represents a list of zero or more types; the name of a type followed by an ellipsis represents a list of zero or more nontype parameters of the given type.
+
+In a function parameter list, a parameter whose type is a template parameter pack is a function parameter pack.
+
+```C++
+// Args is a template parameter pack; rest is a function parameter pack
+// Args represents zero or more template type parameters
+// rest represents zero or more function parameters
+template <typename T, typename... Args>
+void foo(const T& t, const Args&... rest);
+```
+
+Given the following call
+```C++
+int i = 0; double d = 2.1; string s = "hello world";
+foo(i, s, 42, d);   // three parameters in the pack
+foo(i, 42, "hi");   // two parameters in the pack
+foo(d, s);          // one parameter in the pack
+foo(s);             // zero parameter in the pack
+```
+
+The above calls will instantiate four different instances of `foo`
+```C++
+void foo(const int& t, const string&, const int&, const double&);
+void foo(const int& t, const int&, const char[3]&);
+void foo(const double& t, const string&);
+void foo(const string& t);
+```
+
+###### 7.1 `sizeof...` operator
+
+`sizeof...` returns a constant expression of how many elements there are in a pack and **does not evaluate its argument**.
+
+###### 7.2 writing a variadic function template
+
+Let's see an example
+```C++
+template<typename T>
+std::ostream& iprint(std::ostream& os, const T& t)
+{
+    return os << t << std::endl;
+}
+
+template<typename T, typename... Args>
+std::ostream& iprint(std::ostream& os, const T& t, const Args& ... rest)
+{
+    os << t << ", ";
+    return iprint(os, rest...);
+}
+```
+
+Variadic function templates are used when we know neither the number nor the types of the arguments we want to process.
+
+Variadic functions are often recursive. The first call processes the first argument in the pack and calls itself on the remaining arguments:
+```C++
+template<typename T, typename... Args>
+std::ostream& iprint(std::ostream& os, const T& t, const Args& ... rest)
+```
+
+To stop the recursion, we'll also need to define a nonvariadic function (the non-recursive case):
+```C++
+template<typename T>
+std::ostream& iprint(std::ostream& os, const T& t)
+```
+
+Given:
+```C++
+iprint(std::cout, 23, 1.2, "hello");
+```
+The recursion will excutes as follows (pay attention to the instances of `iprint`:
+```C++
+iprint(std::ostream& os, const int& t, const double&, const char[6]&);  // t = 23, rest... = 1.2, "hello"
+iprint(std::ostream& os, const double&, const char[6]&);                // t = 1.2, rest = "hello"
+iprint(std::ostream& os, const char[6]&);                               // t = "hello"
+```
+
+For last call in the recursion, `iprint(std::cout, "hello")`, both variadic (a parameter pack can be empty) and nonvariadic versions of `iprint` are viable. Both functions provide an equally good match call. However, **a nonvariadic template is more specialized than a variadic template**, so the nonvariadic version is chosen for this call.
+
+A declaration for the nonvariadic version of `iprint` must be in scope when the variadic version is defined. Otherwise, the variadic function will recurse indefinitely. (Test on VS2015, run correctly)
+
+###### 7.3 Pack Expansion
+
+Only two things we can do to a pack: `sizeof...` and `pack expansion`.
+
+We trigger an expansion by putting `...` to the right of the pattern. And the pattern will apply to each element in the pack.
+```C++
+template<typename... Args>
+std::ostream& errorMsg(std::ostream& os, const Args&... rest)   // expand Args
+{
+    return iprint(os, idebug(rest)...);                         // expand rest
+}
+```
+
+The first expansion expands the template parameter pack and generates the function parameter list for `errorMsg`. The expansion of `Args` applies the pattern `const Args&` to each element in the template parameter pack `Args`. The expansion of this pattern is a comma-separated list of zero or more parameter types, each of which will have the form `const type&`. For example:
+```C++
+errorMsg(std::cout, 21, 22.3, string("hello")); // three parameters in the pack
+```
+This call is instantiated as
+```C++
+std::ostream& errorMsg(std::ostream& os, const int&, const double&, const string&);
+```
+
+The second expansion uses the pattern `idebug(rest)`. That pattern says that we want to call `idebug` on each element in the function parameter pack `rest`. The resulting expanded pack will be a comma-separated list of calls to `idebug`. That is, the above example will execute as if we had written:
+```C++
+iprint(os, idebug(21), idebug(22.3), idebug(string("hello")));
+```
+
+Pay attention to the difference between `idebug(rest)...` and `idebug(rest...)`. For `idebug(rest...)`, we expanded `rest` in the call to `idebug`. This call would execute as if we had written:
+```C++
+iprint(os, idebug(21, 22.3, string("hello")));
+```
+
+#### 8. Template specializations
+
+###### 8.1 Defining a function template specialization
+
+When we specialize a function template, we must **supply arguments for every template parameters in the orignial template**.
+To indicate that we are specializing a template, we use `template <>`. The empty brackets indicate that arguments will be supplied for all the template parameters of the original template.
+
+###### 8.2 Function overloading versus template specializations.
+A specialization is an instantiation; it's not an overloaded instance of the function name. As a result, specializations don't affect function matching.
+
+Templates and their specializations should be declared in the same header file. Declarations for all the templates with a given name should appear first, followed by any specializations of those templates.
+
+###### 8.3 class template specializations
+###### 8.4 class-template partial specializations
+A class template specialization doesn't have to supply an argument for every template parameter. We can specify some of the template parameters or some aspects of the parameters. **A class template partial specialization is itself a template**. We must supply arguments for those template parameters that are not fixed by the specializations.
+```C++
+template<typename T> struct remove_reference
+{
+    typedef T type;
+};
+// partial specializations that will be used for lvalue reference - some aspect of the parameter
+template<typename T> struct remove_reference<T&>
+{
+    typedef T type;
+};
+// partial specializatiions that will be used for rvalue reference - some aspect of the parameter.
+template<typename T> struct remove_reference<T&&>
+{
+    typedef T type;
+};
+
+int i;
+remove_reference<decltype(42)>::type a; // decltype(42) is int, use the original template
+remove_reference<decltype(i)>::type b;  // decltype(i) is int&, use T& partial specialization
+remove_reference<decltype(std::move(i))>::type c; // decltype(std::move(i)) is int&&, use T&& partial specialization
+```
