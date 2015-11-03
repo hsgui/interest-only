@@ -24,6 +24,7 @@
 ###### 8.2 function overloading versus template specializations
 ###### 8.3 class template specializations
 ###### 8.4 class-template partial specializations
+###### 8.5 specializing members but not the class
 
 #### 1 spirit of metaprogramming
 **All in one, template metaprogramming is all about types and works in compile time**.
@@ -80,6 +81,10 @@ Cla<T> Cla<T>::operator++(int)
     return ret;
 }
 ```
+
+###### 4.1 Template Type Alias
+
+###### 4.2 Using class members that are types
 
 #### 5. Template compilation
 When the compiler sees the definition of a template, it does not generate code. It generates code only when we instantiate a specific instance of the template. To generate an instantiation, the compiler needs to have the code that defines a function template or class template member function. **So definitions of function templates and member functions of class templates are ordinarily put into header files.**
@@ -243,4 +248,20 @@ int i;
 remove_reference<decltype(42)>::type a; // decltype(42) is int, use the original template
 remove_reference<decltype(i)>::type b;  // decltype(i) is int&, use T& partial specialization
 remove_reference<decltype(std::move(i))>::type c; // decltype(std::move(i)) is int&&, use T&& partial specialization
+```
+
+###### 8.5 specializing members but not class.
+Rather than specializing the whole template, we can specialize just specific member function.
+For example:
+```C++
+template<typename T> struct Foo{
+    Foo(const T& t = T()) : mem(t) {}
+    void Bar() {}
+    T mem;
+    // other members of Foo.
+};
+
+template<>              // we are specializing a template
+void Foo<int>::Bar()    // we are specializing the Bar member of Foo<int>
+{}
 ```
