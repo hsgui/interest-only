@@ -70,6 +70,17 @@ namespace LearningCPP
 			return occurrences;
 		}
 
+		template<typename T>
+		void printVector(std::vector<T>& p_values)
+		{
+			typedef typename std::vector<T>::size_type SizeType;
+			SizeType index = SizeType();
+			for (; index < p_values.size(); index++)
+			{
+				std::cout << p_values[index] << "," << std::endl;
+			}
+		}
+
 		void test()
 		{
 			foo(23, 1.1, "hello", 0xde);
@@ -87,6 +98,9 @@ namespace LearningCPP
 			std::vector<const char*> values2 = { "hello", "world", "hello" };
 			const char* value = "hello";
 			std::cout << "occurrences = " << countOccurrences(values2, value) << std::endl;
+
+			std::cout << "printVector(values2) = " << std::endl;
+			printVector(values2);
 		}
 	}	
 }

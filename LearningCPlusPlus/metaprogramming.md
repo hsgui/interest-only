@@ -9,8 +9,11 @@
 #### 3. function templates
 
 #### 4. class templates
+###### 4.1 template type alias
+###### 4.2 using class members that are types
 
 #### 5. Template compilation
+###### 5.1 Controlling Instantiations
 
 #### 6. Template Argument Deduction
 
@@ -83,13 +86,78 @@ Cla<T> Cla<T>::operator++(int)
 ```
 
 ###### 4.1 Template Type Alias
+An instantiation of a class template defines a class type, and as with any other class type, we can define a `typedef` that refers to that instantiated class:
+```C++
+typedef Cla<int> IntCla;
+```
+
+Because a template is not a type, we cannot define a `typedef` that refers to a template.
+
+However, we can use the following to define a type alias for a class template:
+```C++
+template<typename T> using twin = std::pair<T, T>;
+typedef twin<int> IntPoint;     // IntPoint is a synonym for std::pair<int, int>
+IntPoint p;
+
+// std::vector is a template, std::vector<T>::size_type is a type.
+typedef typename std::vector<T>::size_type SizeType;
+SizeType index = SizeType();
+```
+
+When we define a template type alias, we can fix one or more of the template parameters:
+```C++
+template <typename T> using PartNo = std::pair<T, int>;
+PartNo<string> books;       // books is a std::pair<string, int>
+PartNo<Student> scores;     // scores is a std::pair<Student, int>
+```
+
+Note: template declarations must be in global, namespace or class scope, can't be in function scope.
 
 ###### 4.2 Using class members that are types
+We can use scope operator (`::`) to access both *static members* and *type members*. In nontemplate code, the compiler has access to the class definition. As a result, it knows whether a name accessed through the scope operator is a type or a static member. For example when we write `std::string::size_type`, the compiler has the definition of `std::string` and can see that `size_type` is a type.
+
+Assuming `T` is a template type parameter, when the compiler sees code such as `T::mem` it won't know until instantiation time whether `mem` is a type or a `static` data memeber. However, in order to process the template when no instantiations, the compiler must know whether a name represents a type. For example:
+```C++
+T::size_type* p;
+```
+Assuming `T` is the name of a type parameter, when the compiler sees a statement of that, it needs to know whether we're defining a variable named `p` or are multiplying a `static` data member named `size_type` by a variable named `p`.
+
+By default, a name accessed through the scope operator (`::`) is not a type. As a result, if we want to use a type member of a template type parameter, we must explicitly tell the compiler that the name is a type using `typename`, not `class`. For example:
+```C++
+typename T::size_type *p;
+```
+We are defining a variable named `p`.
 
 #### 5. Template compilation
 When the compiler sees the definition of a template, it does not generate code. It generates code only when we instantiate a specific instance of the template. To generate an instantiation, the compiler needs to have the code that defines a function template or class template member function. **So definitions of function templates and member functions of class templates are ordinarily put into header files.**
 
 **Compilation errors of templates are mostly reported during instantiation**
+
+###### 5.1 controlling instantiations
+The fact that instantiations are generated when a template is used means that the same instantiation may appear in multiple object files. When two or more separately compiled source files use the same template with the same template arguments, there is an instantiation of that template in each of those files. Then there is overhead of instantiating the same template in multiple files.
+
+We can avoid this overhead through an **explicit instantiation**. An explicit instantiation contains two aspects: **instantiation declaration** and **instantiation definition**.
+```C++
+extern template declaration;    // instantiation declaration
+template declaration;           // instantiation definition
+```
+
+```C++
+extern template class Foo<int>; // instantiation declaration
+extern template int compare(const int&, const int&); // instantiation declaration
+```
+
+When the compiler sees an `extern` template declaration, it willn't generate code for that instantiation in that file. Delcaring an instantiation as `extern` is a promise that there will be a nonextern use of that instantiation elsewhere in the program.
+
+Because the compiler automatically instantiates a template when we use it, the `extern` declaration must appear before any code that uses that instantiation.
+
+```C++
+template class Foo<int>;    // instantiation definition
+template int compare(const int&, const int&); // instantiation definition
+```
+When the compiler sees an instantiation definition, it generates code.
+
+An **instantiation definition** for a class template instantiates **all** the members of that template including inline member functions. When the compiler see an instantiation definition it cannot know which member functions the program uses (the usage is in other source files). Hence, unlike the way the compiler handles ordinary class template instantiations, the compiler instantiates **all** the members of that class. Even if we do not use a member, that member will be instantiated. Consequently, we can use explicit instantiation **only for types that can be used with all the members of that template**
 
 #### 6. Template Argument Deduction
 
