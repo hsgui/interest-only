@@ -160,6 +160,112 @@ When the compiler sees an instantiation definition, it generates code.
 An **instantiation definition** for a class template instantiates **all** the members of that template including inline member functions. When the compiler see an instantiation definition it cannot know which member functions the program uses (the usage is in other source files). Hence, unlike the way the compiler handles ordinary class template instantiations, the compiler instantiates **all** the members of that class. Even if we do not use a member, that member will be instantiated. Consequently, we can use explicit instantiation **only for types that can be used with all the members of that template**
 
 #### 6. Template Argument Deduction
+The process of determining the template arguments from the function arguments is known as **template argument deduction**. During template argument deduction, the compiler uses types of the arguments in the call to find the template arguments that generate a version of the function that best matches the given call.
+
+###### 6.1 conversions and template type parameters
+Top-level consts (indicate that an object itself is `const`) in either the paramter or the argument are ignored. The only other conversions performed in a call to a function template are:
+
+**`const` conversions**: A function parameter that is a reference (or pointer) to a `const` can be passed a reference(or pointer) to a nonconst object.
+
+**Array-or function-to-pointer conversions**: If the function parameter is not a reference type, then the normal pointer conversion will be applied to arguments of array or function type. An array argument will be converted to a pointer to its first element. Similiarly, a function argument will be converted to a pointer to the function's type.
+
+Other conversions, such as the arithmetic conversions, derived-to-base, and user-defined conversions are not performed.
+
+```C++
+template<typename T> T fobj(T, T);      // non-reference, arguments are copied.
+template<typename T> T fref(const T&, const T&);    // reference
+
+string s1("value1");
+const string s2("value2");
+const string s3("value3");
+
+// calls fobj(string, string); const is ignored. 
+// Even though type of s1 (string) and s2 (const string) don't match exactly
+// In the call to fobj, arguments are copied, 
+// whether the original object is const doesn't matter.
+fobj(s1, s2);
+
+// calls fobj(string, string); const is ignored.
+fobj(s2, s3);
+
+// calls fref(const string&, const string&)
+// use permissible conversion to const on s1.
+fref(s1, s2);
+
+// arrays with different sizes have different types.
+// a: int[10], b: int[12]
+int a[10], b[12];
+
+// calls fobj(int*, int*). Both arrays are converted to pointer type int*
+fobj(a, b);
+
+// error, array types don't match
+// when the parameter is a reference, the arrays are not converted to pointers
+fref(a, b);
+```
+
+A function template can have parameters that are defined using ordinary types - types that don't involve a template type parameter. Normal conversions are applied to those arguments whose type is not a template parameter.
+
+###### 6.2 function-template explicit arguments
+```C++
+template <typename T1, typename T2, typename T3>
+T1 sum(T2, T3);
+```
+
+In this case, there is no argument whose type can be used to deduce the type of `T1`. The caller must provide an **explicit template argument** for this parameter.
+
+```C++
+// this call explicitly specified the type for T1 
+// The compiler will deduce the types for T2 and T3 from the type of 23 and 15L.
+auto val = sum<long>(23, 15L);
+```
+
+Normal conversions also apply for arguments whose template type parameter is explicitly specified.
+```C++
+// fobj(23, 15L) is an error
+fobj<long>(23, 15L);
+```
+
+###### 6.3 Trailing return types and type transformation
+For example, we might want to write a function that takes a pair of iterators denoting a sequence and returns a reference to an element in the sequence:
+```C++
+template<typename It>
+???& func(It begin, It end)
+{
+    // process the range
+    return *begin;
+}
+```
+But we don't know the exact type we want to return. We can't use `decltype(*begin)` to replace the placeholder `???`. Because `begin` has not been seen when we use `decltype(*begin)`. To define this function, we must use a **trailing return type**.
+```C++
+// a trailing return lets us declare the return type after the parameter list is seen.
+template<typename It>
+auto func(It begin, It end) -> decltype(*begin)
+{
+    // process the range
+    return *begin;
+}
+```
+
+###### 6.4 function pointers and argument deduction
+When we initialize or assign a function pointer from a function template, the compiler uses the type of the pointer to deduce the template arguments.
+
+For example, we have a function pointer declared following:
+```C++
+int (*pf1)(const int&, const int&);
+
+template<typename T> int compare(const T&, const T&);
+```
+
+And we have an assignment:
+```C++
+pf1 = compare;
+```
+
+The type of the parameters in `pf1` determines the type of the template argument for `T` which is `int`. The function pointer `pf1` points to the instantiation of `compare` with `T` bound to `int`.
+
+###### 6.5 template argument deduction and reference
+
 
 #### 7. Variadic Templates
 A variadic template is a template function or class that take a varying number of parameters. The varying parameters are known as a **parameter pack**.

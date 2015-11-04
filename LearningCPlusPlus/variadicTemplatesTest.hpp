@@ -81,6 +81,18 @@ namespace LearningCPP
 			}
 		}
 
+		template<typename T>
+		void constConversion(T, T)
+		{
+			std::cout << "constConversion(T, T) is called" << std::endl;
+		}
+
+		template<typename T>
+		void referenceConversion(const T&, const T&)
+		{
+			std::cout << "referenceConversion(const T&, const T&) is called" << std::endl;
+		}
+
 		void test()
 		{
 			foo(23, 1.1, "hello", 0xde);
@@ -101,6 +113,27 @@ namespace LearningCPP
 
 			std::cout << "printVector(values2) = " << std::endl;
 			printVector(values2);
+
+			std::string s1("value1");
+			const std::string s2("value2");
+			const std::string s3("value3");
+			std::cout << "call constConversion(s1, s2)" << std::endl;
+			constConversion(s1, s2);	// calls constConversion(std::string, std::string), const is ignored.
+			constConversion(s2, s3);	// still calls constConversion(std::string, std::string), const is ignored.
+			referenceConversion(s1, s2);// referenceConversion(const std::string&, const std::string&); nonconst object reference to const ojbect reference
+
+			int a[10], b[43];
+			constConversion(a, b);		// calls constConversion(char*, char*), T is not a reference type. The array is converted to a pointer
+			// referenceConversion(a, b), const T& is a reference type, no conversion. referenceConversion(int[10], int[43]) doesn't match
+
+			long l1 = 1;
+			int i2 = 2;
+			referenceConversion<long>(l1, i2); // explicit arguments of function template
+			//referenceConversion(l1, i2); // referenceConversion(long, int) doesn't match
+
+			void(*fp1)(const int&, const int&);
+			fp1 = referenceConversion;
+			fp1(1, 2);
 		}
 	}	
 }
