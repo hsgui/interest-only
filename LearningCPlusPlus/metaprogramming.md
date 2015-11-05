@@ -334,6 +334,78 @@ Then we can have two important consequences from these rules:
 
 So an argument of any type can be passed to a function parameter that is a rvalue reference to a template parameter type(`T&&`).
 
+###### 6.5.3 Template functions with rvalue reference parameters
+
+```C++
+template<typename T> void func4(T&& val)
+{
+    T t = val;  // copy or binding a reference?
+    t = fcn(t); // does the assignment change only t or val and t?
+    if (val == t) {} // always true if T is a reference type.
+}
+```
+When `func4` is called on rvalue, such as the literal `2`, `T` is `int`. In this case, the local variable `t` has type `int` and is initialized by copying the value of parameter `val`. When we assign to `t`, `val` remains unchanged.
+
+But when `func4` is called on lvalue, then `T` is `int&`. When we define and initialize the local variable `t`, `t` has the type `int&`. The initialization of `t` binds `t` to `val`. In this initialization of `func4`, the `if` test always returns yield `true`.
+
+In practice, rvalue reference parameters are used in the two contexts:
+
+* the template is forwarding its arguments
+* the template is overloaded.
+
+###### 6.6 std::move
+
+We cannot directly bind a rvalue reference to a lvalue, we can use `std::move` to obtain a rvalue reference bound to a lvalue.
+```C++
+template<typename T>
+typename std::remove_reference<T>::type&& move(T&& t)
+{
+    static_cast<typename std::remove_reference<T>::type&&>(t);
+}
+```
+
+```C++
+string s1("hello"), s2;
+s2 = std::move(string("world"));// moving from a rvalue
+// moving from lvalue, assignment from rvalue reference has move semantic.
+// after assignment, s1 has indeterminate value
+s2 = std::move(s1);
+```
+In the first assignment, the argument to `move` is the rvalue result of the `string` constructor, `string("world")`. So in `std::move(string("world"))`:
+
+* The deduced type of `T` is `string`
+* Therefore, `remove_reference` is instantiated with `string`
+* The `type` member of `remove_reference<string>` is `string`
+* The return type of `move` is `string&&`
+* `move`'s function parameter, `t` has type `string&&`
+* The body of this function returns `static_cast<string&&>(t)` with t is type of `string&&`, so `static_cast` does nothing
+
+So, the call `std::move(string("world"))` instantiates the following function:
+```C++
+string&& move(string&& t);
+```
+
+In the second assignment, the argument to `move` is a lvalue. So in `std::move(s1)`:
+
+* The deduced type of `T` is `string&` (reference to string), see the first exception
+* Therefore, `remove_reference` is instantiated with `string&`
+* The `type` member of `remove_reference<string&>` is `string`
+* The return type of `move` is still `string&&`
+* `move`'s function parameter, `t`, instantiates as `string& &&`, which collapses to `string&`
+* The body of this function returns `static_cast<string&&>(t)` with `t` is type of `string&`
+
+So, the call `std::move(s1)` instantiates the following function:
+```C++
+string&& move(string& t);
+```
+This is what we want: we want to bind a rvalue reference to a lvalue.
+
+** `static_cast` from a lvalue to a rvalue reference is permitted**. (ps: lvalue reference is a lvalue)
+
+Special case: we can explicitly cast a lvalue to a rvalue reference using `static_cast`, even though we cannot implicitly convert a lvalue to a rvalue reference.
+
+**Binding a rvalue reference to a lvalue gives code that operates on the rvalue reference permission to clobber the lvalue!**
+
 #### 7. Variadic Templates
 A variadic template is a template function or class that take a varying number of parameters. The varying parameters are known as a **parameter pack**.
 

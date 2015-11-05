@@ -93,6 +93,36 @@ namespace LearningCPP
 			std::cout << "referenceConversion(const T&, const T&) is called" << std::endl;
 		}
 
+		template<typename T>
+		void typeDeduction1(T&)
+		{
+			std::cout << "typeDeduction1()" << std::endl;
+		}
+
+		template<typename T>
+		void typeDeduction2(const T&)
+		{
+			std::cout << "typeDeduction2()" << std::endl;
+		}
+
+		template<typename T>
+		void typeDeduction3(T&&)
+		{
+			std::cout << "typeDeduction3()" << std::endl;
+		}
+
+		template<typename T>
+		void typeDeduction4(const T&&)
+		{
+			std::cout << "typeDeduction4()" << std::endl;
+		}
+
+		template<typename S>
+		S&& iforward(typename std::remove_reference<S>::type& a) noexcept
+		{
+			return static_cast<S&&>(a);
+		}
+
 		void test()
 		{
 			foo(23, 1.1, "hello", 0xde);
@@ -134,6 +164,30 @@ namespace LearningCPP
 			void(*fp1)(const int&, const int&);
 			fp1 = referenceConversion;
 			fp1(1, 2);
+
+			int i3 = 2;
+			const int ci1 = 1;
+			typeDeduction1(i3);
+			typeDeduction1(ci1);
+			//typeDeduction1(3);
+
+			typeDeduction2(i3);
+			typeDeduction2(ci1);
+			typeDeduction2(3);
+
+			typeDeduction3(i3);// typeDeduction3<int&>(int&)
+			typeDeduction3(ci1);//typeDeduction3<const int&>(const int&)
+			typeDeduction3(4);// typeDeduction3<int>(int&&)
+			typeDeduction3(i3 * ci1); // typeDeduction3<int>(int&&)
+
+			typeDeduction4(4);// typeDeduction4<int>(int&&)
+			//typeDeduction4(i3);
+			//typeDeduction4(ci1);
+
+			int&& i5 = std::move(i3);
+			std::cout << "std::move(i3) = " << i5 << std::endl;
+			i5 = static_cast<int&&>(i3); // explicitly convert a lvalue to a rvalue reference
+			std::cout << "explicitly convert lvalue to rvalue reference: " << i5 << std::endl;
 		}
 	}	
 }
