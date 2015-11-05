@@ -2,32 +2,32 @@
 #### 1. what's the spirit of metaprogramming
 
 #### 2. Template parameters
-###### 2.1 value parameter
-###### 2.2 type parameter
-###### 2.3 template template parameter
+##### 2.1 value parameter
+##### 2.2 type parameter
+##### 2.3 template template parameter
 
 #### 3. function templates
 
 #### 4. class templates
-###### 4.1 template type alias
-###### 4.2 using class members that are types
+##### 4.1 template type alias
+##### 4.2 using class members that are types
 
 #### 5. Template compilation
-###### 5.1 Controlling Instantiations
+##### 5.1 Controlling Instantiations
 
 #### 6. Template Argument Deduction
 
 #### 7. Variadic Templates
-###### 7.1 `sizeof...` operator
-###### 7.2 writing a variadic function template
-###### 7.3 Pack expansion
+##### 7.1 `sizeof...` operator
+##### 7.2 writing a variadic function template
+##### 7.3 Pack expansion
 
 #### 8. Template Specializations
-###### 8.1 defining a function template specialization
-###### 8.2 function overloading versus template specializations
-###### 8.3 class template specializations
-###### 8.4 class-template partial specializations
-###### 8.5 specializing members but not the class
+##### 8.1 defining a function template specialization
+##### 8.2 function overloading versus template specializations
+##### 8.3 class template specializations
+##### 8.4 class-template partial specializations
+##### 8.5 specializing members but not the class
 
 #### 1 spirit of metaprogramming
 **All in one, template metaprogramming is all about types and works in compile time**.
@@ -45,13 +45,13 @@ See [Introduction](http://blog.biicode.com/template-metaprogramming-with-modern-
 #### 2. Template parameters
 C++ templates can take three kinds of parameters: **Value parameters**, **type parameters**, and **template template parameter**.
 
-###### 2.1 value parameters
+##### 2.1 value parameters
 For value parameters (nontype parameters), C++ templates can only take parameters that are values known at compile time - constant expression. A nontype parameter may be an integral type, or a pointer, or reference to an object, or to a function type. An argument bound to a nontype integral parameter must be a constant expresion.
 
-###### 2.2 type parameters
+##### 2.2 type parameters
 In general, we can use a type parameter as a type specifier in the same way that we use a built-in or class type specifier. In particular, a type parameter can be used to name the return type or a function parameter type, and for variable declarations or casts inside the function body.
 
-###### 2.3 template template parameter
+##### 2.3 template template parameter
 See [Template metaprogramming](http://blog.biicode.com/template-metaprogramming-cpp-ii/)
 
 #### 3. Function templates
@@ -85,7 +85,7 @@ Cla<T> Cla<T>::operator++(int)
 }
 ```
 
-###### 4.1 Template Type Alias
+##### 4.1 Template Type Alias
 An instantiation of a class template defines a class type, and as with any other class type, we can define a `typedef` that refers to that instantiated class:
 ```C++
 typedef Cla<int> IntCla;
@@ -113,7 +113,7 @@ PartNo<Student> scores;     // scores is a std::pair<Student, int>
 
 Note: template declarations must be in global, namespace or class scope, can't be in function scope.
 
-###### 4.2 Using class members that are types
+##### 4.2 Using class members that are types
 We can use scope operator (`::`) to access both *static members* and *type members*. In nontemplate code, the compiler has access to the class definition. As a result, it knows whether a name accessed through the scope operator is a type or a static member. For example when we write `std::string::size_type`, the compiler has the definition of `std::string` and can see that `size_type` is a type.
 
 Assuming `T` is a template type parameter, when the compiler sees code such as `T::mem` it won't know until instantiation time whether `mem` is a type or a `static` data memeber. However, in order to process the template when no instantiations, the compiler must know whether a name represents a type. For example:
@@ -133,7 +133,7 @@ When the compiler sees the definition of a template, it does not generate code. 
 
 **Compilation errors of templates are mostly reported during instantiation**
 
-###### 5.1 controlling instantiations
+##### 5.1 controlling instantiations
 The fact that instantiations are generated when a template is used means that the same instantiation may appear in multiple object files. When two or more separately compiled source files use the same template with the same template arguments, there is an instantiation of that template in each of those files. Then there is overhead of instantiating the same template in multiple files.
 
 We can avoid this overhead through an **explicit instantiation**. An explicit instantiation contains two aspects: **instantiation declaration** and **instantiation definition**.
@@ -162,7 +162,7 @@ An **instantiation definition** for a class template instantiates **all** the me
 #### 6. Template Argument Deduction
 The process of determining the template arguments from the function arguments is known as **template argument deduction**. During template argument deduction, the compiler uses types of the arguments in the call to find the template arguments that generate a version of the function that best matches the given call.
 
-###### 6.1 conversions and template type parameters
+##### 6.1 conversions and template type parameters
 Top-level consts (indicate that an object itself is `const`) in either the paramter or the argument are ignored. The only other conversions performed in a call to a function template are:
 
 **`const` conversions**: A function parameter that is a reference (or pointer) to a `const` can be passed a reference(or pointer) to a nonconst object.
@@ -206,7 +206,7 @@ fref(a, b);
 
 A function template can have parameters that are defined using ordinary types - types that don't involve a template type parameter. Normal conversions are applied to those arguments whose type is not a template parameter.
 
-###### 6.2 function-template explicit arguments
+##### 6.2 function-template explicit arguments
 ```C++
 template <typename T1, typename T2, typename T3>
 T1 sum(T2, T3);
@@ -226,7 +226,7 @@ Normal conversions also apply for arguments whose template type parameter is exp
 fobj<long>(23, 15L);
 ```
 
-###### 6.3 Trailing return types and type transformation
+##### 6.3 Trailing return types and type transformation
 For example, we might want to write a function that takes a pair of iterators denoting a sequence and returns a reference to an element in the sequence:
 ```C++
 template<typename It>
@@ -247,7 +247,7 @@ auto func(It begin, It end) -> decltype(*begin)
 }
 ```
 
-###### 6.4 function pointers and argument deduction
+##### 6.4 function pointers and argument deduction
 When we initialize or assign a function pointer from a function template, the compiler uses the type of the pointer to deduce the template arguments.
 
 For example, we have a function pointer declared following:
@@ -264,8 +264,75 @@ pf1 = compare;
 
 The type of the parameters in `pf1` determines the type of the template argument for `T` which is `int`. The function pointer `pf1` points to the instantiation of `compare` with `T` bound to `int`.
 
-###### 6.5 template argument deduction and reference
+##### 6.5 template argument deduction and reference
+Let's analysis the type deduction from a call to a function template:
+```C++
+template<typename T> void func(T &p);
+```
+In which the function's parameter `p` is a reference to a template type parameter `T`. Remind there is no `const` before `T`, so `const` is low level.
 
+###### 6.5.1 type deduction from lvalue reference function parameters
+```C++
+template<typename T> void func1(T&); // argument must be a lvalue
+
+int i = 0; const int ci = 1;
+// calls to func1 use the referred-to type of the argument as the template parameter type.
+func1(i);    // i is an int; template parameter T is int
+func1(ci);   // ci is an const int; template parameter T is const int
+func1(5);    // error: argument to a & parameter must be a lvalue.
+```
+When a function parameter is an ordinary (lvalue) reference to a template type parameter (that has the form T&), the binding rules say that we can pass **only a lvalue**. That argument might or might not have a `const` type. If the argument is `const`, then `T` will be deduced as a `const` type.
+
+```C++
+template<typename T> void func2(const T&); // can take a rvalue
+
+int i = 0; const int ci = 1;
+// parameter in func2 is const &; const in the argument is irrelevant
+// in each of these three calls, func2's function parameter type is inferred as const int&
+func2(i);    // i is an int; template parameter T is int
+func2(ci);   // ci is an const int; but template parameter T is int
+func2(5);    // a const & parameter can be bound to a rvalue; T is int
+```
+When a function parameter has type `const T&`, normal binding rules say that we can pass any kind of argument - an object(const or otherwise), a temporary, or a literal value. When the function parameter is itself `const`, the type deduced for `T` will not be a `const` type. The `const` is already part of the function parameter type; therefore, it does not also become part of the template parameter type.
+
+###### 6.5.2 type deduction from rvalue reference function parameters and reference collapsing.
+```C++
+template<typename T> void func3(T&&);
+
+int i = 0; const int ci = 1;
+
+// argument is a lvalue, template parameter T is int&
+// void func3<int&>(int& &&);
+// function parameter is int& &&, collapse to int&
+func3(i);
+
+// argument is a lvalue, template parameter T is const int&
+// void func3<const int&>(const int& &&);
+// function parameter is const int& &&, collapse to const int&
+func3(ci);
+
+// argument is an rvalue of type int, template parameter T is int.
+func3(5);
+```
+For `func3(i)`, normally we cannot bind a rvalue reference to a lvalue. However there are two exceptios to normal binding rules that allow this kind of usage.
+
+The first exception: when we pass a lvalue (e.g `i`) to a function parameter that is a rvalue reference to a template type parameter (e.g `T&&`), the compiler **deduces the template type parameter as the argument's lvalue reference type**. So, when we call `func3(i)`, the compiler deduces the type of `T` as `int&`, not `int`.
+
+Deducing `T` as `int&` would seem to mean that `func3`'s function parameter would be a rvalue reference to the type `int&`. Ordinaryly, we cannot(directly) define a reference to a reference. However, it's possible to do so indirectly through a **type alias** or through a **template type parameter**.
+
+The second exception: If we indirectly create a reference to a reference, then those references collapse. That is, for a given type `X`:
+
+* `X& &`, `X& &&` and `X&& &` all collapse to type `X&`
+
+* `X&& &&` collapses to `X&&`
+
+Then we can have two important consequences from these rules:
+
+* a function parameter that is a rvalue reference to a template type parameter(`T&&`) can be bound to a lvalue;
+
+* If the argument is a lvalue, then the deduced template argument type will be a lvalue reference type and the function parameter will be instantiated as a lvalue reference parameter(`T&`)
+
+So an argument of any type can be passed to a function parameter that is a rvalue reference to a template parameter type(`T&&`).
 
 #### 7. Variadic Templates
 A variadic template is a template function or class that take a varying number of parameters. The varying parameters are known as a **parameter pack**.
@@ -304,11 +371,11 @@ void foo(const double& t, const string&);
 void foo(const string& t);
 ```
 
-###### 7.1 `sizeof...` operator
+##### 7.1 `sizeof...` operator
 
 `sizeof...` returns a constant expression of how many elements there are in a pack and **does not evaluate its argument**.
 
-###### 7.2 writing a variadic function template
+##### 7.2 writing a variadic function template
 
 Let's see an example
 ```C++
@@ -355,7 +422,7 @@ For last call in the recursion, `iprint(std::cout, "hello")`, both variadic (a p
 
 A declaration for the nonvariadic version of `iprint` must be in scope when the variadic version is defined. Otherwise, the variadic function will recurse indefinitely. (Test on VS2015, run correctly)
 
-###### 7.3 Pack Expansion
+##### 7.3 Pack Expansion
 
 Only two things we can do to a pack: `sizeof...` and `pack expansion`.
 
@@ -389,18 +456,18 @@ iprint(os, idebug(21, 22.3, string("hello")));
 
 #### 8. Template specializations
 
-###### 8.1 Defining a function template specialization
+##### 8.1 Defining a function template specialization
 
 When we specialize a function template, we must **supply arguments for every template parameters in the orignial template**.
 To indicate that we are specializing a template, we use `template <>`. The empty brackets indicate that arguments will be supplied for all the template parameters of the original template.
 
-###### 8.2 Function overloading versus template specializations.
+##### 8.2 Function overloading versus template specializations.
 A specialization is an instantiation; it's not an overloaded instance of the function name. As a result, specializations don't affect function matching.
 
 Templates and their specializations should be declared in the same header file. Declarations for all the templates with a given name should appear first, followed by any specializations of those templates.
 
-###### 8.3 class template specializations
-###### 8.4 class-template partial specializations
+##### 8.3 class template specializations
+##### 8.4 class-template partial specializations
 A class template specialization doesn't have to supply an argument for every template parameter. We can specify some of the template parameters or some aspects of the parameters. **A class template partial specialization is itself a template**. We must supply arguments for those template parameters that are not fixed by the specializations.
 ```C++
 template<typename T> struct remove_reference
@@ -424,7 +491,7 @@ remove_reference<decltype(i)>::type b;  // decltype(i) is int&, use T& partial s
 remove_reference<decltype(std::move(i))>::type c; // decltype(std::move(i)) is int&&, use T&& partial specialization
 ```
 
-###### 8.5 specializing members but not class.
+##### 8.5 specializing members but not class.
 Rather than specializing the whole template, we can specialize just specific member function.
 For example:
 ```C++
