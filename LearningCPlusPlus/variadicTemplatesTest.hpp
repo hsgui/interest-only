@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <ostream>
+#include <sstream>
 
 namespace LearningCPP
 {
@@ -123,6 +124,70 @@ namespace LearningCPP
 			return static_cast<S&&>(a);
 		}
 
+		void testFunc(int a, int& b)
+		{
+			std::cout << a << ", " << ++b << std::endl;
+		}
+
+		void testFunc2(int&& a, int& b)
+		{
+			std::cout << a << ", " << b << std::endl;
+		}
+
+		// just forward the t1 and t2 to f, with reverse order.
+		template<typename F, typename T1, typename T2>
+		void flip1(F f, T1 t1, T2 t2)
+		{
+			f(t2, t1);
+		}
+
+		template<typename F, typename T1, typename T2>
+		void flip2(F f, T1&& t1, T2&& t2)
+		{
+			f(t2, t1);
+		}
+
+		template<typename F, typename T1, typename T2>
+		void flip(F f, T1&& t1, T2&& t2)
+		{
+			return f(iforward<T2>(t2), iforward<T1>(t1));
+		}
+
+		template<typename T> std::string idebug(const T& t)
+		{
+			std::ostringstream ret;
+			ret << t;
+			return ret.str();
+		}
+
+		template<typename T> std::string idebug(T* p)
+		{
+			std::ostringstream ret;
+			ret << "pointer: " << p;
+			if (p)
+			{
+				ret << " " << idebug(*p);
+			}
+			else
+			{
+				ret << " null pointer";
+			}
+
+			return ret.str();
+		}
+
+		std::string idebug(const std::string& s)
+		{
+			return '"' + s + '"';
+		}
+
+		std::string idebug(const char* p)
+		{
+			// if the declaration of idebug(const std::string&) is not in scope
+			// the return will call idebug(const T&) with T instantiated to string
+			return idebug(std::string(p));
+		}
+
 		void test()
 		{
 			foo(23, 1.1, "hello", 0xde);
@@ -188,6 +253,22 @@ namespace LearningCPP
 			std::cout << "std::move(i3) = " << i5 << std::endl;
 			i5 = static_cast<int&&>(i3); // explicitly convert a lvalue to a rvalue reference
 			std::cout << "explicitly convert lvalue to rvalue reference: " << i5 << std::endl;
+
+			int i4 = 1;
+			testFunc(34, i4); // change i4 from 1 to 2
+			std::cout << "i4=" << i4 << std::endl;
+			flip1(testFunc, i4, 23); // leave i4 unchanged
+			std::cout << "i4=" << i4 << std::endl;
+			flip2(testFunc, i4, 35); // i4 is changed
+			std::cout << "i4=" << i4 << std::endl;
+
+			//flip2(testFunc2, i4, 32); // cannot convert int to int&&
+			flip(testFunc2, i4, 23);
+
+			std::string s2("hello");
+			std::cout << idebug(s2) << std::endl;
+			std::cout << idebug(&s2) << std::endl;
+			std::cout << idebug("hello world") << std::endl;
 		}
 	}	
 }

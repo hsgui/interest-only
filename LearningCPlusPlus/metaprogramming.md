@@ -353,7 +353,7 @@ In practice, rvalue reference parameters are used in the two contexts:
 * the template is forwarding its arguments
 * the template is overloaded.
 
-###### 6.6 std::move
+###### 6.6 `std::move`
 
 We cannot directly bind a rvalue reference to a lvalue, we can use `std::move` to obtain a rvalue reference bound to a lvalue.
 ```C++
@@ -405,6 +405,217 @@ This is what we want: we want to bind a rvalue reference to a lvalue.
 Special case: we can explicitly cast a lvalue to a rvalue reference using `static_cast`, even though we cannot implicitly convert a lvalue to a rvalue reference.
 
 **Binding a rvalue reference to a lvalue gives code that operates on the rvalue reference permission to clobber the lvalue!**
+
+##### 6.7 `std::forward`
+Some functions need to forward their arguments with their types unchanged to another function. In such cases, we need to preserve everything about the forwarded arguments, including whether or not the argument type is `const`, and whether the argument is a lvalue or rvalue. The types should be the same.
+
+```C++
+// template that takes a callable and two parameters
+template<typename F, typename T1, typename T2>
+void flip1(F f, T1 t1, T2 t2)
+{
+    f(t2, t1);
+}
+
+// note v2 is a reference
+void f(int v1, int& v2)
+{
+    std::cout << v1 << " " << ++v2 << std::endl;
+}
+
+int i = 1;
+f(32, i);   // f changes its argument i, i = 2 now
+flip1(f, i, 32); // f called through flip1 leaves i unchanged! i = 2 still.
+```
+What we want `flip1` do is just fliping the parameters, `i` should be changed after `flip1`, but it doesn't. The problem is `i`'t type is `int`, so the type of `t1` is `int` too. That is, `flip1` is instantiated as following:
+
+```C++
+void flip1(void (*f)(int, int&), int t1, int t2);
+```
+
+The value of `i` is copied into `t1`. The reference parameter in `f` is bound to `t1`, not to `i`.
+
+To pass a reference through the `flip` function and preserve the `lvalueness` of its given arguments, we'll define its corresponding function parameter as a rvalue reference to a template type parameter. **Using a reference parameter(either lvalue or rvalue) let us preserve `constness`, because the `const` in a reference type is low-level**.
+
+```C++
+template<typename F, typename T1, typename T2>
+void flip2(F f, T1&& t1, T2&& t2)
+{
+    f(t2, t1);
+}
+
+flip2(f, i, 32); // i changed!
+```
+
+In `flip2`, the type deduced for `T1` is `int&`, which means that the type of `t1` collapses to `int&`. The reference `t1` is bound to `i`. When `flip2` calls `f`, the reference parameter `v2` in `f` is bound to `t1`, which in turn is bound to `i`.
+
+But `flip2` cannot be used to call a function that has a rvalue reference parameter:
+
+```C++
+void g(int&& i, int& j)
+{
+    std::cout << i << ", " << j << std::endl;
+}
+
+// error: can't initialize int&& from lvalue int.
+flip2(g, i, 41);
+```
+
+If we try to call `g` through `flip2`, we will be passing the parameter `t2` to `g`'s rvalue reference parameter. Even if we pass a rvalue to `flip2`, like `flip2(g, i, 41)`, what is passed to `g` will be the parameter named `t2` inside `flip2`. **A function parameter, like any other vavariable, is a lvalue expression**. As a result, the call to `g` in `flip2` passes a lvalue to `g`'s rvalue reference parameter, which is not allowed.
+
+Using `std::forward` to preserve type information in a call. Unlike `move`, `forward` must be called with an explicit template argument. `forward` returns a rvalue reference to that explicit argument type. That is, the return type of `forward<T>` is `T&&`.
+
+```C++
+template<typename T>
+T&& forward(typename remove_reference<T>::type& t)
+{
+    return static_cast<S&&>(a);
+}
+```
+
+```C++
+template<typename F, typename T1, typename T2>
+void flip(F f, T1&& t1, T2&& t2)
+{
+    f(forward<T2>(t2), forward<T1>(t1));
+}
+
+flip(g, i, 11);
+```
+
+**Ordinarily, we use `forward` to `pass a function parameter that is defined as a rvalue reference to a template type parameter`. Through reference collapsing on its return type, `forward` preserves the lvalue/rvalue nature of its given argument**:
+```C++
+template <typename T> intermediary(T&& arg)
+{
+    // explicitly using T as forward's template argument type!
+    func(std::forward<T>(arg));
+}
+```
+
+* If the argument was a rvalue, then `T` is an ordinary (nonreference) type and `forward<T>` will return `T&&`, a rvalue reference.
+
+* If the argument was a lvalue, then `T` itself is a lvalue reference type. In this case, the return type is a rvalue reference to a lvalue reference. Through collapsing, `forward<T>` will return a lvalue reference type.
+
+##### 6.8 overloading and templates
+Function matching is affected by the presence of function templates in the following ways:
+
+* The candidate functions for a call include any function-template instantiation for which template argument deduction succeeds
+
+* The candidate function templates are always viable, because template argument deduction will have eliminated any templates that are not viable.
+
+* As usual, the viable functions (template and nontemplate) are ranked by the conversions, if any, needed to make the call. Remind that the conversions that used to call a functiion template are quite limited
+
+* If exactly one function provides a better match than any of the others, that function is selected.
+
+* If there are several functions that provide an equally good match, then:
+
+    * If there is only one nontemplate function in the set of equally good matches, the nontemplate function is called.
+
+    * If there are no nontemplate functions in the candidate set, but there are multiple function templates, and one of these templates is more specialized than any of the others, the **more specialized function template is called**.
+
+    * Otherwise, the call is ambiguous.
+
+###### 6.8.1 Overloaded templates example
+```C++
+#include <sstream>
+template<typename T> string idebug(const T& t)
+{
+    ostringstream ret;
+    ret << t;
+    return ret.str();
+}
+```
+This is the most general version of `idebug` function which return `string` of some type `T`.
+
+Next, we define a version of `idebug` to print pointers:
+```C++
+template<typename T> string idebug(T* p)
+{
+    ostringstream ret;
+    ret << "pointer: " << p;
+    if (p)
+        ret << " " << idebug(*p);
+    else
+        ret << " null pointer";
+    return ret.str();
+}
+```
+
+```C++
+string s("hello");
+std::cout << idebug(s) << std::endl;
+```
+
+For this call, only the first version of `idebug` is viable. The second version of `idebug` requires a pointer parameter and we passed a nonpointer object. There is no way to instantiate a function template that expects a pointer type from a nonpointer argument, so argument deduction fails.
+
+```C++
+std::cout << idebug(&s) << std::endl;
+```
+
+For this call, both functions generate viable instantiations:
+
+* idebug(const string* &), which is the instantiation of the first version of `idebug` with `T` bound to `string*`
+
+* idebug(string*), which is the instantiation of the second version of `idebug` with `T` bound to `string`
+
+But the instantiation of the second version of `idebug` is an exact match for this call. And the first version is more general than the second version:
+
+* `idebug(const T&)` can be called on essentially any type, including pointer type
+
+* `debug(T*)` can be called only on pointer types
+
+That is, **when there are several overloaded templates that provide an equally good match for a call, the most specialized version is preferred**.
+
+We'll define a nontemplate version of `idebug`:
+
+```C++
+std::string idebug(const string& s)
+{
+    return '"' + s + '"';
+}
+```
+
+now there are two equally good viable functions for call `idebug(s)`:
+
+* `idebug<string>(const string&)`, the first template function with `T` bound to `string`
+
+* `idebug(const string&)`, the ordinary, nontemplate function.
+
+For the same reasons that the most specialized of equally good function templates is preferred, a nontemplate function is preferred over equally good match to a function template.
+
+Consider this call:
+```C++
+// calls idebug(T*);
+std::cout << idebug("hello world") << std::endl;
+```
+
+Here all three of the `idebug` functions are viable:
+
+* `idebug(const T&)`, with `T` bound to `char[10]`
+
+* `idebug(T*)`, with `T` bound to `const char`
+
+* `idebug(const string&)`, which requires a conversion from `const char*` to `string`
+
+Two templates provide an exact match. The nontemplate version is viable but requires a user-defined conversion, which is less good than an exact match. As before, the `idebug(T*)` is more specialized and is the one that will be called.
+
+```C++
+template<typename T> string idebug(const T& t);
+template<typename T> string idebug(T *p);
+
+// the following declaration must be in scope
+// for the definition of idebug(char*) to do the right thing
+string idebug(const string& s);
+
+string idebug(char* p)
+{
+    // if the declaration of idebug(const string&) is not in scope
+    // the return will call idebug(const T&) with T instantiated to string
+    return idebug(string(p));
+}
+```
+
+Declare every function in an overload set before defining any of the functions. That way, we don't have to worry whether the compiler will instantiate a call before it sees the function we intended to call.
 
 #### 7. Variadic Templates
 A variadic template is a template function or class that take a varying number of parameters. The varying parameters are known as a **parameter pack**.
