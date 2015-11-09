@@ -104,6 +104,9 @@
     <ClInclude Include="smartPointersTest.hpp">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="quickTest.hpp">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">
@@ -115,6 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="metaprogramming.md">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="smartpointers.md">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

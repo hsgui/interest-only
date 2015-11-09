@@ -11,6 +11,7 @@
 #include "learningcppTest.hpp"
 #include "variadicTemplatesTest.hpp"
 #include "smartPointersTest.hpp"
+#include "quickTest.hpp"
 
 int main()
 {
@@ -42,6 +43,8 @@ int main()
 	LearningCPP::VariadicTemplate::test();
 
 	LearningCPP::SmartPointers::test();
+
+	LearningCPP::QuickStart::test();
 
 	system("pause");
 

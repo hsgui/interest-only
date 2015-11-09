@@ -32,6 +32,7 @@
     <ClInclude Include="learningcppTest.hpp" />
     <ClInclude Include="multimethods.hpp" />
     <ClInclude Include="power.hpp" />
+    <ClInclude Include="quickTest.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="smallobj.hpp" />
     <ClInclude Include="smartPointersTest.hpp" />
@@ -55,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="metaprogramming.md" />
+    <None Include="smartpointers.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{28A11C81-0B13-4646-B4B2-D29C36D437AA}</ProjectGuid>
