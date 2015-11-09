@@ -265,9 +265,9 @@ namespace LearningCPP
 			//flip2(testFunc2, i4, 32); // cannot convert int to int&&
 			flip(testFunc2, i4, 23);
 
-			std::string s2("hello");
-			std::cout << idebug(s2) << std::endl;
-			std::cout << idebug(&s2) << std::endl;
+			std::string s4("hello");
+			std::cout << idebug(s4) << std::endl;
+			std::cout << idebug(&s4) << std::endl;
 			std::cout << idebug("hello world") << std::endl;
 		}
 	}	

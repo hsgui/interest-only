@@ -10,6 +10,7 @@
 #include "modernDesignTest.hpp"
 #include "learningcppTest.hpp"
 #include "variadicTemplatesTest.hpp"
+#include "smartPointersTest.hpp"
 
 int main()
 {
@@ -39,6 +40,8 @@ int main()
 	ModernDesign::testModernDesign();
 
 	LearningCPP::VariadicTemplate::test();
+
+	LearningCPP::SmartPointers::test();
 
 	system("pause");
 
