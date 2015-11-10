@@ -127,3 +127,216 @@ void f()
 * If we use a pointer returned by `get()`, remember that the pointer will become valid when the last corresponding smart pointer goes away.
 
 * If we use a smart pointer to manager a resource other than memory allocated by `new`, remember to pass a deleter.
+
+#### 3. `unique_ptr`
+
+Only one `unique_ptr` at a time can point to a given object. The object to which a `unique_ptr` points is destroyed when the `unique_ptr` is destroyed.
+
+Bacause `unique_ptr` owns the object to which it points, `unique_ptr` does not support ordinary copy or assignment.
+
+##### 3.1 `unique_ptr` operations
+
+* `unique_ptr<T> u1`: Null `unique_ptr` that can point to objects of type `T`. `u1` will use `delete` to free its pointer.
+
+* `unique_ptr<T, D> u2`: Null `unique_ptr` that can point to objects of type `T`. `u2` will use a callable object of type `D` to free its pointer.
+
+* `unique_ptr<T, D> u(d)`: Null `unique_ptr` that point to objects of type `T` that uses `d` which must be an object of type `D` in place of `delete`.
+
+* `u = nullptr`: Deletes the object to which `u` points; makes `u null`.
+
+* `u.release()`: Relinquishes control of the pointer `u` had held; returns the pointer `u` had held and makes `u null`.
+
+* `u.reset(); u.reset(q); u.reset(nullptr)`: Deletes the object to which `u` points; If the built-in pointer `q` is supplied, makes `u` point to that object. Otherwise makes `u null`.
+
+We can transfer ownership from one(nonconst) `unique_ptr` to another by calling `release` or `reset`:
+```C++
+unique_ptr<string> p1(new string("hello world"));
+// transfers ownership from p1 to p2
+// release make p1 nullptr
+unique_ptr<string> p2(p1.release());
+
+unique_ptr<string> p3(new string("another"));
+// transfers ownership from p3 to p2
+// reset deletes the memory to which p2 had pointed
+p2.reset(p3.release());
+```
+
+There is one exception to the rule that we cannot copy a `unique_ptr`: We can copy or assign a `unique_ptr` that is about to be destroyed. This is because of the `move` semantics
+```C++
+unique_ptr<int> clone(int p)
+{
+    unique_ptr<int> ret(new int(p));
+    return ret;
+}
+```
+
+#### 4. `weak_ptr`
+
+A `weak_ptr` is a smart pointer that doesn't control the lifetime of the object to which it points. A `weak_ptr` points to an object that is managed by a `shared_ptr`. Binding a `weak_ptr` to a `shared_ptr` does not change the reference count of that `shared_ptr`. Once the last `shared_ptr` pointing the object goes away, the object itself will be deleted. That object will be deleted even if there are `weak_ptr` pointing to it.
+
+To create a `weak_ptr`, we initialize it from a `shared_ptr`:
+```C++
+auto p = make_shared<int>(11);
+
+// reference count is unchanged.
+weak_ptr<int> wp(p);
+```
+
+Because the object might no longer exist, we can't use a `weak_ptr` to access its object directly. To access that object, we must call `lock`. The `lock` function checks whether the object to which the `weak_ptr` points still exists. If so, `lock` returns a `shared_ptr` to the shared object. As with any other `shared_ptr`, we are guaranteed that the underlying object to which that `shared_ptr` points continues to exist at least as long as that `shared_ptr` exists.
+
+```C++
+// true if np is not nullptr
+if (shared_ptr<int> np = wp.lock())
+{
+    // np shares its object with p
+}
+```
+
+##### 4.1 `weak_ptr` operations
+
+* `weak_ptr<T> w`: Null `weak_ptr` that can point at object of type `T`.
+
+* `weak_ptr<T> w(sp)`: `weak_ptr` that points the same object as the `shared_ptr` sp. `T` must be convertible to the type to which `sp` points.
+
+* `w = p`: `p` can be a `shared_ptr` or a `weak_ptr`. After the assignment `w` shares ownership with `p`.
+
+* `w.reset()`: Makes `w null`
+
+* `w.use_count()`: The number of `shared_ptr` that share ownership with `w`.
+
+* `w.expired()`: Returns `true` if `w.use_count()` is zero, `false` otherwise.
+
+* `w.lock()`: If `expired` is `true`, returns a null `shared_ptr`; otherwise returns a `shared_ptr` to the object to which `w` points.
+
+#### 5. `new` and Arrays
+
+```C++
+int *p = new int[43];
+```
+
+When we use `new` to allocate an array, we don't get an object with an array type. Instead, we get a pointer to the element type of the array. Because the allocated memory does not have an array type, we cannot call `begin` or `end` on a dynamic array. And we also cannot use a range `for` to process the elements in a dynamic array.
+
+By default, objects allocated by `new` - whether allocated as a single object or in an array - are defalut initialized. We can value initialize the elements in an array by following the size with an empty pair of parentheses.
+```C++
+// block of ten uninitialized ints
+int* pia = new int[10];
+
+// block of ten ints value initialized to 0
+int* pia2 = new int[10](0);
+
+// both are blocks of ten empty strings
+string* psa = new string[10];
+string* psa2 = new string[10]();
+
+int *pia3 = new int[10]{0,1,2,3,4,5,6,7,8,9};
+
+int * px = new int[0];
+```
+
+When we use `new` to allocate an array of size zero, `new` returns a valid, nonzero pointer. That pointer is guaranteed to be distinct from any other pointer returned by `new`. This pointer acts as the off-the-end pointer for a zero-element array. The pointer cannot be dereferenced because it points to no element.
+
+```C++
+// pia must point to a dynamically allocated array or be nullptr.
+delete [] pia;
+```
+
+Elements in an array are destroyed in reverse order.
+
+```C++
+unique_ptr<int[]> up(new int[10]);
+
+// use the subscript operator to access the elements in the array.
+up[0]=1;
+up.reset();
+```
+
+We can use `unique_ptr` to manage a dynamic array. The brackets in the type specifier `<int[]>` say that `up` points to an array of `int`s
+
+Unlike `unique_ptr`, `shared_ptr` provide no direct support for managing a dynamic array. If we want to use a `shared_ptr` to manage a dynamic array, we must provide our own deleter:
+```C++
+shared_ptr<int> sp(new int[10], [](int*p) {delete [] p;});
+
+// we need the following code to access the element.
+*(sp.get() + 1) = 1;
+
+// uses the lambda we supplied that uses delete[] to free the memory
+sp.reset();
+```
+
+#### 6. `allocator` class
+
+An aspect of `new` that limits its flexibility is that `new` combines allocating memory with constructing object in that memory. And `delete` combines destruction with deallocation. Combining initialization with allocation is usually what we want when we allocate a single object. In that case, we almost certainly know the value the object should have.
+
+When we allocate a block of memory, we often **plan** to construct objects in that memory as **needed**. In this case, we'd like to decouple memory allocation from object construction. Decoupling construction from allocation means that we can allocate memory in large chunks and pay the overhead of constructing the objects only when we actually need to create them.
+
+**In general, coupling allocation and construction can be wasteful. More importantly, classes that don't have default constructors cannot be dynamically allocated as an array.**
+
+`allocator` lets us separate allocation from construction. It provides type-aware allocation of raw, unconstructed memory.
+```C++
+allocator<string> alloc;
+
+// allocate 2 unconstructed string
+// p point to one past the last constructed element.
+auto const p = alloc.allocate(2);
+
+auto q = p;
+// *q is the empty string
+alloc.construct(q++);
+
+// *q is "hi"
+alloc.construct(q++, "hi");
+
+// this construct will lead to error
+// q points to unconstructed memory!
+alloc.construct(q++, 10, 'w');
+```
+
+The memory an allocator allocates is *unconstructed*. We use this memory by constructing objects in that memory. Using unconstructed memory in other ways is undefined.
+
+When we're finished using the objects, we **must** destroy the elements we constructed. which we can do by calling `destroy` oneach constructed element. The `destroy` function takes a pointer and runs the destructor on the pointed-to object
+```C++
+while (q != p)
+{
+    alloc.destroy(--q);
+};
+```
+
+Once the elements have been destroyed, we can either reuse the memory to hold other `string` or return the memory to the system. We free the memory by calling `deallocate`:
+```C++
+// p cannot be nullptr, it must point to memory allocated by allocate.
+// the size argument passed to deallocate must be the same size as used in the call to allocate.
+alloc.deallocate(p, 2);
+```
+
+##### 6.1 Standard allocator class and customized algorithms
+
+* `allocator<T> a`: Defines an `allocator` object named `a` that can allocate memory for objects of type `T`
+
+* `a.allocate(n)`: Allocates raw, unconstructed memory to hold `n` objects of type `T`
+
+* `a.deallocate(p, n)`: Deallocates memory that held `n` objects of type `T` starting at the address in the `T*` pointer `p`; `p` must be a pointer previously returned by `allocate`, and `n` must be the size requested when `p` was created. The use must run `destroy` on any object that were constructed in this memory before calling `deallocate`
+
+* `a.construct(p, args)`: `p` must be a pointer to type `T` that points to raw memory; `args` are passed to a constructor of type `T`, which is used to construct an object in the memory pointed by `p`.
+
+* `a.destroy(p)`: runs the destructor on the object pointed to by the `T*` pointer `p`.
+
+* `uninitialized_copy(b, e, b2)`: Copied elements from the input range denoted by iterators `b` and `e` into unconstructed, raw memory denoted by the iterator `b2`. The memory denoted by `b2` must be large enough to hold a copy of the elments in the input range.
+
+* `uninitialized_copy_n(b, n, b2)`: Copied elements starting from `b` into raw memory starting at `b2`
+
+* `uninitialized_fill(b, e, v)`: Constructs objects in the range of raw memory denoted by `b` and `e` as a copy of `v`
+
+* `uninitialized_fill_n(b, n, v)`: Constructs an unsigned number `n` objects starting at `b`. `b` must be unconstructed, raw memory large enough to hold the given number of objects.
+
+```C++
+std::vector<int> vi{1,2,3,4,5};
+
+allocator<int> alloc;
+auto p = alloc.allocate(vi.size() * 2);
+
+// construct elements starting at p as copies of elements in vi
+auto q = uninitialized_copy(vi.begin(), vi.end(), p);
+
+// initialize the remaining elements to 42
+q = uninitialized_fill_n(q, vi.size(), 42);
+```
