@@ -170,6 +170,30 @@ unique_ptr<int> clone(int p)
 }
 ```
 
+##### 3.2 effective `unique_ptr`
+
+It's reasonble to assume that, by default, `std::unique_ptr` are the same size as raw pointers, and for most operations(including dereferencing), they execute exactly the same instructions. 
+
+When using custom deleters, the size will be larger. Deleters that are function pointers generally cause the size of a `std::unique_ptr` to grow from one word(e.g. 4 bytes) to two words(e.g. 8 bytes). For deleters that are function objects, the change in size depends on how much state is stored in the function object. Stateless function object(e.g. from lambda expressions with no captures) incur no size penalty. and this means that when a custom deleter can be implemented as either a function or a captureless lambda expression, the lambda is preferable.
+
+* A **function object** is any object for which the *function call operator* is defined.
+
+* A lambda function is an unnamed *function object* capable of capturing variables in scope. 
+
+`std::unique_ptr` is a *move-only type*. Upon destruction, a non-null `std::unique_ptr` destroys its resource. By default, resource destruction is accomplished by applying `delete` to the raw pointer inside the `std::unique_ptr`.
+
+A common use for `std::unique_ptr` is as factory function return type for objects in a hierarchy.
+
+`std::unqiue_ptr` easily and efficiently converts to a `std::shared_ptr`:
+```C++
+std::unqiue_ptr<int> up(new int(3));
+
+// notice std::move
+// move the pointed-object to shared_ptr.
+std::shared_ptr<int> sp = std::move(up);
+```
+see [smartPointersTest.hpp](https://github.com/hsgui/interest-only/blob/master/LearningCPlusPlus/smartPointersTest.hpp)
+
 #### 4. `weak_ptr`
 
 A `weak_ptr` is a smart pointer that doesn't control the lifetime of the object to which it points. A `weak_ptr` points to an object that is managed by a `shared_ptr`. Binding a `weak_ptr` to a `shared_ptr` does not change the reference count of that `shared_ptr`. Once the last `shared_ptr` pointing the object goes away, the object itself will be deleted. That object will be deleted even if there are `weak_ptr` pointing to it.

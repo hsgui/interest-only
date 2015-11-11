@@ -143,6 +143,159 @@ namespace LearningCPP
 			return std::unique_ptr<int>(new int(p));
 		}
 
+		class Investment {
+		public:
+			virtual ~Investment()
+			{
+				std::cout << "destroying Investment..." << std::endl;
+			}
+		};
+
+		class Stock: public Investment
+		{
+		public:
+			Stock()
+			{
+				std::cout << "I'm Stock" << std::endl;
+			}
+
+			~Stock()
+			{
+				std::cout << "destroying stock..." << std::endl;
+			}
+		};
+
+		class Bond : public Investment
+		{
+		public:
+			Bond()
+			{
+				std::cout << "I'm Bond" << std::endl;
+			}
+
+			~Bond()
+			{
+				std::cout << "destroying Bond..." << std::endl;
+			}
+		};
+
+		class RealEstate : public Investment
+		{
+		public:
+			RealEstate()
+			{
+				std::cout << "I'm RealEstate" << std::endl;
+			}
+
+			~RealEstate()
+			{
+				std::cout << "destorying RealEstate..." << std::endl;
+			}
+		};
+
+		enum InvestmentType
+		{
+			Stock_Type,
+			Bond_Type,
+			RealEstate_Type
+		};
+
+		template<typename D, typename... Ts>
+		std::unique_ptr<Investment, D>
+			makeInvestment(InvestmentType type, D del, Ts&&... params)
+		{
+			std::unique_ptr<Investment, D> pInv(nullptr, del);
+			switch (type)
+			{
+			case Stock_Type:
+				pInv.reset(new Stock(std::forward<Ts>(params)...));
+				break;
+			case Bond_Type:
+				pInv.reset(new Bond(std::forward<Ts>(params)...));
+				break;
+			case RealEstate_Type:
+				pInv.reset(new RealEstate(std::forward<Ts>(params)...));
+				break;
+			default:
+				break;
+			}
+
+			return pInv;
+		}
+
+		void investmentDeleter(Investment* p)
+		{
+			std::cout << "function pointer" << std::endl;
+			delete p;
+		}
+
+		void test_unique_ptr()
+		{
+			auto delFuncObj1 = [](Investment* p)
+			{
+				std::cout << "call delFuncObj1" << std::endl;
+				delete p;
+			};
+
+			std::unique_ptr<Investment, decltype(delFuncObj1)> u1 = makeInvestment(RealEstate_Type, delFuncObj1);
+			// sizeof(u1) = 4
+			std::cout << "sizeof: std::unique_ptr<Investment, decltype(delFuncObj1)>=" << sizeof(u1) << std::endl;
+			u1.reset();
+
+			long long count = 0;
+			char c1 = 'c';
+			auto delFuncObj2 = [&count, &c1](Investment* p)
+			{
+				++count;
+				
+				std::cout << "call delFuncObj2, count=" << count << ", c1=" << c1 << std::endl;
+				delete p;
+			};
+
+			std::unique_ptr<Investment, decltype(delFuncObj2)> u2 = makeInvestment(Bond_Type, delFuncObj2);
+			// each capture parameter is a pointer in the lambda function object, sizeof(u2) = 12 (4 + 4*2);
+			std::cout << "sizeof: std::unique_ptr<Investment, decltype(delFuncObj2)>=" << sizeof(u2) << ", delFuncObj2=" << sizeof(delFuncObj2) << std::endl;
+
+			//std::unique_ptr<Investment, decltype(delFuncObj1)> u3 = makeInvestment(Stock_Type, delFuncObj2);// decltype(delFuncObj1) is not decltype(delFuncObj2);
+
+			std::unique_ptr<Investment, decltype(investmentDeleter)*> u4 = makeInvestment(Bond_Type, investmentDeleter);
+			std::cout << "sizeof: std::unique_ptr<Investment, decltype(investmentDeleter)*>=" << sizeof(u4) << std::endl;
+
+			struct delFuncObj3
+			{
+				long long i = 0;
+				void operator()(Investment* p)
+				{
+					i++;
+					std::cout << "delFuncObj3, i=" << i << std::endl;
+
+					delete p;
+				}
+			};
+
+			delFuncObj3 obj3;
+			std::unique_ptr<Investment, decltype(obj3)> u5 = makeInvestment(Bond_Type, obj3);
+			std::cout << "sizeof: std::unique_ptr<Investment, decltype(obj3)>=" << sizeof(u5) << std::endl;
+
+			struct DelFuncObj4
+			{
+				void operator()(Investment* p)
+				{
+					std::cout << "DelFuncObj4 is called" << std::endl;
+					delete p;
+				}
+			};
+
+			DelFuncObj4 obj4;
+			std::unique_ptr<Investment, decltype(obj4)> u6 = makeInvestment(Bond_Type, obj4);
+			std::cout << "sizeof: std::unique_ptr<Investment, decltype(obj4)>=" << sizeof(u6) << std::endl;
+
+			//std::unique_ptr<Investment, decltype(obj4)> u7 = makeInvestment(Bond_Type, delFuncObj1);// decltype(obj4) is not decltype(delFuncObj1)
+
+			std::shared_ptr<Investment> sp1 = std::move(u6);
+			std::cout << "sp1.use_count()=" << sp1.use_count() << std::endl;
+		}
+
 		void test()
 		{
 			std::shared_ptr<int> p1 = std::make_shared<int>(3);
@@ -175,7 +328,11 @@ namespace LearningCPP
 			std::cout << "u4=" << ((u4) ? (*u4) : std::string("nullptr")) << ", u3=" << *u3 << std::endl;
 
 			std::unique_ptr<int> u5 = clone(5);
-			std::cout << *u5 << std::endl;
+			// sizeof(std::unique_ptr<int>) is 4, the same as raw pointer
+			std::cout << *u5 << ", sizeof=" << sizeof(u5) << std::endl;
+
+			// sizeof(std::shared_ptr<std::string>(hello))=8
+			std::cout << "sizeof(std::shared_ptr<std::string>(hello))=" << sizeof(std::shared_ptr<std::string>("hello")) << std::endl;
 
 			std::shared_ptr<int> p5 = std::make_shared<int>(8);
 			std::cout << "use_count=" << p5.use_count() << std::endl;
@@ -223,6 +380,8 @@ namespace LearningCPP
 			}
 
 			alloc.deallocate(p, n);
+
+			test_unique_ptr();
 		}
 	}
 }
