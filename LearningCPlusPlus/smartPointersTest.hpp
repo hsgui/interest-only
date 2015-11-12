@@ -3,6 +3,8 @@
 #include <memory>
 #include <iostream>
 
+#include "testpimplWithUniqueptr.h"
+
 namespace LearningCPP
 {
 	namespace SmartPointers
@@ -296,6 +298,17 @@ namespace LearningCPP
 			std::cout << "sp1.use_count()=" << sp1.use_count() << std::endl;
 		}
 
+		WidgetWithUniqueptr getWidgetWithUniqueptr()
+		{
+			WidgetWithUniqueptr w;
+			return w;
+		}
+
+		void test_pimpl()
+		{
+			WidgetWithUniqueptr w = getWidgetWithUniqueptr();
+		}
+
 		void test()
 		{
 			std::shared_ptr<int> p1 = std::make_shared<int>(3);
@@ -382,6 +395,8 @@ namespace LearningCPP
 			alloc.deallocate(p, n);
 
 			test_unique_ptr();
+
+			test_pimpl();
 		}
 	}
 }

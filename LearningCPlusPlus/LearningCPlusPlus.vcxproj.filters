@@ -107,6 +107,9 @@
     <ClInclude Include="quickTest.hpp">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="testpimplWithUniqueptr.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">
@@ -114,6 +117,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="testimplWithUniqueptr.cpp">
+      <Filter>Header Files\tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

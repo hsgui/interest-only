@@ -37,6 +37,7 @@
     <ClInclude Include="smallobj.hpp" />
     <ClInclude Include="smartPointersTest.hpp" />
     <ClInclude Include="smartptr.hpp" />
+    <ClInclude Include="testpimplWithUniqueptr.h" />
     <ClInclude Include="Threads.hpp" />
     <ClInclude Include="typeinfowrapper.hpp" />
     <ClInclude Include="typelist.hpp" />
@@ -53,6 +54,7 @@
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="testimplWithUniqueptr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="metaprogramming.md" />
