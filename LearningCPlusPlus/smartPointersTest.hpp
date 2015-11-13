@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "testpimplWithUniqueptr.h"
+#include "testingimplWithSharedptr.h"
 
 namespace LearningCPP
 {
@@ -296,6 +297,15 @@ namespace LearningCPP
 
 			std::shared_ptr<Investment> sp1 = std::move(u6);
 			std::cout << "sp1.use_count()=" << sp1.use_count() << std::endl;
+
+			// create std::vector of size 10 with all values set to 20.
+			auto upv1 = std::make_unique<std::vector<int>>(10, 20);
+			std::cout << "std::make_unique<std::vector<int>>(10, 20): size=" << upv1->size() << std::endl;
+
+			auto initList = { 10,20 };
+			// create std::vector using std::initializer_list ctor
+			auto upv2 = std::make_unique<std::vector<int>>(initList);
+			std::cout << "std::make_unique<std::vector<int>>(initList): size=" << upv2->size() << std::endl;
 		}
 
 		WidgetWithUniqueptr getWidgetWithUniqueptr()
@@ -307,6 +317,14 @@ namespace LearningCPP
 		void test_pimpl()
 		{
 			WidgetWithUniqueptr w = getWidgetWithUniqueptr();
+			
+			std::shared_ptr<WidgetWithUniqueptr> sw = std::make_shared<WidgetWithUniqueptr>();
+			sw->process();// this will make the pointed-to Widget destruct twice when not inherit from std::enable_shared_from_this.
+
+			std::shared_ptr<WidgetWithSharedptr> swws = std::make_shared<WidgetWithSharedptr>();
+			std::cout << "WidgetWithSharedptr* = " << swws.get() << std::endl;
+			std::cout << "sizeof(WidgetWistSharedPtr)=" << sizeof(WidgetWithSharedptr) << std::endl;
+			std::cout << "sizeof(std::shared_ptr<WidgetWithSharedptr>) = " << sizeof(swws) << std::endl;
 		}
 
 		void test()

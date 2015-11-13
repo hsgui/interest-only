@@ -128,6 +128,81 @@ void f()
 
 * If we use a smart pointer to manager a resource other than memory allocated by `new`, remember to pass a deleter.
 
+##### 2.6 effective `shared_ptr`
+
+The existence of the reference count has performance implications:
+
+* `std::shared_ptr` are twice the size of a raw pointer. Because they internally contain a raw pointer to the resouce as well as a raw pointer to the resource's reference count.
+
+* memory for the reference count must be dynamically allocated.
+
+* increments and decrements of the reference count must be atomic.
+
+Move-constructing a `std::shared_ptr` from another `std::shared_ptr` sets the resource `std::shared_ptr` to null, and that means that the old `std::shared_ptr` stops pointing to the resource at the moment the new `std::shared_ptr` starts. As a result, no reference count manipulation is required. Therefore, moving `std::shared_ptr` is faster than copying them. This is as true for assignment as for construction.
+
+There is a `control block` for each object managed by `std::shared_ptr`. The control block contains *reference count*, *a copy of the custom deleter* if one has been specified. If *a custom allocator* was specified, the control block contains a copy of that, too. The control block may also contain a *secondary reference count* known as the weak count.
+
+An object's control block is set up by the function creating the first `std::shared_ptr` to the object. The following rules for control block creation are used:
+
+* `std::make_shared` always creates a control block.
+
+* `A control block is created when a std::shared_ptr is constructed from a unique-ownership pointer`.
+
+* `when a std::shared_ptr constructor is called with a raw pointer, it creates a control block`.
+
+Prefer `make_shared` to `new`. But `make_shared` has the following limitation:
+
+* can't specify the custom deleter
+
+```C++
+std::shared_ptr<Widget> upw(new Widget, widgetDeleter);
+```
+
+* can't perfect forward braced initializers
+
+```C++
+// create std::vector of size 10 with all values set to 20
+// not a std::vector with two elements 10, 20
+auto spv1 = std::make_shared<std::vector<int>>(10, 20);
+
+// instead using following:
+// create std::initializer_list
+auto initList = {10, 20};
+
+// create std::vector using std::initializer ctor
+auto spv2 = std::make_shared<std::vector<int>>(initList);
+```
+
+* When the specific version of `operator new` and `operator delete` is provided.
+
+The size and speed advantages of `std::make_shared` versus direct use of `new` stem from `std::shared_ptr`'s control block being placed in the same chunk of memory as the managed object. When that object's reference count goes to zero, the object is destroyed. However the memory it occupied can't be released until the control block has also been destroyed, because the same chunk of dynamically allocated memory contains both.
+
+When a `std::weak_ptr` checks to see if it has expired, it does so by examing the reference count(not the weak count) in the control block that it refers to. If the reference count is zero, the `std::wea_ptr` has expired. As long as `std::weak_ptr` refers to a control block (i.e., the weak count is greater than zero), that control block must continue to exist. And as long as a control block exists, the memory containing it must remain allocated. The memory allocated by a `std::make_shared` can't be deallocated until the last `std::shared_ptr` and the last `std::weak_ptr` referring to it have been destroyed.
+
+If the object type is quite large and the time between destruction of the last `std::shared_ptr` and the last `std::weak_ptr` is significant, a lag can occur between when an object is destroyed and when the memory it occupied is freed.
+
+```C++
+// suppose this is a function
+void processWidget(std::shared_ptr<Widget> spw, int priority);
+
+// and a custom deleter
+void cusDel(Widget* ptr);
+
+// here is the excpetion-unsafe call:
+// if computePriority is called after "new Widget" but before the std::shared_ptr constructor,
+// and if computePriority yields an exception, the dynamically allocated Widget will be leaked.
+processWidget(std::shared_ptr<Widget>(new Widget, cusDel), // a rvalue
+              computePriority());
+
+// use the following:
+std::shared_ptr<Widget> spw(new Widget, cusDel);
+processWidget(spw, computePriority()); // spw is a lvalue
+
+// construction from a rvalue entails only a move -- no reference count manipulation
+// while construction from a lvalue requires a copy -- reference count manipulation
+processWidget(std::move(spw), computePriority());
+```
+
 #### 3. `unique_ptr`
 
 Only one `unique_ptr` at a time can point to a given object. The object to which a `unique_ptr` points is destroyed when the `unique_ptr` is destroyed.
@@ -194,6 +269,29 @@ std::shared_ptr<int> sp = std::move(up);
 ```
 see [smartPointersTest.hpp](https://github.com/hsgui/interest-only/blob/master/LearningCPlusPlus/smartPointersTest.hpp)
 
+Perfer `make_unique` to `new`. But `make_unique` has the following limitation:
+
+* can't specify custom deleters
+
+```C++
+std::unique_ptr<Widget, decltype(widgetDeleter)> upw(new Widget, widgetDeleter);
+```
+
+* can't perfect forward braced initializers
+
+```C++
+// create std::vector of size 10 with all values set to 20
+// not a std::vector with two elements 10, 20
+auto upv1 = std::make_unqiue<std::vector<int>>(10, 20);
+
+// instead using following:
+// create std::initializer_list
+auto initList = {10, 20};
+
+// create std::vector using std::initializer ctor
+auto upv2 = std::make_unique<std::vector<int>>(initList);
+```
+
 #### 4. `weak_ptr`
 
 A `weak_ptr` is a smart pointer that doesn't control the lifetime of the object to which it points. A `weak_ptr` points to an object that is managed by a `shared_ptr`. Binding a `weak_ptr` to a `shared_ptr` does not change the reference count of that `shared_ptr`. Once the last `shared_ptr` pointing the object goes away, the object itself will be deleted. That object will be deleted even if there are `weak_ptr` pointing to it.
@@ -231,6 +329,16 @@ if (shared_ptr<int> np = wp.lock())
 * `w.expired()`: Returns `true` if `w.use_count()` is zero, `false` otherwise.
 
 * `w.lock()`: If `expired` is `true`, returns a null `shared_ptr`; otherwise returns a `shared_ptr` to the object to which `w` points.
+
+##### 4.2 effective `weak_ptr` operations
+
+Potential use cases for `std::weak_ptr` include:
+
+* caching
+
+* observer lists
+
+* the prevention of `std::shard_ptr` cycles.
 
 #### 5. `new` and Arrays
 
