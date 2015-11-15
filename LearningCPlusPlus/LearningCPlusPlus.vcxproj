@@ -38,6 +38,7 @@
     <ClInclude Include="smartPointersTest.hpp" />
     <ClInclude Include="smartptr.hpp" />
     <ClInclude Include="testingimplWithSharedptr.h" />
+    <ClInclude Include="testlambda.hpp" />
     <ClInclude Include="testpimplWithUniqueptr.h" />
     <ClInclude Include="Threads.hpp" />
     <ClInclude Include="typeinfowrapper.hpp" />
@@ -59,6 +60,7 @@
     <ClCompile Include="testimplWithUniqueptr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="lambda.md" />
     <None Include="metaprogramming.md" />
     <None Include="smartpointers.md" />
   </ItemGroup>

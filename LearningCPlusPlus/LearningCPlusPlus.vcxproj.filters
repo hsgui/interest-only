@@ -113,6 +113,9 @@
     <ClInclude Include="testingimplWithSharedptr.h">
       <Filter>Header Files\tests</Filter>
     </ClInclude>
+    <ClInclude Include="testlambda.hpp">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bubbleSort.hpp">
@@ -133,6 +136,9 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="smartpointers.md">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="lambda.md">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
