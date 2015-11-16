@@ -19,6 +19,8 @@ auto c1 = [x](int y) { return x*y > 33;};
 
 #### 2. capture
 
+See [testlambda.hpp](https://github.com/hsgui/interest-only/blob/master/LearningCPlusPlus/testlambda.hpp)
+
 ##### 2.1 Default captures
 
 There are two default capture modes: by-reference (`&`) and by-value (`=`)
@@ -55,3 +57,24 @@ filters.emplace_back([&divisor](int value){return value % divisor == 0;});
 But it's easier to see that viability of the lambda is depend on `divisor`'s lifetime. Also, writing out the name, "divisor", reminds us to ensure that `divisor` lives at least as long as the lambda's closures.
 
 Long-term, it's simply better software engineering to explicitly list the local variables and parameters that a lambda depends on.
+
+Things to remember:
+
+* Default by-reference capture can lead to dangling references
+
+* Default by-value capture is susceptible to dangling pointers(especially this), and it misleadingly suggests that lambda are self-contained(but not for static)
+
+##### 2.2 move capture
+
+If we have a move-only object that we want to get into a closure, C++11 offers no way to do it.
+```C++
+// C++ 14
+auto func = [pw = std::make_unique<Widget>()]
+            {
+                return pw->someFunc();
+            };
+// we can't do it in C++11
+```
+In C++14, there is `generalized lambda capture` (`init capture`) feature we can use to capture `move-only object` like above.
+
+In C++11, we can emulate this `init-capture` via hand-written classes or `std::bind`.
