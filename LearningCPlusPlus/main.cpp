@@ -13,6 +13,7 @@
 #include "smartPointersTest.hpp"
 #include "quickTest.hpp"
 #include "testlambda.hpp"
+#include "testemplace.hpp"
 
 int main()
 {
@@ -46,6 +47,8 @@ int main()
 	LearningCPP::SmartPointers::test();
 
 	LearningCPP::Lambda::test();
+
+	LearningCPP::EmplaceBack::test();
 
 	LearningCPP::QuickStart::test();
 
