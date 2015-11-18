@@ -28,20 +28,20 @@ There are two default capture modes: by-reference (`&`) and by-value (`=`)
 A by-reference capture causes a closure to contain a reference to a local variable or to a parameter that's available in the scope where the lambda is defined. But if the lifetime of a closure created from that lambda exceeds the lifetime of the local variable or parameter, the reference in the closure will dangle. For example:
 ```C++
 using FilterContainer = 
-	std::vector<std::function<bool(int)>>;
+    std::vector<std::function<bool(int)>>;
 
 FilterContainer filters;
 
 void addDivisorFilter()
 {
-	auto calc1 = computeSomeValue1();
-	auto calc2 = computeSomeValue2();
+    auto calc1 = computeSomeValue1();
+    auto calc2 = computeSomeValue2();
 
-	// compute divisor at runtime.
-	auto divisor = computeDivisor(calc1, calc2);
-	// dangle - ref to divisor will dangle.
-	// the lifetime of closure exceeds the lifetime of the local variable.
-	filters.emplace_back([&](int value){return value % divisor == 0;});
+    // compute divisor at runtime.
+    auto divisor = computeDivisor(calc1, calc2);
+    // dangle - ref to divisor will dangle.
+    // the lifetime of closure exceeds the lifetime of the local variable.
+    filters.emplace_back([&](int value){return value % divisor == 0;});
 }
 
 addDivisorFilter();

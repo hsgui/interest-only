@@ -88,346 +88,346 @@ typedef std::function<bool ()> Tester;
 // class std::_Bind<1,bool,struct std::_Pmf_wrap<bool (__thiscall ClassName::*)(void),bool,class ClassName>,class ClassName &>
 void parseClassName(const string& typeName, string& className)
 {
-	unsigned found = typeName.rfind("class");
-	if (found)
-	{
-		className = typeName.substr(found + 6, typeName.length() - 3 - found - 6);
-	}
-	else
-	{
-		className = typeName;
-	}
+    unsigned found = typeName.rfind("class");
+    if (found)
+    {
+        className = typeName.substr(found + 6, typeName.length() - 3 - found - 6);
+    }
+    else
+    {
+        className = typeName;
+    }
 }
 
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
-	Tester fn;
-
-	shared_ptr<BitwiseAndOfNumbersRange> s201 = make_shared<BitwiseAndOfNumbersRange>();
-	fn = bind(&BitwiseAndOfNumbersRange::Test, *s201);
-	tests->push_back(fn);
-
-	shared_ptr<MedianFinder> s295 = make_shared<MedianFinder>();
-	fn = bind(&MedianFinder::Test, *s295);
-	tests->push_back(fn);
-
-	shared_ptr<HIndex> s274 = make_shared<HIndex>();
-	fn = bind(&HIndex::Test, *s274);
-	tests->push_back(fn);
-
-	vector<int> dump = { 1,2,3 };
-	shared_ptr<PeekingIterator> s284 = make_shared<PeekingIterator>(dump);
-	fn = bind(&PeekingIterator::Test, *s284);
-	tests->push_back(fn);
-
-	shared_ptr<FindTheDuplicateNumber> s287 = make_shared<FindTheDuplicateNumber>();
-	fn = bind(&FindTheDuplicateNumber::Test, *s287);
-	tests->push_back(fn);
-
-	shared_ptr<BestTimeToBuyAndSellStock2> s122 = make_shared<BestTimeToBuyAndSellStock2>();
-	fn = bind(&BestTimeToBuyAndSellStock2::Test, *s122);
-	tests->push_back(fn);
-
-	shared_ptr<BestTimeToBuyAndSellStock1> s121 = make_shared<BestTimeToBuyAndSellStock1>();
-	fn = bind(&BestTimeToBuyAndSellStock1::Test, *s121);
-	tests->push_back(fn);
-
-	shared_ptr<ValidAnagram> s242 = make_shared<ValidAnagram>();
-	fn = bind(&ValidAnagram::Test, *s242);
-	tests->push_back(fn);
-
-	shared_ptr<AddTwoNumbers> s002 = make_shared<AddTwoNumbers>();
-	fn = bind(&AddTwoNumbers::Test, *s002);
-	tests->push_back(fn);
-
-	shared_ptr<Search2DMatrixII> s240 = make_shared<Search2DMatrixII>();
-	fn = bind(&Search2DMatrixII::Test, *s240);
-	tests->push_back(fn);
-
-	shared_ptr<Search2DMatrix> s074 = make_shared<Search2DMatrix>();
-	fn = bind(&Search2DMatrix::Test, *s074);
-	tests->push_back(fn);
-
-	shared_ptr<SlidingWindowMaximum> s239 = make_shared<SlidingWindowMaximum>();
-	fn = bind(&SlidingWindowMaximum::Test, *s239);
-	tests->push_back(fn);
-
-	shared_ptr<CloneGraph> s133 = make_shared<CloneGraph>();
-	fn = bind(&CloneGraph::Test, *s133);
-	tests->push_back(fn);
-
-	shared_ptr<CopyWithRandomPointer> s138 = make_shared<CopyWithRandomPointer>();
-	fn = bind(&CopyWithRandomPointer::Test, *s138);
-	tests->push_back(fn);
-
-	shared_ptr<ProductOfArrayExceptSelf> s238 = make_shared<ProductOfArrayExceptSelf>();
-	fn = bind(&ProductOfArrayExceptSelf::Test, *s238);
-	tests->push_back(fn);
-
-	shared_ptr<DeleteNodeInLinkedList> s237 = make_shared<DeleteNodeInLinkedList>();
-	fn = bind(&DeleteNodeInLinkedList::Test, *s237);
-	tests->push_back(fn);
-
-	shared_ptr<LowestCommonAncestorOfBinaryTree> s236 = make_shared<LowestCommonAncestorOfBinaryTree>();
-	fn = bind(&LowestCommonAncestorOfBinaryTree::Test, *s236);
-	tests->push_back(fn);
-
-	shared_ptr<SearchInRotatedSortedArray> s081 = make_shared<SearchInRotatedSortedArray>();
-	fn = bind(&SearchInRotatedSortedArray::Test, *s081);
-	tests->push_back(fn);
-
-	shared_ptr<FindMinimumInRotatedSortedArrayII> s154 = make_shared<FindMinimumInRotatedSortedArrayII>();
-	fn = bind(&FindMinimumInRotatedSortedArrayII::Test, *s154);
-	tests->push_back(fn);
-
-	shared_ptr<FindMinimumInRotatedSortedArray> s153 = make_shared<FindMinimumInRotatedSortedArray>();
-	fn = bind(&FindMinimumInRotatedSortedArray::Test, *s153);
-	tests->push_back(fn);
-
-	shared_ptr<MaximalSquare> s221 = make_shared<MaximalSquare>();
-	fn = bind(&MaximalSquare::Test, *s221);
-	tests->push_back(fn);
-
-	shared_ptr<PalindromeLinkedList> s234 = make_shared<PalindromeLinkedList>();
-	fn = bind(&PalindromeLinkedList::Test, *s234);
-	tests->push_back(fn);
-
-	shared_ptr<LowestCommonAncestorOfBST> s235 = make_shared<LowestCommonAncestorOfBST>();
-	fn = bind(&LowestCommonAncestorOfBST::Test, *s235);
-	tests->push_back(fn);
-
-	shared_ptr<MaximumSubarray> s053 = make_shared<MaximumSubarray>();
-	fn = bind(&MaximumSubarray::Test, *s053);
-	tests->push_back(fn);
-
-	shared_ptr<MinimumSizeSubarraySum> s209 = make_shared<MinimumSizeSubarraySum>();
-	fn = bind(&MinimumSizeSubarraySum::Test, *s209);
-	tests->push_back(fn);
-
-	shared_ptr<MinimumWindowSubstring> s076 = make_shared<MinimumWindowSubstring>();
-	fn = bind(&MinimumWindowSubstring::Test, *s076);
-	tests->push_back(fn);
-
-	shared_ptr<Trie> s208 = make_shared<Trie>();
-	fn = bind(&Trie::Test, *s208);
-	tests->push_back(fn);
-
-	shared_ptr<PowerOfTwo> s231 = make_shared<PowerOfTwo>();
-	fn = bind(&PowerOfTwo::Test, *s231);
-	tests->push_back(fn);
-
-	shared_ptr<KthLargestElementInArray> s215 = make_shared<KthLargestElementInArray>();
-	fn = bind(&KthLargestElementInArray::Test, *s215);
-	tests->push_back(fn);
-
-	shared_ptr<CountCompleteTreeNodes> s222 = make_shared<CountCompleteTreeNodes>();
-	fn = bind(&CountCompleteTreeNodes::Test, *s222);
-	tests->push_back(fn);
-
-	shared_ptr<KthSmallestElementInBST> s230 = make_shared<KthSmallestElementInBST>();
-	fn = bind(&KthSmallestElementInBST::Test, *s230);
-	tests->push_back(fn);
-
-	shared_ptr<RectangleArea> s223 = make_shared<RectangleArea>();
-	fn = bind(&RectangleArea::Test, *s223);
-	tests->push_back(fn);
-
-	shared_ptr<ImplementStackUsingQueues> s225 = make_shared<ImplementStackUsingQueues>();
-	fn = bind(&ImplementStackUsingQueues::Test, *s225);
-	tests->push_back(fn);
-
-	shared_ptr<BasicCalculatorII> s227 = make_shared<BasicCalculatorII>();
-	fn = bind(&BasicCalculatorII::Test, *s227);
-	tests->push_back(fn);
-
-	shared_ptr<SummaryRanges> s228 = make_shared<SummaryRanges>();
-	fn = bind(&SummaryRanges::Test, *s228);
-	tests->push_back(fn);
-
-	shared_ptr<BasicCalculator> s224 = make_shared<BasicCalculator>();
-	fn = bind(&BasicCalculator::Test, *s224);
-	tests->push_back(fn);
-
-	shared_ptr<InvertBinaryTree> s226 = make_shared<InvertBinaryTree>();
-	fn = bind(&InvertBinaryTree::Test, *s226);
-	tests->push_back(fn);
-
-	shared_ptr<SortList> s148 = make_shared<SortList>();
-	fn = bind(&SortList::Test, *s148);
-	tests->push_back(fn);
-
-	shared_ptr<MaximumProductSubarray> s152 = make_shared<MaximumProductSubarray>();
-	fn = bind(&MaximumProductSubarray::Test, *s152);
-	tests->push_back(fn);
-
-	shared_ptr<InsertionSortList> s147 = make_shared<InsertionSortList>();
-	fn = bind(&InsertionSortList::Test, *s147);
-	tests->push_back(fn);
-
-	shared_ptr<RemoveNthNodeFromEndOfList> s019 = make_shared<RemoveNthNodeFromEndOfList>();
-	fn = bind(&RemoveNthNodeFromEndOfList::Test, *s019);
-	tests->push_back(fn);
-
-	shared_ptr<IntersectionOfTwoLinkedList> s160 = make_shared<IntersectionOfTwoLinkedList>();
-	fn = bind(&IntersectionOfTwoLinkedList::Test, *s160);
-	tests->push_back(fn);
-
-	shared_ptr<RemoveLinkedListElements> s203 = make_shared<RemoveLinkedListElements>();
-	fn = bind(&RemoveLinkedListElements::Test, *s203);
-	tests->push_back(fn);
-
-	shared_ptr<ReverseLinkedList> s206 = make_shared<ReverseLinkedList>();
-	fn = bind(&ReverseLinkedList::Test, *s206);
-	tests->push_back(fn);
-
-	shared_ptr<ValidateBinarySearchTree> s098 = make_shared<ValidateBinarySearchTree>();
-	fn = bind(&ValidateBinarySearchTree::Test, *s098);
-	tests->push_back(fn);
-
-	shared_ptr<BSTIterator> s173 = make_shared<BSTIterator>();
-	fn = bind(&BSTIterator::Test, *s173);
-	tests->push_back(fn);
-
-	shared_ptr<ConvertSortedListToBinarySearchTree> s109 = make_shared<ConvertSortedListToBinarySearchTree>();
-	fn = bind(&ConvertSortedListToBinarySearchTree::Test, *s109);
-	tests->push_back(fn);
-
-	shared_ptr<RecoverBinarySearchTree> s099 = make_shared<RecoverBinarySearchTree>();
-	fn = bind(&RecoverBinarySearchTree::Test, *s099);
-	tests->push_back(fn);
-
-	shared_ptr<ConvertSortedArrayToBinarySearchTree> s108 = make_shared<ConvertSortedArrayToBinarySearchTree>();
-	fn = bind(&ConvertSortedArrayToBinarySearchTree::Test, *s108);
-	tests->push_back(fn);
-
-	shared_ptr<UniqueBinarySearchTreesII> s095 = make_shared<UniqueBinarySearchTreesII>();
-	fn = bind(&UniqueBinarySearchTreesII::Test, *s095);
-	tests->push_back(fn);
-
-	shared_ptr<TwoSum> s001 = make_shared<TwoSum>();
-	fn = bind(&TwoSum::Test, *s001);
-	tests->push_back(fn);
-
-	shared_ptr<ReorderList> s143 = make_shared<ReorderList>();
-	fn = bind(&ReorderList::Test, *s143);
-	tests->push_back(fn);
-
-	shared_ptr<LRUCache> s146 = make_shared<LRUCache>(10);
-	fn = bind(&LRUCache::Test, *s146);
-	tests->push_back(fn);
-
-	shared_ptr<LongestPalindromicSubstring> s005 = make_shared<LongestPalindromicSubstring>();
-	fn = bind(&LongestPalindromicSubstring::Test, *s005);
-	tests->push_back(fn);
-
-	shared_ptr<SortColors> s075 = make_shared<SortColors>();
-	fn = bind(&SortColors::Test, *s075);
-	tests->push_back(fn);
-
-	shared_ptr<LongestConsecutiveSequence> s128 = make_shared<LongestConsecutiveSequence>();
-	fn = bind(&LongestConsecutiveSequence::Test, *s128);
-	tests->push_back(fn);
-
-	shared_ptr<SearchForARange> s034 = make_shared<SearchForARange>();
-	fn = bind(&SearchForARange::Test, *s034);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreeLevelOrderTraversal> s102 = make_shared<BinaryTreeLevelOrderTraversal>();
-	fn = bind(&BinaryTreeLevelOrderTraversal::Test, *s102);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreeLevelOrderTraversalII> s107 = make_shared<BinaryTreeLevelOrderTraversalII>();
-	fn = bind(&BinaryTreeLevelOrderTraversalII::Test, *s107);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreeZigzagLevelOrderTraversal> s103 = make_shared<BinaryTreeZigzagLevelOrderTraversal>();
-	fn = bind(&BinaryTreeZigzagLevelOrderTraversal::Test, *s103);
-	tests->push_back(fn);
-
-	shared_ptr<MaximumDepthOfBinaryTree> s104 = make_shared<MaximumDepthOfBinaryTree>();
-	fn = bind(&MaximumDepthOfBinaryTree::Test, *s104);
-	tests->push_back(fn);
-
-	shared_ptr<SameTree> s100 = make_shared<SameTree>();
-	fn = bind(&SameTree::Test, *s100);
-	tests->push_back(fn);
-
-	shared_ptr<ConstructBinaryTreeFromPreorderInorderTraversal> s105 = make_shared<ConstructBinaryTreeFromPreorderInorderTraversal>();
-	fn = bind(&ConstructBinaryTreeFromPreorderInorderTraversal::Test, *s105);
-	tests->push_back(fn);
-
-	shared_ptr<ConstructBinaryTreeFromInorderPostorderTraversal> s106 = make_shared<ConstructBinaryTreeFromInorderPostorderTraversal>();
-	fn = bind(&ConstructBinaryTreeFromInorderPostorderTraversal::Test, *s106);
-	tests->push_back(fn);
-
-	shared_ptr<SymmetricTree> s101 = make_shared<SymmetricTree>();
-	fn = bind(&SymmetricTree::Test, *s101);
-	tests->push_back(fn);
-
-	shared_ptr<BalancedBinaryTree> s110 = make_shared<BalancedBinaryTree>();
-	fn = bind(&BalancedBinaryTree::Test, *s110);
-	tests->push_back(fn);
-
-	shared_ptr<MinimumDepthOfBinaryTree> s111 = make_shared<MinimumDepthOfBinaryTree>();
-	fn = bind(&MinimumDepthOfBinaryTree::Test, *s111);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreeInorderTraversal> s094 = make_shared<BinaryTreeInorderTraversal>();
-	fn = bind(&BinaryTreeInorderTraversal::Test, *s094);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreePreorderTraversal> s144 = make_shared<BinaryTreePreorderTraversal>();
-	fn = bind(&BinaryTreePreorderTraversal::Test, *s144);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreePostorderTraversal> s145 = make_shared<BinaryTreePostorderTraversal>();
-	fn = bind(&BinaryTreePostorderTraversal::Test, *s145);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreeRightSideView> s199 = make_shared<BinaryTreeRightSideView>();
-	fn = bind(&BinaryTreeRightSideView::Test, *s199);
-	tests->push_back(fn);
-
-	shared_ptr<FlattenBinaryTreeToLinkedList> s114 = make_shared<FlattenBinaryTreeToLinkedList>();
-	fn = bind(&FlattenBinaryTreeToLinkedList::Test, *s114);
-	tests->push_back(fn);
-
-	shared_ptr<BinaryTreeMaximumPathSum> s124 = make_shared<BinaryTreeMaximumPathSum>();
-	fn = bind(&BinaryTreeMaximumPathSum::Test, *s124);
-	tests->push_back(fn);
-
-	shared_ptr<UniqueBinarySearchTrees> s096 = make_shared<UniqueBinarySearchTrees>();
-	fn = bind(&UniqueBinarySearchTrees::Test, *s096);
-	tests->push_back(fn);
-
-	shared_ptr<UnitTest_Utils> unitTest_Utils = make_shared<UnitTest_Utils>();
-	fn = bind(&UnitTest_Utils::Test, *unitTest_Utils);
-	tests->push_back(fn);
+    Tester fn;
+
+    shared_ptr<BitwiseAndOfNumbersRange> s201 = make_shared<BitwiseAndOfNumbersRange>();
+    fn = bind(&BitwiseAndOfNumbersRange::Test, *s201);
+    tests->push_back(fn);
+
+    shared_ptr<MedianFinder> s295 = make_shared<MedianFinder>();
+    fn = bind(&MedianFinder::Test, *s295);
+    tests->push_back(fn);
+
+    shared_ptr<HIndex> s274 = make_shared<HIndex>();
+    fn = bind(&HIndex::Test, *s274);
+    tests->push_back(fn);
+
+    vector<int> dump = { 1,2,3 };
+    shared_ptr<PeekingIterator> s284 = make_shared<PeekingIterator>(dump);
+    fn = bind(&PeekingIterator::Test, *s284);
+    tests->push_back(fn);
+
+    shared_ptr<FindTheDuplicateNumber> s287 = make_shared<FindTheDuplicateNumber>();
+    fn = bind(&FindTheDuplicateNumber::Test, *s287);
+    tests->push_back(fn);
+
+    shared_ptr<BestTimeToBuyAndSellStock2> s122 = make_shared<BestTimeToBuyAndSellStock2>();
+    fn = bind(&BestTimeToBuyAndSellStock2::Test, *s122);
+    tests->push_back(fn);
+
+    shared_ptr<BestTimeToBuyAndSellStock1> s121 = make_shared<BestTimeToBuyAndSellStock1>();
+    fn = bind(&BestTimeToBuyAndSellStock1::Test, *s121);
+    tests->push_back(fn);
+
+    shared_ptr<ValidAnagram> s242 = make_shared<ValidAnagram>();
+    fn = bind(&ValidAnagram::Test, *s242);
+    tests->push_back(fn);
+
+    shared_ptr<AddTwoNumbers> s002 = make_shared<AddTwoNumbers>();
+    fn = bind(&AddTwoNumbers::Test, *s002);
+    tests->push_back(fn);
+
+    shared_ptr<Search2DMatrixII> s240 = make_shared<Search2DMatrixII>();
+    fn = bind(&Search2DMatrixII::Test, *s240);
+    tests->push_back(fn);
+
+    shared_ptr<Search2DMatrix> s074 = make_shared<Search2DMatrix>();
+    fn = bind(&Search2DMatrix::Test, *s074);
+    tests->push_back(fn);
+
+    shared_ptr<SlidingWindowMaximum> s239 = make_shared<SlidingWindowMaximum>();
+    fn = bind(&SlidingWindowMaximum::Test, *s239);
+    tests->push_back(fn);
+
+    shared_ptr<CloneGraph> s133 = make_shared<CloneGraph>();
+    fn = bind(&CloneGraph::Test, *s133);
+    tests->push_back(fn);
+
+    shared_ptr<CopyWithRandomPointer> s138 = make_shared<CopyWithRandomPointer>();
+    fn = bind(&CopyWithRandomPointer::Test, *s138);
+    tests->push_back(fn);
+
+    shared_ptr<ProductOfArrayExceptSelf> s238 = make_shared<ProductOfArrayExceptSelf>();
+    fn = bind(&ProductOfArrayExceptSelf::Test, *s238);
+    tests->push_back(fn);
+
+    shared_ptr<DeleteNodeInLinkedList> s237 = make_shared<DeleteNodeInLinkedList>();
+    fn = bind(&DeleteNodeInLinkedList::Test, *s237);
+    tests->push_back(fn);
+
+    shared_ptr<LowestCommonAncestorOfBinaryTree> s236 = make_shared<LowestCommonAncestorOfBinaryTree>();
+    fn = bind(&LowestCommonAncestorOfBinaryTree::Test, *s236);
+    tests->push_back(fn);
+
+    shared_ptr<SearchInRotatedSortedArray> s081 = make_shared<SearchInRotatedSortedArray>();
+    fn = bind(&SearchInRotatedSortedArray::Test, *s081);
+    tests->push_back(fn);
+
+    shared_ptr<FindMinimumInRotatedSortedArrayII> s154 = make_shared<FindMinimumInRotatedSortedArrayII>();
+    fn = bind(&FindMinimumInRotatedSortedArrayII::Test, *s154);
+    tests->push_back(fn);
+
+    shared_ptr<FindMinimumInRotatedSortedArray> s153 = make_shared<FindMinimumInRotatedSortedArray>();
+    fn = bind(&FindMinimumInRotatedSortedArray::Test, *s153);
+    tests->push_back(fn);
+
+    shared_ptr<MaximalSquare> s221 = make_shared<MaximalSquare>();
+    fn = bind(&MaximalSquare::Test, *s221);
+    tests->push_back(fn);
+
+    shared_ptr<PalindromeLinkedList> s234 = make_shared<PalindromeLinkedList>();
+    fn = bind(&PalindromeLinkedList::Test, *s234);
+    tests->push_back(fn);
+
+    shared_ptr<LowestCommonAncestorOfBST> s235 = make_shared<LowestCommonAncestorOfBST>();
+    fn = bind(&LowestCommonAncestorOfBST::Test, *s235);
+    tests->push_back(fn);
+
+    shared_ptr<MaximumSubarray> s053 = make_shared<MaximumSubarray>();
+    fn = bind(&MaximumSubarray::Test, *s053);
+    tests->push_back(fn);
+
+    shared_ptr<MinimumSizeSubarraySum> s209 = make_shared<MinimumSizeSubarraySum>();
+    fn = bind(&MinimumSizeSubarraySum::Test, *s209);
+    tests->push_back(fn);
+
+    shared_ptr<MinimumWindowSubstring> s076 = make_shared<MinimumWindowSubstring>();
+    fn = bind(&MinimumWindowSubstring::Test, *s076);
+    tests->push_back(fn);
+
+    shared_ptr<Trie> s208 = make_shared<Trie>();
+    fn = bind(&Trie::Test, *s208);
+    tests->push_back(fn);
+
+    shared_ptr<PowerOfTwo> s231 = make_shared<PowerOfTwo>();
+    fn = bind(&PowerOfTwo::Test, *s231);
+    tests->push_back(fn);
+
+    shared_ptr<KthLargestElementInArray> s215 = make_shared<KthLargestElementInArray>();
+    fn = bind(&KthLargestElementInArray::Test, *s215);
+    tests->push_back(fn);
+
+    shared_ptr<CountCompleteTreeNodes> s222 = make_shared<CountCompleteTreeNodes>();
+    fn = bind(&CountCompleteTreeNodes::Test, *s222);
+    tests->push_back(fn);
+
+    shared_ptr<KthSmallestElementInBST> s230 = make_shared<KthSmallestElementInBST>();
+    fn = bind(&KthSmallestElementInBST::Test, *s230);
+    tests->push_back(fn);
+
+    shared_ptr<RectangleArea> s223 = make_shared<RectangleArea>();
+    fn = bind(&RectangleArea::Test, *s223);
+    tests->push_back(fn);
+
+    shared_ptr<ImplementStackUsingQueues> s225 = make_shared<ImplementStackUsingQueues>();
+    fn = bind(&ImplementStackUsingQueues::Test, *s225);
+    tests->push_back(fn);
+
+    shared_ptr<BasicCalculatorII> s227 = make_shared<BasicCalculatorII>();
+    fn = bind(&BasicCalculatorII::Test, *s227);
+    tests->push_back(fn);
+
+    shared_ptr<SummaryRanges> s228 = make_shared<SummaryRanges>();
+    fn = bind(&SummaryRanges::Test, *s228);
+    tests->push_back(fn);
+
+    shared_ptr<BasicCalculator> s224 = make_shared<BasicCalculator>();
+    fn = bind(&BasicCalculator::Test, *s224);
+    tests->push_back(fn);
+
+    shared_ptr<InvertBinaryTree> s226 = make_shared<InvertBinaryTree>();
+    fn = bind(&InvertBinaryTree::Test, *s226);
+    tests->push_back(fn);
+
+    shared_ptr<SortList> s148 = make_shared<SortList>();
+    fn = bind(&SortList::Test, *s148);
+    tests->push_back(fn);
+
+    shared_ptr<MaximumProductSubarray> s152 = make_shared<MaximumProductSubarray>();
+    fn = bind(&MaximumProductSubarray::Test, *s152);
+    tests->push_back(fn);
+
+    shared_ptr<InsertionSortList> s147 = make_shared<InsertionSortList>();
+    fn = bind(&InsertionSortList::Test, *s147);
+    tests->push_back(fn);
+
+    shared_ptr<RemoveNthNodeFromEndOfList> s019 = make_shared<RemoveNthNodeFromEndOfList>();
+    fn = bind(&RemoveNthNodeFromEndOfList::Test, *s019);
+    tests->push_back(fn);
+
+    shared_ptr<IntersectionOfTwoLinkedList> s160 = make_shared<IntersectionOfTwoLinkedList>();
+    fn = bind(&IntersectionOfTwoLinkedList::Test, *s160);
+    tests->push_back(fn);
+
+    shared_ptr<RemoveLinkedListElements> s203 = make_shared<RemoveLinkedListElements>();
+    fn = bind(&RemoveLinkedListElements::Test, *s203);
+    tests->push_back(fn);
+
+    shared_ptr<ReverseLinkedList> s206 = make_shared<ReverseLinkedList>();
+    fn = bind(&ReverseLinkedList::Test, *s206);
+    tests->push_back(fn);
+
+    shared_ptr<ValidateBinarySearchTree> s098 = make_shared<ValidateBinarySearchTree>();
+    fn = bind(&ValidateBinarySearchTree::Test, *s098);
+    tests->push_back(fn);
+
+    shared_ptr<BSTIterator> s173 = make_shared<BSTIterator>();
+    fn = bind(&BSTIterator::Test, *s173);
+    tests->push_back(fn);
+
+    shared_ptr<ConvertSortedListToBinarySearchTree> s109 = make_shared<ConvertSortedListToBinarySearchTree>();
+    fn = bind(&ConvertSortedListToBinarySearchTree::Test, *s109);
+    tests->push_back(fn);
+
+    shared_ptr<RecoverBinarySearchTree> s099 = make_shared<RecoverBinarySearchTree>();
+    fn = bind(&RecoverBinarySearchTree::Test, *s099);
+    tests->push_back(fn);
+
+    shared_ptr<ConvertSortedArrayToBinarySearchTree> s108 = make_shared<ConvertSortedArrayToBinarySearchTree>();
+    fn = bind(&ConvertSortedArrayToBinarySearchTree::Test, *s108);
+    tests->push_back(fn);
+
+    shared_ptr<UniqueBinarySearchTreesII> s095 = make_shared<UniqueBinarySearchTreesII>();
+    fn = bind(&UniqueBinarySearchTreesII::Test, *s095);
+    tests->push_back(fn);
+
+    shared_ptr<TwoSum> s001 = make_shared<TwoSum>();
+    fn = bind(&TwoSum::Test, *s001);
+    tests->push_back(fn);
+
+    shared_ptr<ReorderList> s143 = make_shared<ReorderList>();
+    fn = bind(&ReorderList::Test, *s143);
+    tests->push_back(fn);
+
+    shared_ptr<LRUCache> s146 = make_shared<LRUCache>(10);
+    fn = bind(&LRUCache::Test, *s146);
+    tests->push_back(fn);
+
+    shared_ptr<LongestPalindromicSubstring> s005 = make_shared<LongestPalindromicSubstring>();
+    fn = bind(&LongestPalindromicSubstring::Test, *s005);
+    tests->push_back(fn);
+
+    shared_ptr<SortColors> s075 = make_shared<SortColors>();
+    fn = bind(&SortColors::Test, *s075);
+    tests->push_back(fn);
+
+    shared_ptr<LongestConsecutiveSequence> s128 = make_shared<LongestConsecutiveSequence>();
+    fn = bind(&LongestConsecutiveSequence::Test, *s128);
+    tests->push_back(fn);
+
+    shared_ptr<SearchForARange> s034 = make_shared<SearchForARange>();
+    fn = bind(&SearchForARange::Test, *s034);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreeLevelOrderTraversal> s102 = make_shared<BinaryTreeLevelOrderTraversal>();
+    fn = bind(&BinaryTreeLevelOrderTraversal::Test, *s102);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreeLevelOrderTraversalII> s107 = make_shared<BinaryTreeLevelOrderTraversalII>();
+    fn = bind(&BinaryTreeLevelOrderTraversalII::Test, *s107);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreeZigzagLevelOrderTraversal> s103 = make_shared<BinaryTreeZigzagLevelOrderTraversal>();
+    fn = bind(&BinaryTreeZigzagLevelOrderTraversal::Test, *s103);
+    tests->push_back(fn);
+
+    shared_ptr<MaximumDepthOfBinaryTree> s104 = make_shared<MaximumDepthOfBinaryTree>();
+    fn = bind(&MaximumDepthOfBinaryTree::Test, *s104);
+    tests->push_back(fn);
+
+    shared_ptr<SameTree> s100 = make_shared<SameTree>();
+    fn = bind(&SameTree::Test, *s100);
+    tests->push_back(fn);
+
+    shared_ptr<ConstructBinaryTreeFromPreorderInorderTraversal> s105 = make_shared<ConstructBinaryTreeFromPreorderInorderTraversal>();
+    fn = bind(&ConstructBinaryTreeFromPreorderInorderTraversal::Test, *s105);
+    tests->push_back(fn);
+
+    shared_ptr<ConstructBinaryTreeFromInorderPostorderTraversal> s106 = make_shared<ConstructBinaryTreeFromInorderPostorderTraversal>();
+    fn = bind(&ConstructBinaryTreeFromInorderPostorderTraversal::Test, *s106);
+    tests->push_back(fn);
+
+    shared_ptr<SymmetricTree> s101 = make_shared<SymmetricTree>();
+    fn = bind(&SymmetricTree::Test, *s101);
+    tests->push_back(fn);
+
+    shared_ptr<BalancedBinaryTree> s110 = make_shared<BalancedBinaryTree>();
+    fn = bind(&BalancedBinaryTree::Test, *s110);
+    tests->push_back(fn);
+
+    shared_ptr<MinimumDepthOfBinaryTree> s111 = make_shared<MinimumDepthOfBinaryTree>();
+    fn = bind(&MinimumDepthOfBinaryTree::Test, *s111);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreeInorderTraversal> s094 = make_shared<BinaryTreeInorderTraversal>();
+    fn = bind(&BinaryTreeInorderTraversal::Test, *s094);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreePreorderTraversal> s144 = make_shared<BinaryTreePreorderTraversal>();
+    fn = bind(&BinaryTreePreorderTraversal::Test, *s144);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreePostorderTraversal> s145 = make_shared<BinaryTreePostorderTraversal>();
+    fn = bind(&BinaryTreePostorderTraversal::Test, *s145);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreeRightSideView> s199 = make_shared<BinaryTreeRightSideView>();
+    fn = bind(&BinaryTreeRightSideView::Test, *s199);
+    tests->push_back(fn);
+
+    shared_ptr<FlattenBinaryTreeToLinkedList> s114 = make_shared<FlattenBinaryTreeToLinkedList>();
+    fn = bind(&FlattenBinaryTreeToLinkedList::Test, *s114);
+    tests->push_back(fn);
+
+    shared_ptr<BinaryTreeMaximumPathSum> s124 = make_shared<BinaryTreeMaximumPathSum>();
+    fn = bind(&BinaryTreeMaximumPathSum::Test, *s124);
+    tests->push_back(fn);
+
+    shared_ptr<UniqueBinarySearchTrees> s096 = make_shared<UniqueBinarySearchTrees>();
+    fn = bind(&UniqueBinarySearchTrees::Test, *s096);
+    tests->push_back(fn);
+
+    shared_ptr<UnitTest_Utils> unitTest_Utils = make_shared<UnitTest_Utils>();
+    fn = bind(&UnitTest_Utils::Test, *unitTest_Utils);
+    tests->push_back(fn);
 }
 
 void runTest(shared_ptr<vector<Tester>>& tests)
 {
-	for (auto it = tests->begin(); it != tests->end(); ++it)
-	{
-		Tester tester = (*it);
-		tester();
-		const type_info& type = tester.target_type();
-		string typeName(type.name());
-		string className;
-		parseClassName(typeName, className);
-		cout << className << " test successful" << endl;
-	}
+    for (auto it = tests->begin(); it != tests->end(); ++it)
+    {
+        Tester tester = (*it);
+        tester();
+        const type_info& type = tester.target_type();
+        string typeName(type.name());
+        string className;
+        parseClassName(typeName, className);
+        cout << className << " test successful" << endl;
+    }
 }
 
 int main()
 {
-	shared_ptr<vector<Tester>> allTests = make_shared<vector<Tester>>();
-	
-	setupTest(allTests);
-	runTest(allTests);
-	
-	printf("%d problems have been solved!\n", allTests->size());
+    shared_ptr<vector<Tester>> allTests = make_shared<vector<Tester>>();
+    
+    setupTest(allTests);
+    runTest(allTests);
+    
+    printf("%d problems have been solved!\n", allTests->size());
 
-	system("pause");
-	return 0;
+    system("pause");
+    return 0;
 }

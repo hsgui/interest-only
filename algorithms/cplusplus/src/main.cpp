@@ -4,9 +4,9 @@
 using namespace UnitTest;
 int main()
 {
-	SkipListUnitTest::test();
+    SkipListUnitTest::test();
 
-	system("pause");
+    system("pause");
 
-	return 0;
+    return 0;
 }

@@ -12,77 +12,77 @@ using namespace std;
 
 class BinaryTreeLevelOrderTraversal{
 public:
-	// the recursive method is not that efficient
-	vector<vector<int>> levelOrder(TreeNode* root)
-	{
-		vector<vector<int>> levels;
-		if (root == NULL)
-		{
-			return levels;
-		}
-		vector<int> head;
-		head.push_back(root->val);
-		levels.push_back(head);
+    // the recursive method is not that efficient
+    vector<vector<int>> levelOrder(TreeNode* root)
+    {
+        vector<vector<int>> levels;
+        if (root == NULL)
+        {
+            return levels;
+        }
+        vector<int> head;
+        head.push_back(root->val);
+        levels.push_back(head);
 
-		vector<vector<int>> leftLevel;
-		vector<vector<int>> rightLevel;
-		if (root->left != NULL)
-		{
-			leftLevel = levelOrder(root->left);
-		}
-		if (root->right != NULL)
-		{
-			rightLevel = levelOrder(root->right);
-		}
+        vector<vector<int>> leftLevel;
+        vector<vector<int>> rightLevel;
+        if (root->left != NULL)
+        {
+            leftLevel = levelOrder(root->left);
+        }
+        if (root->right != NULL)
+        {
+            rightLevel = levelOrder(root->right);
+        }
 
-		int maxChildrenLevel = max(leftLevel.size(), rightLevel.size());
-		for (int i = 0; i < maxChildrenLevel; ++i)
-		{
-			vector<int> levelI;
-			if (i < leftLevel.size())
-			{
-				levelI.insert(levelI.begin(), leftLevel[i].begin(), leftLevel[i].end());
-			}
-			if (i < rightLevel.size())
-			{
-				levelI.insert(levelI.end(), rightLevel[i].begin(), rightLevel[i].end());
-			}
-			levels.push_back(levelI);
-		}
+        int maxChildrenLevel = max(leftLevel.size(), rightLevel.size());
+        for (int i = 0; i < maxChildrenLevel; ++i)
+        {
+            vector<int> levelI;
+            if (i < leftLevel.size())
+            {
+                levelI.insert(levelI.begin(), leftLevel[i].begin(), leftLevel[i].end());
+            }
+            if (i < rightLevel.size())
+            {
+                levelI.insert(levelI.end(), rightLevel[i].begin(), rightLevel[i].end());
+            }
+            levels.push_back(levelI);
+        }
 
-		return levels;
-	}
+        return levels;
+    }
 
-	// todo: the non-recursive method
-	vector<vector<int>> levelOrderV2(TreeNode* root)
-	{
-		vector<vector<int>> levels;
+    // todo: the non-recursive method
+    vector<vector<int>> levelOrderV2(TreeNode* root)
+    {
+        vector<vector<int>> levels;
 
-		return levels;
-	}
+        return levels;
+    }
 
-	bool Test()
-	{
-		TreeNode t15(15);
-		TreeNode t7(7);
-		TreeNode t20(20);
-		TreeNode t9(9);
-		TreeNode t3(3);
+    bool Test()
+    {
+        TreeNode t15(15);
+        TreeNode t7(7);
+        TreeNode t20(20);
+        TreeNode t9(9);
+        TreeNode t3(3);
 
-		t20.left = &t15, t20.right = &t7;
-		t3.left = &t9, t3.right = &t20;
+        t20.left = &t15, t20.right = &t7;
+        t3.left = &t9, t3.right = &t20;
 
-		vector<vector<int>> expected = 
-		{
-			{3},
-			{9, 20},
-			{15, 7}
-		};
+        vector<vector<int>> expected = 
+        {
+            {3},
+            {9, 20},
+            {15, 7}
+        };
 
-		vector<vector<int>> actual = levelOrder(&t3);
+        vector<vector<int>> actual = levelOrder(&t3);
 
-		assert(Utils::equalVectorVector<int>(expected, actual) == true);
-		
-		return true;
-	}
+        assert(Utils::equalVectorVector<int>(expected, actual) == true);
+        
+        return true;
+    }
 };

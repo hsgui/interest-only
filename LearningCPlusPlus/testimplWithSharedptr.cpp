@@ -5,15 +5,15 @@
 
 namespace LearningCPP
 {
-	namespace SmartPointers
-	{
-		struct WidgetWithSharedptr::Impl {
-			std::string name;
-			std::vector<double> data;
-		};
+    namespace SmartPointers
+    {
+        struct WidgetWithSharedptr::Impl {
+            std::string name;
+            std::vector<double> data;
+        };
 
-		WidgetWithSharedptr::WidgetWithSharedptr()
-			: pImpl(std::make_shared<Impl>())
-		{}
-	}
+        WidgetWithSharedptr::WidgetWithSharedptr()
+            : pImpl(std::make_shared<Impl>())
+        {}
+    }
 }

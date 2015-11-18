@@ -4,16 +4,16 @@
 
 namespace LearningCPP
 {
-	namespace SmartPointers
-	{
-		class WidgetWithSharedptr
-		{
-		public:
-			WidgetWithSharedptr();
+    namespace SmartPointers
+    {
+        class WidgetWithSharedptr
+        {
+        public:
+            WidgetWithSharedptr();
 
-		private:
-			struct Impl;
-			std::shared_ptr<Impl> pImpl;
-		};
-	}
+        private:
+            struct Impl;
+            std::shared_ptr<Impl> pImpl;
+        };
+    }
 }

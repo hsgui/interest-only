@@ -11,23 +11,23 @@ using namespace std;
 class DunGeonGame
 {
 public:
-	int calculateMinimumHP(vector<vector<int>>& dungeon)
-	{
-		int minimumHP = 0;
+    int calculateMinimumHP(vector<vector<int>>& dungeon)
+    {
+        int minimumHP = 0;
 
-		return minimumHP;
-	}
+        return minimumHP;
+    }
 
-	bool Test()
-	{
-		vector<vector<int>> dungeon = 
-		{
-			{-2, -3, 3},
-			{-5, -10, 1},
-			{10, 30, -5}
-		};
-		int minimumHP = 7;
-		int actual = calculateMinimumHP(dungeon);
-		assert(actual == minimumHP);
-	}
+    bool Test()
+    {
+        vector<vector<int>> dungeon = 
+        {
+            {-2, -3, 3},
+            {-5, -10, 1},
+            {10, 30, -5}
+        };
+        int minimumHP = 7;
+        int actual = calculateMinimumHP(dungeon);
+        assert(actual == minimumHP);
+    }
 };

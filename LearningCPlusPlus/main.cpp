@@ -17,42 +17,42 @@
 
 int main()
 {
-	int i = 42;
-	std::cout << "max(7, i): " << TemplatePractice::max(7, i) << std::endl;
+    int i = 42;
+    std::cout << "max(7, i): " << TemplatePractice::max(7, i) << std::endl;
 
-	double f1 = 3.4;
-	double f2 = -6.7;
-	std::cout << "max(f1, f2): " << TemplatePractice::max(f1, f2) << std::endl;
+    double f1 = 3.4;
+    double f2 = -6.7;
+    std::cout << "max(f1, f2): " << TemplatePractice::max(f1, f2) << std::endl;
 
-	std::string s1 = "mathematics";
-	std::string s2 = "math";
-	std::cout << "max(s1, s2): " << TemplatePractice::max(s1, s2) << std::endl;
+    std::string s1 = "mathematics";
+    std::string s2 = "math";
+    std::cout << "max(s1, s2): " << TemplatePractice::max(s1, s2) << std::endl;
 
-	std::cout << TemplatePractice::Factorial<4>::value << std::endl;
+    std::cout << TemplatePractice::Factorial<4>::value << std::endl;
 
-	TemplatePractice::testBubbleSort();
+    TemplatePractice::testBubbleSort();
 
-	CategoryPractice::testFmap();
+    CategoryPractice::testFmap();
 
-	C11Practice::testC11Practice();
+    C11Practice::testC11Practice();
 
-	LearningCPP::testLearningCPP();
+    LearningCPP::testLearningCPP();
 
-	TemplatePractice::testMetaTemplate();
+    TemplatePractice::testMetaTemplate();
 
-	ModernDesign::testModernDesign();
+    ModernDesign::testModernDesign();
 
-	LearningCPP::VariadicTemplate::test();
+    LearningCPP::VariadicTemplate::test();
 
-	LearningCPP::SmartPointers::test();
+    LearningCPP::SmartPointers::test();
 
-	LearningCPP::Lambda::test();
+    LearningCPP::Lambda::test();
 
-	LearningCPP::EmplaceBack::test();
+    LearningCPP::EmplaceBack::test();
 
-	LearningCPP::QuickStart::test();
+    LearningCPP::QuickStart::test();
 
-	system("pause");
+    system("pause");
 
-	return 0;
+    return 0;
 }
