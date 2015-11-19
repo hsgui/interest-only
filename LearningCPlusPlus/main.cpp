@@ -50,7 +50,7 @@ int main()
 
     LearningCPP::EmplaceBack::test();
 
-    LearningCPP::QuickStart::test();
+    LearningCPP::QuickTest::test();
 
     system("pause");
 

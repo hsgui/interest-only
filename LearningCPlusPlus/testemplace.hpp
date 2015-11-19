@@ -261,11 +261,11 @@ namespace LearningCPP
             Instead, we're passing a "constructor argument" (const char*) for std::regex object.
                 That's not considered an implicit conversion request.
             */
-            regexes.emplace_back(nullptr);
+            //regexes.emplace_back(nullptr);
 
             std::regex r1("[A-Z]+");
-            std::regex r2(nullptr);
-            //std::regex r3 = nullptr;
+            //std::regex r2(nullptr); // it compiles, but can't run.
+            //std::regex r3 = nullptr; // it compiles, but can't run.
 
             /*
             The syntax used to initialize r3 (employing the "=") corresponds to "copy initialization". 
