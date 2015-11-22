@@ -3,6 +3,7 @@
 #include "lrvalue.hpp"
 #include <string>
 #include <iostream>
+#include <vector>
 
 namespace C11Practice
 {
@@ -86,10 +87,128 @@ namespace C11Practice
         std::cout << "s1 = " << s1 << ", s2 = " << s2 << std::endl;
     }
 
+    void bracedInitializers(const std::vector<int>& a)
+    {
+        std::cout << a.size() << std::endl;
+    }
+
+    template<typename... Args>
+    void bracedInitializersProxy(Args&&... args)
+    {
+        bracedInitializers(std::forward<Args>(args)...);
+    }
+
+    void nullPointers(const int* p)
+    {
+        std::cout << p << std::endl;
+    }
+
+    template<typename... Args>
+    void nullPointersProxy(Args&&... args)
+    {
+        nullPointers(std::forward<Args>(args)...);
+    }
+
+    void testBracedInitializers()
+    {
+        // pass braced initializers
+        bracedInitializers({ 1,2,3,4 });
+
+        // std::forward failed.
+        //bracedInitializersProxy({ 1,2,3,4 });
+
+        // option:
+        auto a = { 1,2,3,4 };
+        bracedInitializersProxy(a);
+    }
+
+    void testnullPointers()
+    {
+        nullPointers(0);
+
+        nullPointersProxy(nullptr);
+        // cannot convert argument from "int" to "const int*"
+        //nullPointersProxy(0);
+    }
+
+    struct IPv4Header
+    {
+        std::uint32_t version : 4,
+            IHL : 4,
+            DSCP : 6,
+            ECN : 2,
+            totalLength : 16;
+    };
+
+    void bitfieldFunc(uint32_t l)
+    {
+        std::cout << l << std::endl;
+    }
+
+    template<typename... Args>
+    void bitfieldProxy(Args&&... args)
+    {
+        bitfieldFunc(std::forward<Args>(args)...);
+    }
+
+    void testBitfieldFunc()
+    {
+        IPv4Header header;
+        header.totalLength = 4;
+        bitfieldFunc(header.totalLength);
+
+        bitfieldProxy(4);
+
+        //bitfieldProxy(header.totalLength);
+        auto b = header.totalLength;
+        // work around.
+        bitfieldProxy(b);
+    }
+
+    int overloadFunc(int a)
+    {
+        std::cout << a << std::endl;
+        return a;
+    }
+
+    int overloadFunc(int a, int b)
+    {
+        std::cout << a << ", " << b << std::endl;
+        return a + b;
+    }
+
+    // the parameter is the same as int (*o)(int)
+    void overloadFuncP(int o(int))
+    {
+        o(4);
+    }
+
+    template<typename... Args>
+    void overloadFuncTemplate(Args&&... args)
+    {
+        overloadFuncP(std::forward<Args>(args)...);
+    }
+
+    void testOverloadFunc()
+    {
+        overloadFuncP(overloadFunc);
+        // unkown type...
+        //overloadFuncTemplate(overloadFunc);
+
+        // working around
+        using F = int (*)(int);
+        F a = overloadFunc;
+        overloadFuncTemplate(a);
+        // or
+        overloadFuncTemplate(static_cast<F>(overloadFunc));
+    }
+
     void testC11Practice()
     {
         testLRValue();
 
         testMove();
+
+        testnullPointers();
     }
 }
