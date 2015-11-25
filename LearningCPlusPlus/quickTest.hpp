@@ -40,6 +40,15 @@ namespace LearningCPP
             iprintf("t=%s, m=%s", t.c_str(), m.c_str());
         }
 
+        void testCeil()
+        {
+            size_t a = 1;
+            size_t b = 110;
+
+            uint8_t c = (uint8_t)(ceil(((double)a * 100) / b));
+            std::cout << c << std::endl;
+        }
+
         void test()
         {
             std::vector<int> a{ 1,2,3,7,4,5 };
@@ -53,6 +62,8 @@ namespace LearningCPP
             std::string t;
             testMove(t);
             iprintf("%s", t.c_str());
+
+            testCeil();
 
             return;
         }

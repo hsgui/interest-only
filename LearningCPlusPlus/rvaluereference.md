@@ -303,3 +303,95 @@ Widget makeWidget(Widget w)
     return std::move(w);
 }
 ```
+
+#### 6. Reference collapsing
+
+Considering the following function template where param is a universal reference.
+```C++
+template<typename T>
+void func(T&& param);
+```
+The deduced template parameter `T` will encode whether the argument passed to `param` was an lvalue or an rvalue:
+
+* When an lvalue is passed as an argument, `T` is deduced to be an lvalue reference.
+
+* When an rvalue is passed, `T` is deduced to be a `non-reference`.
+
+We are forbidden to use reference to reference explicitly:
+```C++
+int x = 3;
+// error, can't declare reference to reference
+auto& & rx = x;
+```
+
+But compilers can use reference to reference, and they use reference collapsing to get a single reference according to this rule:
+
+**If either reference is an lvalue reference, the result is an lvalue referent. Otherwise (both are rvalue references), the result is an rvalue reference**
+
+```C++
+template<typename T>
+T&& forward(typename remove_reference<T>::type& param)
+{
+    return static_cast<T&&>(param);
+}
+```
+
+Reference collapsing occurs in four contexts:
+
+* template instantiation
+
+```C++
+template<typename T>
+void func(T&& param);
+
+Widget widgetFactory();
+
+Widget w;
+// call with lvalue;
+// T is deduced to be Widget&
+func(w);
+
+// call with rvalue;
+// T is deduce to be Widget
+func(widgetFactory());
+```
+
+* `auto` variables.
+
+```C++
+// initializes w1 with an lvalue
+// deducing the type Widget& for auto
+// Widget& && w1 = w => Widget& w1 = w
+// w1 is a lvalue reference
+auto&& w1 = w;
+
+// initializes w2 with an rvalue
+// deducing the type Widget for auto
+// Widget&& w2 = widgetFactory();
+// w2 is a rvalue reference
+auto&& w2 = widgetFactory();
+```
+
+* `typedef` and alias declarations
+
+```C++
+template<typename T>
+class Widget{
+public:
+    typedef T&& RvalueRefToT;
+};
+
+// RvalueRefToT is type of `int&`
+// not a real rvalue reference
+Widget<int&> w;
+```
+
+* `decltype`
+
+##### 6.1 Understand universal references:
+
+A universal reference is actually an rvalue reference in a context where two conditions are satisfied:
+
+* **Type deduction distinguishes lvalue from rvalues**. Lvalues of type `T` are deduced to have type `T&`, while rvalues of type `T` yield `T` as their deduced type.
+
+* **reference collapsing occurs**
