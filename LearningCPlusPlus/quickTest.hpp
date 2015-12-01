@@ -65,6 +65,9 @@ namespace LearningCPP
 
             testCeil();
 
+            uint64_t i1 = 11;
+            printf("result: %12I64X\n", i1);
+
             return;
         }
     }
