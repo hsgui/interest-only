@@ -14,6 +14,7 @@
 #include "quickTest.hpp"
 #include "testlambda.hpp"
 #include "testemplace.hpp"
+#include "testConcurrency.hpp"
 
 int main()
 {
@@ -49,6 +50,8 @@ int main()
     LearningCPP::Lambda::test();
 
     LearningCPP::EmplaceBack::test();
+
+    LearningCPP::Concurrency::test();
 
     LearningCPP::QuickTest::test();
 
