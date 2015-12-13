@@ -15,6 +15,7 @@
 #include "testlambda.hpp"
 #include "testemplace.hpp"
 #include "testConcurrency.hpp"
+#include "testUserLiteral.hpp"
 
 int main()
 {
@@ -52,6 +53,8 @@ int main()
     LearningCPP::EmplaceBack::test();
 
     LearningCPP::Concurrency::test();
+
+    LearningCPP::UserLiteral::test();
 
     LearningCPP::QuickTest::test();
 

@@ -42,6 +42,7 @@
     <ClInclude Include="testingimplWithSharedptr.h" />
     <ClInclude Include="testlambda.hpp" />
     <ClInclude Include="testpimplWithUniqueptr.h" />
+    <ClInclude Include="testUserLiteral.hpp" />
     <ClInclude Include="Threads.hpp" />
     <ClInclude Include="typeinfowrapper.hpp" />
     <ClInclude Include="typelist.hpp" />
