@@ -7,6 +7,12 @@
     <ClInclude Include="skiplist.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="graph_test.h">
+      <Filter>UnitTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UnitTest">
