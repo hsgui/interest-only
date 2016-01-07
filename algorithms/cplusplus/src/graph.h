@@ -25,6 +25,12 @@ namespace Graph {
         template<typename Visitor = DefaultGraphVisitor>
         void BFS(int p_startNode, Visitor p_visitor = Visitor());
 
+        template<typename Visitor = DefaultGraphVisitor>
+        void DFS(int p_startNode, Visitor p_vistor = Visitor());
+
+        template<typename Visitor = DefaultGraphVisitor>
+        void DFS(Visitor p_visitor = Visitor());
+
     private:
         size_t m_verticesCount;
         std::unique_ptr<std::list<int>[]> m_adj;
@@ -73,5 +79,11 @@ namespace Graph {
                 }
             }
         }
+    }
+
+    template<typename Visitor>
+    void Graph::DFS(int p_start, Visitor p_visitor)
+    {
+        return;
     }
 }
