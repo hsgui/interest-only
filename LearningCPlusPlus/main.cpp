@@ -16,6 +16,7 @@
 #include "testemplace.hpp"
 #include "testConcurrency.hpp"
 #include "testUserLiteral.hpp"
+#include "testAnonymousClass.h"
 
 int main()
 {
@@ -57,6 +58,8 @@ int main()
     LearningCPP::UserLiteral::test();
 
     LearningCPP::QuickTest::test();
+
+    LearningCPP::TestAnonymousClass::test();
 
     system("pause");
 

@@ -37,6 +37,7 @@
     <ClInclude Include="smallobj.hpp" />
     <ClInclude Include="smartPointersTest.hpp" />
     <ClInclude Include="smartptr.hpp" />
+    <ClInclude Include="testAnonymousClass.h" />
     <ClInclude Include="testConcurrency.hpp" />
     <ClInclude Include="testemplace.hpp" />
     <ClInclude Include="testingimplWithSharedptr.h" />
