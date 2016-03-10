@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="graph.h" />
     <ClInclude Include="graph_test.h" />
+    <ClInclude Include="hamt.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="skiplist.h" />
   </ItemGroup>

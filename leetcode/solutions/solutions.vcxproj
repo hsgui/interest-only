@@ -38,6 +38,7 @@
     <ClInclude Include="110-BalancedBinaryTree.h" />
     <ClInclude Include="111-MinimumDepthOfBinaryTree.h" />
     <ClInclude Include="114-FlattenBinaryTreeToLinkedList.h" />
+    <ClInclude Include="115-DistinctSubsequences.h" />
     <ClInclude Include="121-BestTimeToBuyAndSellStock1.h" />
     <ClInclude Include="122-BestTimeToBuyAndSellStock2.h" />
     <ClInclude Include="124-BinaryTreeMaximumPathSum.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="284-PeekingIterator.h" />
     <ClInclude Include="287-FindTheDuplicateNumber.h" />
     <ClInclude Include="295-FindMedianFromDataStream.h" />
+    <ClInclude Include="334-IncreasingTripletSubsequence.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />

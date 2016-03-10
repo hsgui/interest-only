@@ -13,6 +13,9 @@
     <ClInclude Include="graph_test.h">
       <Filter>UnitTest</Filter>
     </ClInclude>
+    <ClInclude Include="hamt.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UnitTest">
