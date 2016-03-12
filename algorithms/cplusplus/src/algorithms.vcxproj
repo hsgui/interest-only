@@ -11,11 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="arena.h" />
+    <ClInclude Include="env.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="graph_test.h" />
     <ClInclude Include="hamt.h" />
+    <ClInclude Include="noncopyable.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="skiplist.h" />
+    <ClInclude Include="srwlock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

@@ -16,6 +16,18 @@
     <ClInclude Include="hamt.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="arena.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="srwlock.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="noncopyable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="env.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UnitTest">
