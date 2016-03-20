@@ -29,11 +29,25 @@ namespace algorithms {
     unsigned hash(long key, unsigned n) { return hash(static_cast<unsigned>(key), n); }
     unsigned hash(const char* key, unsigned n) { return hash(reinterpret_cast<long>(key), n); }
 
-    unsigned hash(const std::string& key, unsigned n) {
-        unsigned h = GOLDEN_RATIO_PRIME;
-        for (unsigned i = 0; i < n; ++i)
-            for (const char* c = key.c_str(); *c != 0; ++c)
-                h = (h * 33) + *c;
+    // universal hashing
+    unsigned hash(const std::string& key) {
+        unsigned a = 31415, b = 27183;
+        unsigned h = 0;
+        for (const char* c = key.c_str(); *c != 0; ++c, a *= b)
+        {
+            h = (a * h + (*c));
+        }
+        return h;
+    }
+
+    unsigned hash(const std::string& p_key, unsigned p_level)
+    {
+        unsigned a = 31415, b = 27183;
+        unsigned h = 0;
+        for (const char* c = p_key.c_str(); *c != 0; ++c, a *= b)
+        {
+            h = (a * h * p_level + (*c));
+        }
         return h;
     }
 
@@ -45,7 +59,6 @@ namespace algorithms {
 
         unsigned operator()(const Key& p_key, unsigned n) const
         {
-            assert(n == 0);
             return hash(p_key, n);
         }
     };
@@ -153,9 +166,9 @@ namespace algorithms {
             return CountSetBits(((1 << p_index) - 1) & m_bitmap);
         }
 
-        HAMTEntry* getEntryOrPlace(unsigned p_index)
+        HAMTEntry* getEntryOrSet(unsigned p_index)
         {
-            if (isValidEntry(p_index) == false)
+            if (!isValidEntry(p_index))
             {
                 setEntry(p_index, HAMTEntry::null());
             }
@@ -317,7 +330,7 @@ namespace algorithms {
             while (!(place->isNull() || place->isLeaf()))
             {
                 arc = p_in.read();
-                place = place->toNode()->getEntryOrPlace(arc);
+                place = place->toNode()->getEntryOrSet(arc);
             }
 
             return place;
