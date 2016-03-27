@@ -88,6 +88,8 @@
     <ClInclude Include="287-FindTheDuplicateNumber.h" />
     <ClInclude Include="295-FindMedianFromDataStream.h" />
     <ClInclude Include="334-IncreasingTripletSubsequence.h" />
+    <ClInclude Include="337-HouseRobber.h" />
+    <ClInclude Include="338-CountingBits.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />
