@@ -3,6 +3,10 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <iostream>
+#include <memory>
+#include <map>
+#include <assert.h>
 
 namespace LearningCPP
 {
@@ -49,6 +53,81 @@ namespace LearningCPP
             std::cout << c << std::endl;
         }
 
+        struct Pair
+        {
+            int a;
+            int b;
+        };
+
+        void getSSS(std::vector<Pair>& p_sss)
+        {
+            p_sss.reserve(10);
+            Pair p;
+            p.a = 1;
+            p.b = 2;
+            p_sss.emplace_back(std::move(p));
+        }
+
+        void printAndRemove(const std::shared_ptr<int>& p)
+        {
+            std::cout << "value=" << (*p) << std::endl;
+        }
+
+        class TestVirtual
+        {
+        public:
+            virtual void print() = 0;
+        };
+
+        class TestVirtualB : public TestVirtual
+        {
+        public:
+            void print() { std::cout << "TestVirtualB" << std::endl; }
+        };
+
+        class TestVirtualC : public TestVirtualB
+        {
+        public:
+            void print() { std::cout << "TestVirtualC" << std::endl; }
+        };
+
+        void testVirtual()
+        {
+            TestVirtual* t1 = new TestVirtualC();
+            t1->print();
+
+            delete t1;
+        }
+
+        struct SegmentBlob
+        {
+            int a;
+            int b;
+        };
+
+        typedef uint32_t SegmentTag;
+        SegmentTag abcd1 = 10;
+        const SegmentTag* abcd1p = &abcd1;
+
+        struct PredefinedSegmentTag
+        {
+            inline static SegmentTag GetDocDataSegmentTag()
+            {
+                return *(reinterpret_cast<const SegmentTag*>("docd"));
+            }
+
+            const SegmentTag c_docDataSegmentTag = *((const SegmentTag*)("docd"));
+            const SegmentTag c_metaWordSegmentTag = *(reinterpret_cast<const SegmentTag*>("mtwd"));
+            const SegmentTag c_streamSizeSegmentTag = *(reinterpret_cast<const SegmentTag*>("stsz"));
+            const SegmentTag c_metaStreamSegmentTag = *(reinterpret_cast<const SegmentTag*>("mtsm"));
+            const SegmentTag c_annotationSegmentTag = *(reinterpret_cast<const SegmentTag*>("annt"));
+            const SegmentTag c_updateSubstringSegmentTag = *(reinterpret_cast<const SegmentTag*>("upss"));
+        };
+
+        static const PredefinedSegmentTag c_PredefinedSegmentTag;
+
+        static const SegmentTag c_updateSubstringSegmentTag = *(reinterpret_cast<const SegmentTag*>("upss"));
+
         void test()
         {
             std::vector<int> a{ 1,2,3,7,4,5 };
@@ -67,6 +146,32 @@ namespace LearningCPP
 
             uint64_t i1 = 11;
             printf("result: %12I64X\n", i1);
+
+            
+            std::vector<std::shared_ptr<int>> sss;
+            sss.emplace_back(new int(40));
+
+            auto p = std::move(sss[0]);
+            assert(sss[0] == nullptr);
+            assert(p != nullptr);
+            printAndRemove(std::move(p));
+ 
+            uint64_t x = 0;
+            uint64_t y = 18446744072645148502;
+            std::cout << "x-y:" << x - y << std::endl;
+
+            testVirtual();
+
+            std::map<int, SegmentBlob> blobs;
+            blobs[1] = SegmentBlob{ 1, 2 };
+
+            std::vector<SegmentBlob> tttttt;
+            tttttt.emplace_back(SegmentBlob{ 1,3 });
+
+            static const uint32_t t_num = *((const uint32_t*)("abcd"));
+            printf("hello. %d\n", t_num);
+
+            printf("%d\n", sizeof(PredefinedSegmentTag) / sizeof(SegmentTag));
 
             return;
         }
