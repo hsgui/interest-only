@@ -51,6 +51,7 @@
 #include "154-FindMinimumInRotatedSortedArrayII.h"
 #include "160-IntersectionOfTwoLinkedLists.h"
 #include "173-BinarySearchTreeIterator.h"
+#include "187-RepeatedDNASequences.h"
 #include "199-BinaryTreeRightSideView.h"
 #include "201-BitwiseAndOfNumbersRange.h"
 #include "203-RemoveLinkedListElements.h"
@@ -80,6 +81,7 @@
 #include "284-PeekingIterator.h"
 #include "287-FindTheDuplicateNumber.h"
 #include "295-FindMedianFromDataStream.h"
+#include "318-MaximumProductOfWordLengths.h"
 
 using namespace std;
 
@@ -102,6 +104,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
     Tester fn;
+
+    shared_ptr<RepeatedDNASequences> s187 = make_shared<RepeatedDNASequences>();
+    fn = bind(&RepeatedDNASequences::Test, *s187);
+    tests->push_back(fn);
+
+    shared_ptr<MaximumProductOfWordLengths> s318 = make_shared<MaximumProductOfWordLengths>();
+    fn = bind(&MaximumProductOfWordLengths::Test, *s318);
+    tests->push_back(fn);
 
     shared_ptr<BitwiseAndOfNumbersRange> s201 = make_shared<BitwiseAndOfNumbersRange>();
     fn = bind(&BitwiseAndOfNumbersRange::Test, *s201);

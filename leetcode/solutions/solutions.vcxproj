@@ -57,6 +57,7 @@
     <ClInclude Include="160-IntersectionOfTwoLinkedLists.h" />
     <ClInclude Include="173-BinarySearchTreeIterator.h" />
     <ClInclude Include="174-DungeonGame.h" />
+    <ClInclude Include="187-RepeatedDNASequences.h" />
     <ClInclude Include="199-BinaryTreeRightSideView.h" />
     <ClInclude Include="201-BitwiseAndOfNumbersRange.h" />
     <ClInclude Include="203-RemoveLinkedListElements.h" />
@@ -87,6 +88,7 @@
     <ClInclude Include="284-PeekingIterator.h" />
     <ClInclude Include="287-FindTheDuplicateNumber.h" />
     <ClInclude Include="295-FindMedianFromDataStream.h" />
+    <ClInclude Include="318-MaximumProductOfWordLengths.h" />
     <ClInclude Include="334-IncreasingTripletSubsequence.h" />
     <ClInclude Include="337-HouseRobber.h" />
     <ClInclude Include="338-CountingBits.h" />
