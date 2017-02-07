@@ -82,6 +82,8 @@
 #include "287-FindTheDuplicateNumber.h"
 #include "295-FindMedianFromDataStream.h"
 #include "318-MaximumProductOfWordLengths.h"
+#include "319-BulbSwitcher.h"
+#include "396-RotateFunction.h"
 
 using namespace std;
 
@@ -104,6 +106,14 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
     Tester fn;
+
+    shared_ptr<RotateFunction> s396 = make_shared<RotateFunction>();
+    fn = bind(&RotateFunction::Test, *s396);
+    tests->push_back(fn);
+
+    shared_ptr<BulbSwitcher> s319 = make_shared<BulbSwitcher>();
+    fn = bind(&BulbSwitcher::Test, *s319);
+    tests->push_back(fn);
 
     shared_ptr<RepeatedDNASequences> s187 = make_shared<RepeatedDNASequences>();
     fn = bind(&RepeatedDNASequences::Test, *s187);
