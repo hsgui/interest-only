@@ -94,6 +94,7 @@
     <ClInclude Include="337-HouseRobber.h" />
     <ClInclude Include="338-CountingBits.h" />
     <ClInclude Include="396-RotateFunction.h" />
+    <ClInclude Include="481-MagicalString.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="ListNode.h" />
     <ClInclude Include="TreeNode.h" />

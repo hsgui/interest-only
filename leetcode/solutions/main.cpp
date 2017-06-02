@@ -84,6 +84,7 @@
 #include "318-MaximumProductOfWordLengths.h"
 #include "319-BulbSwitcher.h"
 #include "396-RotateFunction.h"
+#include "481-MagicalString.h"
 
 using namespace std;
 
@@ -106,6 +107,10 @@ void parseClassName(const string& typeName, string& className)
 void setupTest(shared_ptr<vector<Tester>>& tests)
 {
     Tester fn;
+
+    shared_ptr<MagicString> s481 = make_shared<MagicString>();
+    fn = bind(&MagicString::Test, *s481);
+    tests->push_back(fn);
 
     shared_ptr<RotateFunction> s396 = make_shared<RotateFunction>();
     fn = bind(&RotateFunction::Test, *s396);
