@@ -20,6 +20,7 @@ from util import Counter, TimeoutFunction, FixedRandom
 from collections import defaultdict
 from pprint import PrettyPrinter
 from hashlib import sha1
+from functools import reduce 
 pp = PrettyPrinter()
 VERBOSE = False
 
@@ -38,7 +39,7 @@ class ValueIterationTest(testClasses.TestCase):
         if 'noise' in testDict: self.grid.setNoise(float(testDict['noise']))
         if 'livingReward' in testDict: self.grid.setLivingReward(float(testDict['livingReward']))
         maxPreIterations = 10
-        self.numsIterationsForDisplay = range(min(iterations, maxPreIterations))
+        self.numsIterationsForDisplay = list(range(min(iterations, maxPreIterations)))
         self.testOutFile = testDict['test_out_file']
         if maxPreIterations < iterations:
             self.numsIterationsForDisplay.append(iterations)
