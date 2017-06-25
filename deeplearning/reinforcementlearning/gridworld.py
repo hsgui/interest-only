@@ -120,7 +120,7 @@ class Gridworld(mdp.MarkovDecisionProcess):
         """
 
         if action not in self.getPossibleActions(state):
-            raise "Illegal action!"
+            raise Exception('Illegal action! action=%s. state=(%d,%d)' % (action, state[0], state[1]))
 
         if self.isTerminal(state):
             return []
@@ -583,3 +583,6 @@ if __name__ == '__main__':
             display.pause()
         except KeyboardInterrupt:
             sys.exit(0)
+
+    display.pause()
+    input("Press Enter to continue...")

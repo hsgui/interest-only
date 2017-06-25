@@ -12,6 +12,7 @@
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
 
+from functools import reduce
 import util
 from graphicsUtils import *
 
