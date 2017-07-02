@@ -40,6 +40,8 @@ class QLearningAgent(ReinforcementAgent):
     """
     def __init__(self, **args):
         "You can initialize Q-values here..."
+        self.qvalues = util.Counter()
+
         ReinforcementAgent.__init__(self, **args)
 
         "*** YOUR CODE HERE ***"
@@ -51,8 +53,11 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
-
+        if state in self.qvalues:
+            actionsQ = self.qvalues[state]
+            if action in actionsQ:
+                return actionsQ[action]
+        return 0.0
 
     def computeValueFromQValues(self, state):
         """
@@ -62,7 +67,15 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        maxValue = float('-inf')
+        # for terminal state, legalActions are empty
+        legalActions = self.getLegalActions(state)
+        for action in legalActions:
+            qvalue = self.getQValue(state, action)
+            maxValue = max(maxValue, qvalue)
+
+        return max(maxValue, 0.0)
 
     def computeActionFromQValues(self, state):
         """
@@ -71,8 +84,18 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
 
+        bestAction = None
+        bestQValue = float('-inf')
+        # Question: Here we only care about the seen actions?
+        for legalAction in self.getLegalActions(state):
+            qvalue = self.getQValue(state, legalAction)
+            if bestQValue < qvalue:
+                bestQValue = qvalue
+                bestAction = legalAction
+
+        return bestAction
+        
     def getAction(self, state):
         """
           Compute the action to take in the current state.  With
@@ -88,7 +111,33 @@ class QLearningAgent(ReinforcementAgent):
         legalActions = self.getLegalActions(state)
         action = None
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # when there is no legal actions, no action would be taken
+        if len(legalActions) == 0:
+            return None
+        if state not in self.qvalues:
+            self.qvalues[state] = util.Counter()
+
+        actionValues = self.qvalues[state]
+        randomAction = util.flipCoin(self.epsilon)
+        unseenActions = []
+        bestAction = None
+        bestQValue = float('-inf')
+        for legalAction in legalActions:
+            if legalAction not in actionValues:
+                unseenActions.append(legalAction)
+            else:
+                qvalue = self.getQValue(state, legalAction)
+                if bestQValue < qvalue:
+                    bestQValue = qvalue
+                    bestAction = legalAction
+        # random pick an action from the unseen actions
+        # if best Q value is negative, random pick
+        if (randomAction and unseenActions) or (bestQValue < 0 and (not unseenActions)):
+            action = random.choice(unseenActions)
+        else:
+            action = bestAction
+            if bestQValue < 0:
+                raise Exception('bestAction=%s, bestQValue=%f, state=(%d,%d)', bestAction, bestQValue, state[0], state[1])
 
         return action
 
@@ -102,7 +151,17 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        maxQ = self.computeValueFromQValues(nextState)
+        sample = reward + self.discount * maxQ
+
+        previousQ = 0.0
+        if state in self.qvalues:
+            currentStateQ = self.qvalues[state]
+            if action in currentStateQ:
+                previousQ = currentStateQ[action]
+        else:
+            self.qvalues[state] = util.Counter()
+        self.qvalues[state][action] = (1 - self.alpha) * previousQ + self.alpha * sample
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)

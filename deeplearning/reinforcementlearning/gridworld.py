@@ -359,7 +359,7 @@ def runEpisode(agent, environment, discount, decision, display, message, pause, 
         # GET ACTION (USUALLY FROM AGENT)
         action = decision(state)
         if action == None:
-            raise 'Error: Agent returned None action'
+            raise Exception('Error: Agent returned None action! action=%s. state=(%d,%d)' % (action, state[0], state[1]))
 
         # EXECUTE ACTION
         nextState, reward = environment.doAction(action)

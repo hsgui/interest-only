@@ -374,7 +374,7 @@ class QLearningTest(testClasses.TestCase):
         self.opts = {'actionFn': self.env.getPossibleActions, 'epsilon': self.epsilon, 'gamma': self.discount, 'alpha': self.learningRate}
         numExperiences = int(testDict['numExperiences'])
         maxPreExperiences = 10
-        self.numsExperiencesForDisplay = range(min(numExperiences, maxPreExperiences))
+        self.numsExperiencesForDisplay = list(range(min(numExperiences, maxPreExperiences)))
         self.testOutFile = testDict['test_out_file']
         if maxPreExperiences < numExperiences:
             self.numsExperiencesForDisplay.append(numExperiences)
@@ -454,7 +454,7 @@ class QLearningTest(testClasses.TestCase):
 
     def runAgent(self, moduleDict, numExperiences):
         agent = moduleDict['qlearningAgents'].QLearningAgent(**self.opts)
-        states = filter(lambda state : len(self.grid.getPossibleActions(state)) > 0, self.grid.getStates())
+        states = list(filter(lambda state : len(self.grid.getPossibleActions(state)) > 0, self.grid.getStates()))
         states.sort()
         randObj = FixedRandom().random
         # choose a random start state and a random possible action from that state
@@ -475,7 +475,7 @@ class QLearningTest(testClasses.TestCase):
             policy[state] = agent.computeActionFromQValues(state)
             possibleActions = self.grid.getPossibleActions(state)
             for action in actions:
-                if not qValues.has_key(action):
+                if action not in qValues:
                     qValues[action] = {}
                 if action in possibleActions:
                     qValues[action][state] = agent.getQValue(state, action)
