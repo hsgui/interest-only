@@ -125,21 +125,16 @@ class QLearningAgent(ReinforcementAgent):
         bestAction = None
         bestQValue = float('-inf')
         for legalAction in legalActions:
-            if legalAction not in actionValues:
-                unseenActions.append(legalAction)
-            else:
-                qvalue = self.getQValue(state, legalAction)
-                if bestQValue < qvalue:
-                    bestQValue = qvalue
-                    bestAction = legalAction
+            qvalue = self.getQValue(state, legalAction)
+            if bestQValue < qvalue:
+                bestQValue = qvalue
+                bestAction = legalAction
         # random pick an action from the unseen actions
         # if best Q value is negative, random pick
-        if (randomAction and unseenActions) or (bestQValue < 0 and (not unseenActions)):
-            action = random.choice(unseenActions)
+        if randomAction or bestAction == None:
+            action = random.choice(legalActions)
         else:
             action = bestAction
-            if bestQValue < 0:
-                raise Exception('bestAction=%s, bestQValue=%f, state=(%d,%d)', bestAction, bestQValue, state[0], state[1])
 
         return action
 
