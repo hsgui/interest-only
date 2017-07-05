@@ -15,3 +15,13 @@
 
 ### Temporal Differences
 <http://artint.info/html/ArtInt_264.html>
+
+### Exploration and Exploitation
+<http://artint.info/html/ArtInt_266.html>
+
+### Evaluating Reinforcement Learning Algorithms
+<http://artint.info/html/ArtInt_267.html>
+
+## Deep Reinforcement Learning
+### Demysitifying Deep RL
+<https://www.intelnervana.com/demystifying-deep-reinforcement-learning/>
