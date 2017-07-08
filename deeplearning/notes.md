@@ -28,4 +28,4 @@
 
 ## Open AI - Gym
 ### Cart Pole
-* Commit: <https://github.com/hsgui/interest-only/commit/819b9a491d78a746a8eec12331b5c74718eb62d7>, Evaluation: <https://gym.openai.com/evaluations/eval_ytHZ89GTZaDudD6Hz3gQ>
+* [Commit](https://github.com/hsgui/interest-only/commit/819b9a491d78a746a8eec12331b5c74718eb62d7), [Evaluation](https://gym.openai.com/evaluations/eval_ytHZ89GTZaDudD6Hz3gQ)
