@@ -23,8 +23,10 @@
 <http://artint.info/html/ArtInt_267.html>
 
 ## Deep Reinforcement Learning
-### Demysitifying Deep RL
-<https://www.intelnervana.com/demystifying-deep-reinforcement-learning/>
+* [Demysitifying Deep RL](https://www.intelnervana.com/demystifying-deep-reinforcement-learning/)
+* [Error clipping on DQN](https://stackoverflow.com/questions/36462962/loss-clipping-in-tensor-flow-on-deepminds-dqn)
+* [DQN](https://jaromiru.com/2016/10/21/lets-make-a-dqn-full-dqn/)
+* [DDQN](https://jaromiru.com/2016/11/07/lets-make-a-dqn-double-learning-and-prioritized-experience-replay/)
 
 ## Open AI - Gym
 ### Cart Pole
