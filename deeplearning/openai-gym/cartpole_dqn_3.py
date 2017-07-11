@@ -1,21 +1,17 @@
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.optimizers import Adam
-from keras import backend as K
 import random
 import math
 import gym
 from gym.wrappers.monitoring import Monitor
+from keras import backend as K
 import numpy as np
-import sys
 import tensorflow as tf
 
 import replay_memory as memory
 
 DEBUG = False
-DEBUG_STATES = [
-    [0.07216398, 0.42593921, -0.20272785, -1.07227655],
-    [0.05467548, 0.2243609, -0.15646592, -0.62437505]]
 
 EPISODES = 2000
 
@@ -31,19 +27,16 @@ LAMBDA = 0.001
 
 # the default discount rate
 GAMMA = 0.99
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.00025
 
 UPDATE_TARGET_FREQUENCY = 1000
 
 HUBER_LOSS_DELTA = 1.0
 
-
-def printQ(agent):
-    pred = agent.model.predict(np.array(DEBUG_STATES))
-    for o in pred:
-        sys.stdout.write(str(o)+" ")
-    print(";")
-    sys.stdout.flush()
+# https://keon.io/deep-q-learning
+# https://jaromiru.com/2016/10/03/lets-make-a-dqn-implementation/
+# https://jaromiru.com/2016/10/21/lets-make-a-dqn-full-dqn/
+# 1. Target network; 2. Error clipping
 
 def huber_loss(y_true, y_pred):
     error = y_true - y_pred
@@ -56,9 +49,6 @@ def huber_loss(y_true, y_pred):
 
     return K.mean(loss)
 
-
-# https://keon.io/deep-q-learning
-# https://jaromiru.com/2016/10/03/lets-make-a-dqn-implementation/
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -86,10 +76,10 @@ class DQNAgent:
 
         # 'Dense' is the basic form of a neural network layer
         # Input Layer of state size(4) and hidden layer with 24 nodes
-        model.add(Dense(24, input_dim = self.state_size, activation='relu'))
+        model.add(Dense(64, input_dim = self.state_size, activation='relu'))
 
         # Hidden layer with 24 nodes
-        model.add(Dense(24, activation = 'relu'))
+        # model.add(Dense(24, activation = 'relu'))
 
         # Output layer with # of actions: 2 nodes (left, or right)
         model.add(Dense(self.action_size, activation='linear'))
@@ -97,24 +87,21 @@ class DQNAgent:
         opt = Adam(lr = self.learning_rate)
         model.compile(loss=huber_loss, optimizer=opt)
         return model
-    
+
     def updateTargetModel(self):
         self.target_model.set_weights(self.model.get_weights())
 
-    
     def remember(self, state, action, reward, next_state, done):
         self.memory.add((state, action, reward, next_state, done))
 
         self.steps += 1
+
+        # add target model and update the target model weigths
         if self.steps % UPDATE_TARGET_FREQUENCY == 0:
             print("update target model. step: {}".
                   format(self.steps))
             self.updateTargetModel()
 
-        
-        if DEBUG and self.steps % 1000 == 0:
-            printQ(self)
-            
         self.epsilon = EPSILON_MIN + (EPSILON_MAX - EPSILON_MIN) * math.exp(-LAMBDA * self.steps)
 
     def act(self, state):
@@ -137,6 +124,7 @@ class DQNAgent:
         next_states = np.array([ (none_state if exp[3] is None else exp[3]) for exp in batch ])
 
         state_action_probs = self.model.predict(states)
+        # use the target model to set the target Q value
         next_state_action_probs = self.target_model.predict(next_states)
 
         x = np.zeros( (batch_length, self.state_size) )
@@ -159,9 +147,22 @@ class DQNAgent:
     def stopExploration(self):
         self.exploration = False
 
+class RandomAgent:
+    def __init__(self, action_size):
+        self.action_size = action_size
+        self.memory = memory.BasicReplayMemory(MEMORY_CAPACITY)
+
+    def act(self, state):
+        return random.randint(0, self.action_size - 1)
+
+    def remember(self, state, action, reward, next_state, done):
+        self.memory.add((state, action, reward, next_state, done))
+
+    def replay(self):
+        pass
+    
 if __name__ == "__main__":
     env = gym.make('CartPole-v0')
-    #env = Monitor(env, 'tmp/cart-pole-dqn-2', force=True)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -169,8 +170,23 @@ if __name__ == "__main__":
     done = False
     batch_size = BATCH_SIZE
 
-    DEBUG = True
+    DEBUG = False
 
+    randomAgent = RandomAgent(action_size)
+    while randomAgent.memory.isFull() == False:
+        state = env.reset()
+        for time in range(500):
+            action = randomAgent.act(state)
+            next_state, reward, done, _ = env.step(action)
+            randomAgent.remember(state, action, reward, next_state, done)
+            state = next_state
+            if done:
+                break
+    print("Finish to full the random agent memory")
+    agent.memory.samples = randomAgent.memory.samples
+    randomAgent = None
+
+    env = Monitor(env, 'tmp/cart-pole-dqn-3', force=True)
     for e in range(EPISODES):
         if DEBUG and e >= EPISODES - 10:
             agent.stopExploration()
@@ -182,14 +198,13 @@ if __name__ == "__main__":
             # act on one input (one state)
             action = agent.act(state)
             next_state, reward, done, _ = env.step(action)
-            #print("{}, {}, {}, {}, {}".format(state, action, next_state, reward, done))
-            reward = reward if not done else -10
 
             agent.remember(state, action, reward, next_state, done)
             agent.replay(batch_size)
             state = next_state
             if done:
-                #print("episode: {}/{}, score: {}, e: {:.2}".format(e, EPISODES, time, agent.epsilon))
+                print("episode: {}/{}, score: {}, e: {:.2}"
+                      .format(e, EPISODES, time, agent.epsilon))
                 break
 
     env.close()

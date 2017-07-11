@@ -15,3 +15,6 @@ class BasicReplayMemory:
     def sample(self, n):
         n = min(n, len(self.samples))
         return random.sample(self.samples, n)
+
+    def isFull(self):
+        return len(self.samples) >= self.capacity
