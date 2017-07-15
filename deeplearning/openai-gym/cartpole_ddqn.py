@@ -137,7 +137,11 @@ class DQNAgent:
             if done:
                 target[action] = reward
             else:
-                target[action] = reward + self.gamma * np.amax(next_state_action_probs[i])
+                # double DQN
+                # action is calculated from current network
+                # Q value of next state is calculated from target network
+                maxAction = np.argmax(state_action_probs[i])
+                target[action] = reward + self.gamma * next_state_action_probs[i][maxAction]
 
             x[i] = state
             y[i] = target
@@ -186,7 +190,7 @@ if __name__ == "__main__":
     agent.memory.samples = randomAgent.memory.samples
     randomAgent = None
 
-    env = Monitor(env, 'tmp/cart-pole-dqn-3', force=True)
+    env = Monitor(env, 'tmp/cart-pole-ddqn-1', force=True)
     for e in range(EPISODES):
         if DEBUG and e >= EPISODES - 10:
             agent.stopExploration()
