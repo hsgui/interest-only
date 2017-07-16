@@ -53,7 +53,7 @@ class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
         self.action_size = action_size
-        self.memory = memory.BasicReplayMemory(MEMORY_CAPACITY)
+        self.memory = memory.PrioritizedReplayMemory(MEMORY_CAPACITY)
         self.gamma = GAMMA # discount rate
         self.learning_rate = LEARNING_RATE
 
@@ -92,7 +92,9 @@ class DQNAgent:
         self.target_model.set_weights(self.model.get_weights())
 
     def remember(self, state, action, reward, next_state, done):
-        self.memory.add((state, action, reward, next_state, done))
+        sample = (state, action, reward, next_state, done)
+        x, y, errors = self._getTargets([(0, sample)])
+        self.memory.add(errors[0], sample)
 
         self.steps += 1
 
@@ -116,37 +118,48 @@ class DQNAgent:
 
     def replay(self, batch_size):
         batch = self.memory.sample(batch_size)
-        batch_length = len(batch)
-        
-        # batch update
+        x, y, errors = self._getTargets(batch)
+
+        # update errors
+        for i in range(len(batch)):
+            idx = batch[i][0]
+            self.memory.update(idx, errors[i])
+
+        self.model.fit(x, y, batch_size = batch_size, epochs = 1, verbose = 0)
+
+    def _getTargets(self, batch):
         none_state = np.zeros(self.state_size)
-        states = np.array([ exp[0] for exp in batch ])
-        next_states = np.array([ (none_state if exp[3] is None else exp[3]) for exp in batch ])
+        states = np.array( [exp[1][0] for exp in batch] )
+        next_states = np.array( [exp[1][3] for exp in batch] )
 
         state_action_probs = self.model.predict(states)
-        # use the target model to set the target Q value
-        next_state_action_probs = self.target_model.predict(next_states)
+        next_state_action_probs_current = self.model.predict(next_states)
+        next_state_action_probs_target = self.target_model.predict(next_states)
+
+        batch_length = len(batch)
 
         x = np.zeros( (batch_length, self.state_size) )
         y = np.zeros( (batch_length, self.action_size) )
+        errors = np.zeros(batch_length)
 
         for i in range(batch_length):
-            state, action, reward, next_state, done = batch[i]
+            state, action, reward, next_state, done = batch[i][1]
 
             target = state_action_probs[i]
+            oldVal = target[action]
             if done:
                 target[action] = reward
             else:
                 # double DQN
                 # action is calculated from current network
-                # Q value of next state is calculated from target network
-                maxAction = np.argmax(state_action_probs[i])
-                target[action] = reward + self.gamma * next_state_action_probs[i][maxAction]
+                # Q value is calculated from target network
+                maxAction = np.argmax(next_state_action_probs_current[i])
+                target[action] = reward + self.gamma * next_state_action_probs_target[i][maxAction]
 
             x[i] = state
             y[i] = target
-
-        self.model.fit(x, y, batch_size = batch_size, epochs = 1, verbose = 0)
+            errors[i] = abs(oldVal - target[action])
+        return (x, y, errors)
 
     def stopExploration(self):
         self.exploration = False
@@ -154,13 +167,14 @@ class DQNAgent:
 class RandomAgent:
     def __init__(self, action_size):
         self.action_size = action_size
-        self.memory = memory.BasicReplayMemory(MEMORY_CAPACITY)
+        self.memory = memory.PrioritizedReplayMemory(MEMORY_CAPACITY)
 
     def act(self, state):
         return random.randint(0, self.action_size - 1)
 
     def remember(self, state, action, reward, next_state, done):
-        self.memory.add((state, action, reward, next_state, done))
+        error = abs(reward)
+        self.memory.add(error, (state, action, reward, next_state, done))
 
     def replay(self):
         pass
@@ -187,10 +201,10 @@ if __name__ == "__main__":
             if done:
                 break
     print("Finish to full the random agent memory")
-    agent.memory.samples = randomAgent.memory.samples
+    agent.memory = randomAgent.memory
     randomAgent = None
 
-    env = Monitor(env, 'tmp/cart-pole-ddqn-1', force=True)
+    env = Monitor(env, 'tmp/cart-pole-ddqn-2', force=True)
     for e in range(EPISODES):
         if DEBUG and e >= EPISODES - 10:
             agent.stopExploration()
