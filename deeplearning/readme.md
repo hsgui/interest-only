@@ -28,6 +28,14 @@
 * [DQN](https://jaromiru.com/2016/10/21/lets-make-a-dqn-full-dqn/)
 * [DDQN](https://jaromiru.com/2016/11/07/lets-make-a-dqn-double-learning-and-prioritized-experience-replay/)
 
+### Policy Gradients
+#### Best ever introduction
+* [Pong from Pixels from Karpathy](http://karpathy.github.io/2016/05/31/rl/)
+
+#### Score function
+* [score function gradient estimator](http://blog.shakirm.com/2015/11/machine-learning-trick-of-the-day-5-log-derivative-trick/)
+* [what is score function](https://en.wikipedia.org/wiki/Score_(statistics))
+
 ## Open AI - Gym
 ### Cart Pole
 * Basic DQN: [Commit](https://github.com/hsgui/interest-only/commit/819b9a491d78a746a8eec12331b5c74718eb62d7), [Evaluation](https://gym.openai.com/evaluations/eval_ytHZ89GTZaDudD6Hz3gQ)
