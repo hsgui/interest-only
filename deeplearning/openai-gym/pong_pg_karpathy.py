@@ -8,17 +8,20 @@ gamma = 0.99 # discount factor for reward
 # every how many episodes to do a param update?
 batch_size = 10
 
-learning_rate = 1e-4
+learning_rate = 1e-3
 # decay factor for RMSProp leaky sum of grad^2
 decay_rate = 0.99
 
-resume = False
+resume = True
 render = True
+train = False
 
 # model initialization
 D = 80 * 80 # input dimensionality
+
+model_path = 'trained-models/pong-pg-1.model'
 if resume:
-    model = pickle.load(open('save.p'), 'rb')
+    model = pickle.load(open(model_path, 'rb'))
 else:
     model = {}
     # "Xavier" initialization
@@ -125,6 +128,20 @@ while True:
     # roll the dice
     action = 2 if np.random.uniform() < aprob else 3
 
+    # step the environment and get new measurements
+    observation, reward, done, info = env.step(action)
+    reward_sum += reward
+    if done and (not train):
+        episode_number += 1
+        running_reward = reward_sum if running_reward is None else running_reward * 0.99 + reward_sum * 0.01
+        print("reseting env. ep %d, episode reward total was %f. running mean: %f" % (episode_number, reward_sum, running_reward))
+
+        reward_sum = 0
+        observation = env.reset()
+        prev_x = None
+
+        continue
+
     # record various intermeidates ( needed later for backprob)
     xs.append(x) # observation
     hs.append(h) # hidden state
@@ -132,10 +149,6 @@ while True:
 
     # http://cs231n.github.io/neural-networks-2/#losses
     dlogps.append(y - aprob)
-
-    # step the environment and get new measurements
-    observation, reward, done, info = env.step(action)
-    reward_sum += reward
 
     # record reward (has to be done after call step() to get reward for prevous action)
     drs.append(reward)
@@ -180,13 +193,15 @@ while True:
 
         # boring book-keeping
         running_reward = reward_sum if running_reward is None else running_reward * 0.99 + reward_sum * 0.01
-        print("reseting env. episode reward total was %f. running mean: %f" % (reward_sum, running_reward))
-        if episode_number % 100 == 0: pickle.dump(model, open('save.p', 'wb'))
+        print("reseting env. ep %d, episode reward total was %f. running mean: %f" % (episode_number, reward_sum, running_reward))
+        if episode_number % 100 == 0:
+            print("Save model...")
+            pickle.dump(model, open(model_path, 'wb'))
 
         reward_sum = 0
         observation = env.reset()
         prev_x = None
 
     # Pong has either +1 or -1 reward exactly when game ends.
-    if reward != 0:
-        print("ep %d: game finished, reward: %f" % (episode_number, reward) + ('' if reward == -1 else ' !!!!!'))
+    #if reward != 0:
+        #print("ep %d: game finished, reward: %f" % (episode_number, reward) + ('' if reward == -1 else ' !!!!!'))
